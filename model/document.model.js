@@ -16,7 +16,6 @@ const DocumentSchema = new mongoose.Schema({
   course: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
-    required: true,
   },
   created_at: {
     type: Date,

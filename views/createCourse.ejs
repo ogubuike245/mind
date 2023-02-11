@@ -6,9 +6,22 @@
   <body>
     <%- include('./navbar.ejs') %>
     <h1>CREATE COURSE</h1>
-    <form action="/courses/<%= course.title %>/materials" method="post">
-      <input type="file" name="document" />
-      <button type="submit">Upload Document</button>
+
+    <form action="/api/v1/course/create" method="post">
+      <div>
+        <label for="title">COURSE:</label>
+        <select name="title" id="title">
+          <option value="biology">Biology</option>
+          <option value="chemistry">Chemistry</option>
+          <option value="physics">Physics</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="description">DESCRIPTION</label>
+        <input type="text" name="description" id="description" />
+      </div>
+      <button type="submit">CREATE COURSE</button>
     </form>
   </body>
 </html>

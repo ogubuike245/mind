@@ -6,10 +6,12 @@
     <%- include('./navbar.ejs') %>
     <h1>Profile</h1>
     <p>Name: <%= user.name %></p>
+    <p>Name: <%= user.email %></p>
+
     <p>Selected Courses:</p>
     <ul>
-      <% for (const course of user.selectedCourses) { %>
-      <li><%= course %></li>
+      <% for (const course of selectedCourses) { %>
+      <li><%= course.title %></li>
       <% } %>
     </ul>
   </body>

@@ -7,11 +7,26 @@
     <%- include('./navbar.ejs') %>
     <h1>UPLOAD DOCUMENT</h1>
     <form
-      action="/courses/<%= course.title %>/materials"
+      action="/api/v1/course/upload"
       method="post"
       enctype="multipart/form-data"
     >
-      <input type="file" name="document" />
+      <div>
+        <label for="title">COURSE:</label>
+        <select name="title" id="title">
+          <option value="biology">Biology</option>
+          <option value="chemistry">Chemistry</option>
+          <option value="physics">Physics</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="description">DESCRIPTION</label>
+        <input type="text" name="description" id="description" />
+      </div>
+      <div>
+        <input type="file" name="file" />
+      </div>
       <button type="submit">Upload Document</button>
     </form>
   </body>

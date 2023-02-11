@@ -1,4 +1,7 @@
 const express = require("express");
+const multer = require("multer");
+
+const upload = multer({ dest: "./uploads" });
 const {
   uploadDocumentPage,
   uploadDocument,
@@ -17,7 +20,7 @@ router.get("/upload", uploadDocumentPage);
 router.get("/create", createCoursePage);
 
 // POST ROUTES
-router.post("/upload", uploadDocument);
+router.post("/upload", upload.single("file"), uploadDocument);
 router.post("/create", createCourse);
 
 module.exports = router;
