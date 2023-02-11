@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>Registration</title>
+  </head>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>Registration</h1>
+
+    <form action="/api/v1/user/register" method="post">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required />
+        <br />
+      </div>
+
+      <div>
+        <br />
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required />
+        <br />
+      </div>
+
+      <div>
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required />
+        <br />
+      </div>
+
+      <div>
+        <br />
+        <label for="courses">Select Courses:</label>
+        <label for="biology">Biology:</label>
+        <input
+          type="checkbox"
+          name="selectedCourse"
+          value="biology"
+          id="biology"
+        />
+        <br />
+
+        <label for="chemistry">Chemistry:</label>
+        <input
+          type="checkbox"
+          name="selectedCourse"
+          value="chemistry"
+          id="chemistry"
+        />
+        <br />
+
+        <label for="physics">Physics:</label>
+        <input
+          type="checkbox"
+          name="selectedCourse"
+          value="physics"
+          id="physics"
+        />
+        <br />
+      </div>
+      <input type="submit" value="REGISTER" />
+    </form>
+  </body>
+</html>

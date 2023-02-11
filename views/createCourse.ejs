@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CREATE COURSE</title>
+  </head>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>CREATE COURSE</h1>
+    <form action="/courses/<%= course.title %>/materials" method="post">
+      <input type="file" name="document" />
+      <button type="submit">Upload Document</button>
+    </form>
+  </body>
+</html>

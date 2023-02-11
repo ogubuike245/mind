@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Document</title>
+  </head>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>UPLOAD DOCUMENT</h1>
+    <form
+      action="/courses/<%= course.title %>/materials"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="document" />
+      <button type="submit">Upload Document</button>
+    </form>
+  </body>
+</html>

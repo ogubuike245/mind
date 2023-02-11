@@ -1,0 +1,36 @@
+<nav>
+  <ul>
+    <% if (locals.user) { %>
+    <li>
+      <a href="/"> HOME</a>
+    </li>
+    <li>
+      <a href="/api/v1/user/profile/<%= locals.user._id %>"> PROFILE</a>
+    </li>
+    <li>
+      <a href="/api/v1/course/create"> CREATE COURSE</a>
+    </li>
+    <li>
+      <a href="/api/v1/course/upload"> UPLOAD</a>
+    </li>
+    <li>
+      <a href="/api/v1/user/logout"> LOGOUT</a>
+    </li>
+
+    <% } else { %>
+
+    <li>
+      <a href="/"> HOME</a>
+    </li>
+
+    <li>
+      <a href="/api/v1/user/login"> LOGIN</a>
+    </li>
+
+    <li>
+      <a href="/api/v1/user/register"> REGISTER</a>
+    </li>
+
+    <% } %>
+  </ul>
+</nav>

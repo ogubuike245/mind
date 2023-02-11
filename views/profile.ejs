@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Profile</title>
+  </head>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>Profile</h1>
+    <p>Name: <%= user.name %></p>
+    <p>Selected Courses:</p>
+    <ul>
+      <% for (const course of user.selectedCourses) { %>
+      <li><%= course %></li>
+      <% } %>
+    </ul>
+  </body>
+</html>

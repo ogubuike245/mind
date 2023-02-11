@@ -1,0 +1,51 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+
+// Include the routes
+const userRoutes = require("./routes/user.route");
+const courseRoutes = require("./routes/course.route");
+const allowedMethods = require("./middlewares/allowed.methods");
+const { checkForLoggedInUser } = require("./middlewares/user.middleware");
+// Connect to MongoDB
+const app = express();
+
+const { API_PORT, MONG0_DB_URI } = process.env;
+
+const connectToDatabase = async (app) => {
+  try {
+    mongoose.set("strictQuery", false).connect(MONG0_DB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log("CONNECTED TO MONGODB DATABASE ");
+    app.listen(API_PORT || 9000, () => {
+      console.log(`AUTH BACKEND RUNNING ON PORT : ${API_PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+connectToDatabase(app);
+//DATABASE CONNECTION AND SERVER INITIALISATION
+
+// Use EJS as the view engine
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Parse incoming request bodies as JSON
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(allowedMethods);
+
+// Use the routes
+app.get("*", checkForLoggedInUser);
+app.get("/", (req, res, next) => {
+  res.render("index", { title: "HOME" });
+});
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/course", courseRoutes);
