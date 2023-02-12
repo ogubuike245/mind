@@ -1,0 +1,91 @@
+<html>
+  <head>
+    
+    
+     
+
+    <title><%= title %></title>
+    <style>
+      /* your CSS styles go here */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+      #chart {
+        width: 100px;
+        height: 100px;
+        margin: 10px auto;
+      }
+    </style>
+  
+
+  </head>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>CHART PAGE</h1>
+
+   
+    <canvas id="chart" width="200" height="200"></canvas>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+
+
+    <script >
+        // inline script here
+         // your JavaScript code goes here
+      const courses = <%- JSON.stringify(courses) %>;
+      const labels = courses.map(course => course.title);
+      const data = courses.map(course => course.registeredUsers.length);
+    
+      const ctx = document.getElementById('chart').getContext('2d');
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Users per Course',
+            data,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: .5
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+      </script>
+
+
+    <script>
+     
+    </script>
+  </body>
+</html>

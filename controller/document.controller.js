@@ -26,7 +26,7 @@ exports.uploadDocument = async (req, res) => {
 
     const savedDocument = await newDoc.save();
     course.documents.push(savedDocument._id);
-
+    await course.save();
     // return res.status(200).json({
     //   success: true,
     //   message: "Document uploaded successfully.",

@@ -49,6 +49,11 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
 app.use(allowedMethods);
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'");
+  next();
+});
+
 
 // Use the routes
 app.get("*", checkForLoggedInUser);
