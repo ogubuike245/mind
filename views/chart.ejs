@@ -1,49 +1,18 @@
 <html>
-  <head>
-    
-    
-     
-
-    <title><%= title %></title>
-    <style>
-      /* your CSS styles go here */
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-      }
-      h1 {
-        text-align: center;
-        margin-top: 50px;
-      }
-      #chart {
-        width: 100px;
-        height: 100px;
-        margin: 10px auto;
-      }
-    </style>
-  
-
-  </head>
+  <%- include('./head.ejs') %>
   <body>
     <%- include('./navbar.ejs') %>
     <h1>CHART PAGE</h1>
 
-   
     <canvas id="chart" width="200" height="200"></canvas>
-
-    
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
-
-
-    <script >
-        // inline script here
-         // your JavaScript code goes here
+    <script>
       const courses = <%- JSON.stringify(courses) %>;
       const labels = courses.map(course => course.title);
       const data = courses.map(course => course.registeredUsers.length);
-    
+
       const ctx = document.getElementById('chart').getContext('2d');
       const chart = new Chart(ctx, {
         type: 'bar',
@@ -81,11 +50,8 @@
           }
         }
       });
-      </script>
-
-
-    <script>
-     
     </script>
+
+    <script></script>
   </body>
 </html>

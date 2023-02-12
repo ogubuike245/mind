@@ -27,10 +27,6 @@ exports.uploadDocument = async (req, res) => {
     const savedDocument = await newDoc.save();
     course.documents.push(savedDocument._id);
     await course.save();
-    // return res.status(200).json({
-    //   success: true,
-    //   message: "Document uploaded successfully.",
-    // });
 
     res.render("success", {
       title: "success",
@@ -38,10 +34,6 @@ exports.uploadDocument = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    // return res.status(400).json({
-    //   success: false,
-    //   message: "An error occurred. Please try again later.",
-    // });
     res.render("error", { title: "ERROR", error: err });
   }
 };

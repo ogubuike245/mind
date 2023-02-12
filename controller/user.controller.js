@@ -3,28 +3,30 @@ const jwt = require("jsonwebtoken");
 const Course = require("../model/course.model");
 const User = require("../model/user.model");
 
-exports.register = async (req, res) => {
-  let { name, email, password, selectedCourses } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+const maximumAge = 3 * 24 * 60 * 60;
 
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: maximumAge,
+  });
+};
+
+exports.register = async (req, res) => {
   try {
-    // Fetch the actual course objects from the database
+    const { name, email, password, selectedCourses } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const courses = await Course.find({
       title: { $in: selectedCourses },
     });
-
-    // Extract the ObjectIds of the courses
     const courseIds = courses.map((course) => course._id);
 
-    // Create the user object
     const user = new User({
       name,
       email,
       password: hashedPassword,
       selectedCourses: courseIds,
     });
-
-    // Save the user to the database
     const savedUser = await user.save();
 
     for (const courseId of courseIds) {
@@ -51,9 +53,7 @@ exports.login = async (req, res) => {
       });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
+    if (!(await bcrypt.compare(password, user.password))) {
       return res.render("error", {
         error: "INCORRECT PASSWORD",
         title: "ERROR",
@@ -66,39 +66,35 @@ exports.login = async (req, res) => {
     });
     res.redirect("/");
   } catch (error) {
-    return res.render("error", { error: error.message, title: "ERROR" });
+    return res.render("error", { error, title: "ERROR" });
   }
 };
 
 exports.userProfile = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
 
-  const user = await User.findById(id);
+    if (!user) {
+      return res.render("error", { error: "User not found", title: "ERROR" });
+    }
 
-  if (!user) {
-    return res.render("error", { error: err.message, title: "ERROR" });
+    const selectedCourses = await Course.find({
+      _id: { $in: user.selectedCourses },
+    });
+
+    res.render("profile", {
+      name: user.name,
+      email: user.email,
+      selectedCourses,
+      title: "USER PROFILE",
+    });
+  } catch (error) {
+    return res.render("error", { error, title: "ERROR" });
   }
-
-  const selectedCourses = await Course.find({
-    _id: { $in: user.selectedCourses },
-  });
-
-  res.render("profile", {
-    name: user.name,
-    email: user.email,
-    selectedCourses,
-  });
 };
 
 exports.userLogout = async (req, res) => {
   res.clearCookie("jwt");
   res.redirect("/");
-};
-
-// CREATE A JWT TOKEN
-const maximumAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: maximumAge,
-  });
 };

@@ -5,8 +5,8 @@ const {
   userProfile,
   userLogout,
 } = require("../controller/user.controller");
-const { isLoggedIn } = require("../middlewares/user.middleware");
-const Course = require('../model/course.model');
+const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
+const Course = require("../model/course.model");
 
 const router = express.Router();
 
@@ -19,19 +19,16 @@ router.get("/login", isLoggedIn, (req, res) => {
 });
 router.get("/profile/:id", userProfile);
 
-
-router.get('/chart', (req, res) => {
+router.get("/chart", checkAdmin, (req, res) => {
   Course.find({})
-    .then(courses => {
-      res.render('chart', { title: 'Chart Page', courses });
+    .then((courses) => {
+      res.render("chart", { title: "Chart Page", courses });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
       res.sendStatus(500);
     });
 });
-
-
 
 router.get("/logout", userLogout);
 
