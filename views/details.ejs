@@ -1,0 +1,21 @@
+<html>
+  <%- include('./head.ejs') %>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>COURSE DETAILS</h1>
+
+    <div>
+      <h3>TITLE:</h3>
+      <h1><%= document.downloadBy %></h1>
+      <h1><%= document._id %></h1>
+
+      <% if (locals.user.role === "admin") { %>
+      <button class="delete" data-doc="<%= document._id %>">DELETE</button>
+      <% } %>
+
+      <a href="<%= document.downloadLink  %>">
+        <button>DOWNLOAD LINK</button>
+      </a>
+    </div>
+  </body>
+</html>

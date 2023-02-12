@@ -3,5 +3,19 @@
   <body>
     <%- include('./navbar.ejs') %>
     <h1>HOME PAGE</h1>
+
+    <% if (locals.user) { %>
+    <h1>SELECTED COURSES</h1>
+
+    <ul>
+      <% for (const course of locals.selectedCourses) { %>
+
+      <a href="/api/v1/course/details/<%= course.title %>"
+        ><%= course.title %></a
+      >
+      <% } %>
+    </ul>
+
+    <% } %>
   </body>
 </html>

@@ -12,6 +12,7 @@ const userRoutes = require("./routes/user.route");
 const courseRoutes = require("./routes/course.route");
 const allowedMethods = require("./middlewares/allowed.methods");
 const { checkForLoggedInUser } = require("./middlewares/user.middleware");
+const Course = require("./model/course.model");
 // Connect to MongoDB
 const app = express();
 
@@ -50,15 +51,27 @@ app.use(helmet());
 app.use(compression());
 app.use(allowedMethods);
 app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', "script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'");
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'"
+  );
   next();
 });
 
-
 // Use the routes
-app.get("*", checkForLoggedInUser);
-app.get("/", (req, res, next) => {
-  res.render("index", { title: "HOME" });
+app.get("*", checkForLoggedInUser, async (request, response, next) => {
+  if (request.user) {
+    const selectedCourses = await Course.find({
+      _id: { $in: request.user.selectedCourses },
+    });
+
+    response.locals.selectedCourses = selectedCourses;
+    request.selectedCourses = selectedCourses;
+  }
+  next();
+});
+app.get("/", async (request, response, next) => {
+  response.render("index", { title: "HOME" });
 });
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/course", courseRoutes);

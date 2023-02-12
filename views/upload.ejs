@@ -19,11 +19,36 @@
       </div>
 
       <div>
+        <label for="heading">HEADING:</label>
+        <input type="text" id="heading" name="heading" />
+      </div>
+
+      <div>
         <label for="description">DESCRIPTION</label>
         <input type="text" name="description" id="description" />
       </div>
       <div>
+        <label for="file">FILE:</label>
         <input type="file" name="file" />
+      </div>
+
+      <div>
+        <label for="type">TYPE:</label>
+        <select name="type" id="type">
+          <option value="default" disabled selected hidden>
+            Choose a Type
+          </option>
+
+          <option value="assignment">ASSIGNMENT</option>
+          <option value="note">NOTE</option>
+          <option value="aoc">AOC</option>
+          <option value="practical">PRACTICAL</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" minlength="3" />
       </div>
       <button type="submit">Upload Document</button>
     </form>

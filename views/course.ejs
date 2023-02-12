@@ -1,0 +1,30 @@
+<html>
+  <%- include('./head.ejs') %>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>COURSE MATERIALS</h1>
+    <p>Name: <%= course.title %></p>
+    <p>Name: <%= course.description %></p>
+
+    <p>COURSE MATERIALS:</p>
+
+    <h1>DOCUMENTS</h1>
+    <p><%= course.documents.title %></p>
+
+    <% for (let i = 0; i < course.documents.length; i++) { %> <% let document =
+    course.documents[i]; %>
+    <p>Document Title: <%= document.title %></p>
+    <p>Document Description: <%= document.description %></p>
+
+    <% } %> <% if (locals.user.role === "admin") { %>
+    <h1>REGISTERED USERS</h1>
+
+    <p><%= course.registeredUsers.email %></p>
+
+    <% for (let i = 0; i < course.registeredUsers.length; i++) { %> <% let user
+    = course.registeredUsers[i]; %>
+    <p>User Name: <%= user.name %></p>
+    <p>User Email: <%= user.email %></p>
+    <% } %> <% } %>
+  </body>
+</html>

@@ -23,3 +23,13 @@ exports.createCourse = async (req, res) => {
     res.render("error", { title: "ERROR", error: error });
   }
 };
+
+exports.courseDetailsPage = async (req, res) => {
+  const { title } = req.params;
+
+  const course = await Course.findOne({ title: title })
+    .populate("documents")
+    .populate("registeredUsers");
+
+  res.render("course", { title: " COURSE DETAILS", course });
+};
