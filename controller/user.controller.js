@@ -21,13 +21,21 @@ exports.register = async (req, res) => {
     });
     const courseIds = courses.map((course) => course._id);
 
-    const user = new User({
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.render("error", {
+        error: "EMAIL ALREADY EXISTS",
+        title: "ERROR",
+      });
+    }
+
+    const newUser = new User({
       name,
       email,
       password: hashedPassword,
       selectedCourses: courseIds,
     });
-    const savedUser = await user.save();
+    const savedUser = await newUser.save();
 
     for (const courseId of courseIds) {
       const course = await Course.findById(courseId);
@@ -38,6 +46,45 @@ exports.register = async (req, res) => {
     res.redirect("/api/v1/user/login");
   } catch (err) {
     res.render("error", { error: err.message, title: "ERROR" });
+  }
+};
+exports.requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (user) {
+      res.redirect(`/api/v1/user/password/reset/${email}`);
+      //SEND OTP TO EMAIL AND LINK TO REDIRECT USER TO PASSWORD RESET PAGE
+      // ALTERNATIVE IS TO SEND OTP TO PHONE NUMBER
+    } else {
+      res.send("USER DOES NOT EXIST");
+    }
+  } catch (err) {
+    res.render("error", { error: err, title: "ERROR" });
+  }
+};
+exports.passwordReset = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.findOne({ email });
+    user.password = hashedPassword;
+    await user.save();
+  } catch (err) {
+    res.render("error", { error: err, title: "ERROR" });
+  }
+};
+exports.resendOTP = async (req, res) => {
+  try {
+  } catch (err) {
+    res.render("error", { error: err, title: "ERROR" });
+  }
+};
+exports.verifyEmail = async (req, res) => {
+  try {
+  } catch (err) {
+    res.render("error", { error: err, title: "ERROR" });
   }
 };
 
