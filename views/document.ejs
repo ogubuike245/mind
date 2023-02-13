@@ -5,9 +5,14 @@
     <h1>COURSE DETAILS</h1>
 
     <div>
-      <h3>TITLE:</h3>
+      <h3>DOWNLOADED BY:</h3>
       <h1><%= document.downloadBy %></h1>
+      <h3>ID:</h3>
       <h1><%= document._id %></h1>
+      <h3>HEADING:</h3>
+      <h1><%= document.heading %></h1>
+      <h3>TITLE:</h3>
+      <h1><%= document.title %></h1>
 
       <% if (locals.user.role === "admin") { %>
       <button class="delete" data-doc="<%= document._id %>">DELETE</button>

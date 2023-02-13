@@ -15,7 +15,7 @@ const DocumentSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    // required: true,
+    required: true,
     default: "default",
   },
   path: {

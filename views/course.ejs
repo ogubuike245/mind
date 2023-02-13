@@ -15,6 +15,16 @@
     course.documents[i]; %>
     <p>Document Title: <%= document.title %></p>
     <p>Document Description: <%= document.description %></p>
+    <div>
+      <a href="/api/v1/course/document/<%= document._id %>"
+        >VIEW MORE ABOUT DOCUMENT</a
+      >
+    </div>
+    <div>
+      <a href="/api/v1/course/download/<%= document._id %>"
+        >DOWNLOAD DOCUMENT</a
+      >
+    </div>
 
     <% } %> <% if (locals.user.role === "admin") { %>
     <h1>REGISTERED USERS</h1>

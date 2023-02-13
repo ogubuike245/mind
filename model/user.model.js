@@ -25,6 +25,12 @@ const UserSchema = new mongoose.Schema({
       ref: "Course",
     },
   ],
+  downloads: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Document",
+    },
+  ],
   created_at: {
     type: Date,
     default: Date.now,

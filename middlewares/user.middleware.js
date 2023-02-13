@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const Course = require("../model/course.model");
 const User = require("../model/user.model");
 
 // CHECK IF THERE IS A LOGGED IN USER FROM THE JWT TOKEN
@@ -9,8 +10,17 @@ const checkForLoggedInUser = async (request, response, next) => {
     if (token) {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       const user = await User.findById(decodedToken.id);
+      const selectedCourses = await Course.find({
+        _id: { $in: user.selectedCourses },
+      });
+
+      // USER
       response.locals.user = user;
       request.user = user;
+
+      // SELECTED COURSES
+      response.locals.selectedCourses = selectedCourses;
+      request.selectedCourses = selectedCourses;
     } else {
       response.locals.user = null;
       request.user = null;
@@ -57,6 +67,8 @@ const tokenVerification = (request, response, next) => {
         response.redirect("/api/v1/user/login");
       } else {
         console.log("REQUIRE AUTH : ", decodedToken);
+        response.locals.user = decodedToken.id;
+        request.user = decodedToken.id;
         next();
       }
     });

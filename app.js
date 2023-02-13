@@ -50,7 +50,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
 app.use(allowedMethods);
-app.use((req, res, next) => {
+app.use((_, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
     "script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'"
@@ -59,18 +59,8 @@ app.use((req, res, next) => {
 });
 
 // Use the routes
-app.get("*", checkForLoggedInUser, async (request, response, next) => {
-  if (request.user) {
-    const selectedCourses = await Course.find({
-      _id: { $in: request.user.selectedCourses },
-    });
-
-    response.locals.selectedCourses = selectedCourses;
-    request.selectedCourses = selectedCourses;
-  }
-  next();
-});
-app.get("/", async (request, response, next) => {
+app.get("*", checkForLoggedInUser);
+app.get("/", async (_, response) => {
   response.render("index", { title: "HOME" });
 });
 app.use("/api/v1/user", userRoutes);

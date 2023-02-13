@@ -10,9 +10,9 @@ module.exports = (request, response, next) => {
     "PATCH",
   ];
 
-  if (allowedMethods.includes(request.methods)) {
-    response.status(405).send(`${re.method} not allowed`);
+  if (!allowedMethods.includes(request.method)) {
+    response.status(405).send(`${request.method} not allowed`);
+  } else {
+    next();
   }
-
-  next();
 };
