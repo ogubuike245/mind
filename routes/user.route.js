@@ -9,7 +9,12 @@ const {
   userProfile,
   userLogout,
 } = require("../controller/user.controller");
-const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
+const {
+  isLoggedIn,
+  checkAdmin,
+  tokenVerification,
+  checkForLoggedInUser,
+} = require("../middlewares/user.middleware");
 const Course = require("../model/course.model");
 
 const router = express.Router();
@@ -33,10 +38,12 @@ router.get("/verify/email", (req, res) => {
 router.get("/login", isLoggedIn, (req, res) => {
   res.render("login", { title: "User Login" });
 });
-router.get("/profile/:id", userProfile);
+router.get("/profile/:id", checkForLoggedInUser, userProfile);
 
 router.get("/chart", checkAdmin, (req, res) => {
   Course.find({})
+    .populate("documents")
+    .populate("registeredUsers")
     .then((courses) => {
       res.render("chart", { title: "Chart Page", courses });
     })

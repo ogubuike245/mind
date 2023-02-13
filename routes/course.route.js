@@ -27,9 +27,9 @@ const router = express.Router();
 // GET ROUTES
 router.get("/upload", checkAdmin, uploadDocumentPage);
 router.get("/create", checkAdmin, createCoursePage);
-router.get("/download/:id", tokenVerification, downloadDocumentPage);
-router.get("/details/:title", tokenVerification, courseDetailsPage);
-router.get("/document/:id", tokenVerification, documentDetailsPage);
+router.get("/download/:id", checkForLoggedInUser, downloadDocumentPage);
+router.get("/details/:title", checkForLoggedInUser, courseDetailsPage);
+router.get("/document/:id", checkForLoggedInUser, documentDetailsPage);
 
 // POST ROUTES
 router.post(
@@ -40,6 +40,6 @@ router.post(
   uploadDocument
 );
 router.post("/create", checkAdmin, createCourse);
-router.post("/document/download/:id", tokenVerification, downloadDocument);
+router.post("/document/download/:id", checkForLoggedInUser, downloadDocument);
 
 module.exports = router;
