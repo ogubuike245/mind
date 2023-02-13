@@ -12,7 +12,7 @@ const userRoutes = require("./routes/user.route");
 const courseRoutes = require("./routes/course.route");
 const allowedMethods = require("./middlewares/allowed.methods");
 const { checkForLoggedInUser } = require("./middlewares/user.middleware");
-const Course = require("./model/course.model");
+
 // Connect to MongoDB
 const app = express();
 
