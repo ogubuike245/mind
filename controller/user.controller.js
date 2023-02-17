@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Course = require("../model/course.model");
 const User = require("../model/user.model");
+const { handleErrors } = require("../utils/errorHandling.utils");
 
 const maximumAge = 3 * 24 * 60 * 60;
 
@@ -22,12 +23,6 @@ exports.register = async (req, res) => {
     const courseIds = courses.map((course) => course._id);
 
     const user = await User.findOne({ email });
-    if (user) {
-      return res.render("error", {
-        error: "EMAIL ALREADY EXISTS",
-        title: "ERROR",
-      });
-    }
 
     const newUser = new User({
       name,
@@ -45,7 +40,7 @@ exports.register = async (req, res) => {
 
     res.redirect("/api/v1/user/login");
   } catch (err) {
-    res.render("error", { error: err.message, title: "ERROR" });
+    handleErrors(err, res);
   }
 };
 exports.requestPasswordReset = async (req, res) => {
@@ -61,7 +56,7 @@ exports.requestPasswordReset = async (req, res) => {
       res.send("USER DOES NOT EXIST");
     }
   } catch (err) {
-    res.render("error", { error: err, title: "ERROR" });
+    handleErrors(err, res);
   }
 };
 exports.passwordReset = async (req, res) => {
@@ -100,7 +95,8 @@ exports.login = async (req, res) => {
       });
     }
 
-    if (!(await bcrypt.compare(password, user.password))) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res.render("error", {
         error: "INCORRECT PASSWORD",
         title: "ERROR",
@@ -113,7 +109,7 @@ exports.login = async (req, res) => {
     });
     res.redirect("/");
   } catch (error) {
-    return res.render("error", { error, title: "ERROR" });
+    handleErrors(error, res);
   }
 };
 

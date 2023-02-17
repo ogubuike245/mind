@@ -1,11 +1,8 @@
 <html>
   <%- include('./head.ejs') %>
   <body>
-    <nav>
-      <li>
-        <a href="/"> HOME</a>
-      </li>
-    </nav>
+    <%- include('./navbar.ejs') %>
+
     <h1>ERROR</h1>
     <% if (error) { %>
     <h1><%= error %></h1>

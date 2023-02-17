@@ -38,14 +38,14 @@ router.get("/verify/email", (req, res) => {
 router.get("/login", isLoggedIn, (req, res) => {
   res.render("login", { title: "User Login" });
 });
-router.get("/profile/:id", checkForLoggedInUser, userProfile);
+router.get("/profile/:id", userProfile);
 
-router.get("/chart", checkAdmin, (req, res) => {
+router.get("/dashboard", checkAdmin, (req, res) => {
   Course.find({})
     .populate("documents")
     .populate("registeredUsers")
     .then((courses) => {
-      res.render("chart", { title: "Chart Page", courses });
+      res.render("dashboard", { title: "Chart Page", courses });
     })
     .catch((error) => {
       console.error(error);
@@ -64,3 +64,25 @@ router.post("/verify/email", verifyEmail);
 router.post("/login", isLoggedIn, login);
 
 module.exports = router;
+
+/* 
+
+GET  api/v1/user/register
+GET  api/v1/user/verify/email
+GET  api/v1/user/request/password/reset
+GET  api/v1/user/password/reset/:email
+GET  api/v1/user/resend/otp
+GET  api/v1/user/login
+GET  api/v1/user/dashboard
+GET  api/v1/user/profile/:id
+*/
+/* 
+
+POST  api/v1/user/register
+POST  api/v1/user/verify/email
+POST  api/v1/user/request/password/reset
+POST  api/v1/user/password/reset/
+POST  api/v1/user/resend/otp
+POST  api/v1/user/login
+
+*/

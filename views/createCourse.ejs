@@ -6,15 +6,19 @@
     <h1>CREATE COURSE</h1>
 
     <form action="/api/v1/course/create" method="post">
-      <div>
+      <!-- <div>
         <label for="title">COURSE:</label>
         <select name="title" id="title">
           <option value="biology">Biology</option>
           <option value="chemistry">Chemistry</option>
           <option value="physics">Physics</option>
         </select>
-      </div>
+      </div> -->
 
+      <div>
+        <label for="title">TITLE</label>
+        <input type="text" name="title" id="title" />
+      </div>
       <div>
         <label for="description">DESCRIPTION</label>
         <input type="text" name="description" id="description" />

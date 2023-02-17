@@ -27,19 +27,18 @@ const router = express.Router();
 // GET ROUTES
 router.get("/upload", checkAdmin, uploadDocumentPage);
 router.get("/create", checkAdmin, createCoursePage);
-router.get("/download/:id", checkForLoggedInUser, downloadDocumentPage);
-router.get("/details/:title", checkForLoggedInUser, courseDetailsPage);
-router.get("/document/:id", checkForLoggedInUser, documentDetailsPage);
+router.get("/download/:id", downloadDocumentPage);
+router.get("/details/:title", courseDetailsPage);
+router.get("/document/:id", documentDetailsPage);
 
 // POST ROUTES
 router.post(
   "/upload",
-  checkForLoggedInUser,
   checkAdmin,
   upload.single("file"),
   uploadDocument
 );
 router.post("/create", checkAdmin, createCourse);
-router.post("/document/download/:id", checkForLoggedInUser, downloadDocument);
+router.post("/document/download/:id", downloadDocument);
 
 module.exports = router;

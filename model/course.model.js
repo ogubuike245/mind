@@ -4,7 +4,7 @@ const CourseSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    enum: ["biology", "chemistry", "physics"],
+    // enum: ["biology", "chemistry", "physics"],
     unique: true,
   },
   description: {

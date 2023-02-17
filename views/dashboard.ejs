@@ -1,0 +1,32 @@
+<html>
+  <%- include('./head.ejs') %>
+  <body>
+    <%- include('./navbar.ejs') %>
+
+    <h1>CHART PAGE</h1>
+    <% courses.forEach(course => { %>
+    <h1>COURSE TITLE :<%= course.title %></h1>
+
+    <% course.documents.forEach(element => { %>
+
+    <h4>DOCUMENT TYPE :<%= element.type %></h4>
+    <h4>DOCUMENT DOWNLOAD COUNT :<%= element.downloadCount %></h4>
+    <h4>DOCUMENT DOWNLOADEDBY:<%= element.downloadedBy %></h4>
+    <br />
+    <% }) %> <% }) %>
+
+    <div class="chart-container">
+      <h1>PIE</h1>
+      <canvas id="pie"></canvas>
+      <h1>BAR</h1>
+      <canvas id="bar"></canvas>
+    </div>
+    <script>
+      window.courses = <%- JSON.stringify(courses) %>;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+    <script src="/js/charts.js"></script>
+    <!-- <script src="/js/barChart.js"></script> -->
+  </body>
+</html>

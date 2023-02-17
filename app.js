@@ -44,6 +44,7 @@ app.set("views", path.join(__dirname, "views"));
 // Parse incoming request bodies as JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("./dist"))
 app.use(cookieParser());
 app.use(cors());
 app.use(morgan("dev"));
@@ -58,8 +59,8 @@ app.use((_, res, next) => {
   next();
 });
 
-// Use the routes
-app.get("*", checkForLoggedInUser);
+//APP ROUTES
+app.use(checkForLoggedInUser);
 app.get("/", async (_, response) => {
   response.render("index", { title: "HOME" });
 });
