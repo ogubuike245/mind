@@ -25,45 +25,11 @@ exports.createCourse = async (req, res) => {
 };
 
 exports.editCourse = async (req, res) => {
-  try {
-    const { title, description } = req.body;
-
-    const course = new Course({
-      title,
-      description,
-    });
-
-    await course.save();
-
-    res.render("success", {
-      title: "success",
-      success: " COURSE CREATED successfully.",
-    });
-  } catch (error) {
-    console.log(error);
-    res.render("error", { title: "ERROR", error: error });
-  }
+  
 };
 
 exports.deleteCourse = async (req, res) => {
-  try {
-    const { title, description } = req.body;
-
-    const course = new Course({
-      title,
-      description,
-    });
-
-    await course.save();
-
-    res.render("success", {
-      title: "success",
-      success: " COURSE CREATED successfully.",
-    });
-  } catch (error) {
-    console.log(error);
-    res.render("error", { title: "ERROR", error: error });
-  }
+  
 };
 
 exports.courseDetailsPage = async (req, res) => {
