@@ -27,7 +27,7 @@ const connectToDatabase = async (app) => {
 
     console.log("CONNECTED TO MONGODB DATABASE ");
     app.listen(API_PORT || 9000, () => {
-      console.log(`AUTH BACKEND RUNNING ON PORT : ${API_PORT}`);
+      console.log(`SERVER RUNNING ON PORT : ${API_PORT}`);
     });
   } catch (error) {
     console.log(error);
