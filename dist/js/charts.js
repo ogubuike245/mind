@@ -1,9 +1,8 @@
 let courses = window.courses;
 const title = courses.map((course) => course.title);
-const display = courses.map((course) => course.documents.length);
-let data = courses.map((course) => course.registeredUsers.length);
+const displayDocumentsUploadedPerCourseLength= courses.map((course) => course.documents.length);
+const displayRegisteredUsersLength    = courses.map((course) => course.registeredUsers.length);
 
-const boardOne = document.getElementById("pie").getContext("2d");
 const barBgColors = [
   "rgba(255, 99, 132, 0.6)",
   "rgba(54, 162, 235, 0.6)",
@@ -22,6 +21,9 @@ const barBorderColors = [
 ];
 
 
+
+const boardOne = document.getElementById("pie").getContext("2d");
+
 const chartOne = new Chart(boardOne, {
   type: "bar",
   data: {
@@ -29,7 +31,7 @@ const chartOne = new Chart(boardOne, {
     datasets: [
       {
         label: "DOCUMENTS UPLOADED PER COURSE",
-        data: display,
+        data: displayDocumentsUploadedPerCourseLength,
         backgroundColor: barBgColors,
         borderColor: barBorderColors,
         borderWidth: 3,
@@ -63,7 +65,7 @@ const chartTwo = new Chart(boardTwo, {
     datasets: [
       {
         label: "REGISTERED USERS PER COURSE",
-        data: data,
+        data: displayRegisteredUsersLength,
         backgroundColor: barBgColors,
         borderColor: barBorderColors,
         borderWidth: 3,
