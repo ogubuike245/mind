@@ -15,12 +15,7 @@ const {
   courseDetailsPage,
 } = require("../controller/course.controller");
 
-const {
-  isLoggedIn,
-  checkAdmin,
-  tokenVerification,
-  checkForLoggedInUser,
-} = require("../middlewares/user.middleware");
+const { checkAdmin } = require("../middlewares/user.middleware");
 
 const router = express.Router();
 
@@ -32,12 +27,7 @@ router.get("/details/:title", courseDetailsPage);
 router.get("/document/:id", documentDetailsPage);
 
 // POST ROUTES
-router.post(
-  "/upload",
-  checkAdmin,
-  upload.single("file"),
-  uploadDocument
-);
+router.post("/upload", checkAdmin, upload.single("file"), uploadDocument);
 router.post("/create", checkAdmin, createCourse);
 router.post("/document/download/:id", downloadDocument);
 

@@ -9,12 +9,7 @@ const {
   userProfile,
   userLogout,
 } = require("../controller/user.controller");
-const {
-  isLoggedIn,
-  checkAdmin,
-  tokenVerification,
-  checkForLoggedInUser,
-} = require("../middlewares/user.middleware");
+const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
 const Course = require("../model/course.model");
 
 const router = express.Router();
