@@ -2,8 +2,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Course = require("../model/course.model");
 const User = require("../model/user.model");
-const { handleErrors } = require("../utils/errorHandling.utils");
+const { handleErrors } = require("../utils/errorHandling.utils")
 
+
+
+
+
+
+// THIS NEEDS TO BE PUT IN AN ENVIRONMENT VARIABLE 
 const maximumAge = 3 * 24 * 60 * 60;
 
 const createToken = (id) => {
