@@ -1,0 +1,40 @@
+<html>
+  <%- include('./head.ejs') %>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>Edit Course</h1>
+    <form method="POST" action="/api/v1/course/document/edit">
+      <input type="hidden" name="id" value="<%= document._id %>" />
+
+      <div>
+        <label>Title:</label>
+        <input type="text" name="title" value="<%= document.title %>" />
+      </div>
+      <div>
+        <label>Heading:</label>
+        <input type="text" name="heading" value="<%= document.heading %>" />
+      </div>
+      <div>
+        <label>Description:</label>
+        <textarea name="description"><%= document.description %></textarea>
+      </div>
+      <div>
+        <label for="type">TYPE OF DOCUMENT :</label>
+        <select name="type" id="type">
+          <option value="default" disabled selected hidden>
+            <%= document.type %>
+          </option>
+
+          <option value="assignment">assignment</option>
+          <option value="note">note</option>
+          <option value="aoc">aoc</option>
+          <option value="practical">practical</option>
+        </select>
+      </div>
+
+      <div>
+        <button type="submit">Update Document</button>
+      </div>
+    </form>
+  </body>
+</html>

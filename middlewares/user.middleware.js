@@ -11,9 +11,11 @@ const checkForLoggedInUser = async (request, res, next) => {
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decodedToken.id).lean();
-    if (!user) throw new Error('User not found');
+    if (!user) return res.redirect("/api/v1/user/register");
 
-    const selectedCourses = await Course.find({_id: {$in: user.selectedCourses}}).lean();
+    const selectedCourses = await Course.find({
+      _id: { $in: user.selectedCourses },
+    }).lean();
 
     request.user = res.locals.user = user;
     request.selectedCourses = res.locals.selectedCourses = selectedCourses;
@@ -25,8 +27,6 @@ const checkForLoggedInUser = async (request, res, next) => {
     return next(err);
   }
 };
-
-
 
 // CHECK FOR IF THE USER IS LOGGED IN BEFORE REDIRECTING USER
 const isLoggedIn = (request, response, next) => {
@@ -58,12 +58,12 @@ const tokenVerification = async (request, res, next) => {
     const token = request.cookies.jwt;
 
     if (!token) {
-      return res.redirect('/api/v1/user/login');
+      return res.redirect("/api/v1/user/login");
     }
 
     const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
 
-    console.log('REQUIRE AUTH:', decodedToken);
+    console.log("REQUIRE AUTH:", decodedToken);
 
     // Attach user ID to request object and response locals
     request.user = decodedToken.id;
@@ -72,11 +72,9 @@ const tokenVerification = async (request, res, next) => {
     return next();
   } catch (err) {
     console.error(err);
-    return res.redirect('/api/v1/user/login');
+    return res.redirect("/api/v1/user/login");
   }
 };
-
-
 
 module.exports = {
   tokenVerification,

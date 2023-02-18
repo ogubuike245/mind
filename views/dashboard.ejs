@@ -4,16 +4,33 @@
     <%- include('./navbar.ejs') %>
 
     <h1>CHART PAGE</h1>
+
     <% courses.forEach(course => { %>
-    <h1>COURSE TITLE :<%= course.title %></h1>
+    <h1>COURSE TITLE: <%= course.title %></h1>
 
-    <% course.documents.forEach(element => { %>
+    <table>
+      <thead>
+        <br />
+        <tr>
+          <th>DOCUMENT TYPE</th>
+          <th>DOWNLOAD COUNT</th>
+          <th>DOWNLOADED BY</th>
+        </tr>
+      </thead>
+      <br />
+      <tbody>
+        <br />
+        <% course.documents.forEach(document => { %>
+        <tr>
+          <td><%= document.type %></td>
+          <td><%= document.downloadCount %></td>
+          <td><%= document.downloadedBy %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
 
-    <h4>DOCUMENT TYPE :<%= element.type %></h4>
-    <h4>DOCUMENT DOWNLOAD COUNT :<%= element.downloadCount %></h4>
-    <h4>DOCUMENT DOWNLOADEDBY:<%= element.downloadedBy %></h4>
-    <br />
-    <% }) %> <% }) %>
+    <% }) %>
 
     <div class="chart-container">
       <h1>PIE</h1>

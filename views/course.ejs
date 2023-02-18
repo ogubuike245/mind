@@ -3,11 +3,16 @@
   <body>
     <%- include('./navbar.ejs') %>
     <h1>COURSE MATERIALS</h1>
-    <p>Name: <%= course.title %></p>
-    <p>Name: <%= course.description %></p>
+    <p>COURSE TITLE: <%= course.title %></p>
+    <p>COURSE DESCRIPTION: <%= course.description %></p>
+    <% if (locals.user.role === "admin") { %>
+    <button class="edit">
+      <a href="/api/v1/course/edit/<%= course._id %>">EDIT COURSE DETAILS</a>
+    </button>
+    <button class="delete" data-doc="<%= course._id %>">DELETE COURSE</button>
+    <% } %>
 
     <p>COURSE MATERIALS:</p>
-
     <h1>DOCUMENTS</h1>
     <p><%= course.documents.title %></p>
 
@@ -17,8 +22,20 @@
     <p>Document Description: <%= document.description %></p>
     <div>
       <a href="/api/v1/course/document/<%= document._id %>"
-        >VIEW MORE ABOUT DOCUMENT</a
+        >VIEW MORE INFO ABOUT DOCUMENT</a
       >
+    </div>
+    <div>
+      <% if (locals.user.role === "admin") { %>
+      <button class="edit">
+        <a href="/api/v1/course/document/edit/<%= document._id %>"
+          >EDIT DOCUMENT</a
+        >
+      </button>
+      <button class="delete" data-doc="<%= document._id %>">
+        DELETE DOCUMENT
+      </button>
+      <% } %>
     </div>
     <div>
       <a href="/api/v1/course/download/<%= document._id %>"

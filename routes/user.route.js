@@ -15,8 +15,9 @@ const Course = require("../model/course.model");
 const router = express.Router();
 
 // GET ROUTES
-router.get("/register", isLoggedIn, (req, res) => {
-  res.render("register", { title: "User Registration" });
+router.get("/register", isLoggedIn, async (req, res) => {
+  const course = await Course.find();
+  res.render("register", { title: "User Registration", course });
 });
 router.get("/request/password/reset", (req, res) => {
   res.render("requestPasswordReset", { title: "PASSWORD RESET PAGE" });

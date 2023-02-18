@@ -2,7 +2,7 @@
   <%- include('./head.ejs') %>
   <body>
     <%- include('./navbar.ejs') %>
-    <h1>COURSE DETAILS</h1>
+    <h1>DOCUMENT DETAIL</h1>
 
     <div>
       <h3>DOWNLOADED BY:</h3>
@@ -13,12 +13,51 @@
       <h1><%= document.heading %></h1>
       <h3>TITLE:</h3>
       <h1><%= document.title %></h1>
+      <h3>TYPE:</h3>
+      <h1><%= document.type %></h1>
 
-      <% if (locals.user.role === "admin") { %>
-      <button class="delete" data-doc="<%= document._id %>">DELETE</button>
+      <% if (locals.user && (locals.user.role === "admin")) { %>
+        <h1>SUBMISSIONS:</h1>
+        <% if (submissions.length > 0) { %>
+          <% submissions.forEach(function(submission) { %>
+            <h4>COURSE TITLE: <%= submission.documentSubmittedTo[0].title %></h4>
+            <h4>Submitted by: <%= submission.submittedBy[0].name %></h4>
+            <h4>Submitted at: <%= submission.created_at %></h4>
+            <a href="<%= submission.path %>">
+              <button>DOWNLOAD SUBMISSION</button>
+            </a>
+          <% }); %>
+          
+        <% } else { %>
+          <h1>No submissions made yet</h1>
+        <% } %>
+      <% } else if (document.type === "assignment") { %>
+        <% if (submission) { %>
+          <h1>SUBMISSION DETAILS:</h1>
+          <h4>Submitted by: <%= submission.submittedBy[0].name %></h4>
+          <h4>Submitted at: <%= submission.created_at %></h4>
+          <a href="<%= submission.path %>">
+            <button>DOWNLOAD SUBMISSION</button>
+          </a>
+        <% } else { %>
+          <h1>No submissions made yet</h1>
+        <% } %>
+        <button>
+          <a href="/api/v1/course/submission/document/<%= document._id %>/type/assignment">SUBMIT ASSIGNMENT</a>
+        </button>
       <% } %>
 
-      <a href="<%= document.downloadLink  %>">
+      <% if (locals.user && (locals.user.role === "admin")) { %>
+        <div>
+          
+        </div>
+        <button class="edit">
+          <a href="/api/v1/course/document/edit/<%= document._id %>">EDIT</a>
+        </button>
+        <button class="delete" data-doc="<%= document._id %>">DELETE</button>
+      <% } %>
+
+      <a href="<%= document.downloadLink %>">
         <button>DOWNLOAD LINK</button>
       </a>
     </div>

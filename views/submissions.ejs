@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./head.ejs') %>
+  <body>
+    <%- include('./navbar.ejs') %>
+    <h1>SUBMIT DOCUMENT</h1>
+    <h1><%= document._id %></h1>
+    
+    <form
+      action="/api/v1/course/submission/document/<%= document._id %>/type/assignment"
+      method="post"
+      enctype="multipart/form-data"
+    >
+    <input type="hidden" name="id" value="<%= document._id %>" />
+      <div>
+        <label for="file">FILE:</label>
+        <input type="file" name="file" />
+      </div>
+      <button type="submit">Upload Document</button>
+    </form>
+  </body>
+</html>

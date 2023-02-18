@@ -11,11 +11,13 @@
     >
       <div>
         <label for="title">COURSE:</label>
+
         <select name="title" id="title">
-          <option value="biology">Biology</option>
-          <option value="chemistry">Chemistry</option>
-          <option value="physics">Physics</option>
-        </select>
+        <% course.forEach(element => { %>
+            <option value="<%= element.title %>"><%= element.title %></option>
+            <% }) %>
+          </select>
+      
       </div>
 
       <div>

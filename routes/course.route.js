@@ -8,12 +8,20 @@ const {
   downloadDocumentPage,
   downloadDocument,
   documentDetailsPage,
+  editDocumentPage,
+  editDocument,
 } = require("../controller/document.controller");
 const {
   createCoursePage,
   createCourse,
   courseDetailsPage,
+  editCoursePage,
+  editCourse,
 } = require("../controller/course.controller");
+const {
+  submitDocumentPage,
+  submitDocument,
+} = require("../controller/submission.controller");
 
 const { checkAdmin } = require("../middlewares/user.middleware");
 
@@ -25,10 +33,20 @@ router.get("/create", checkAdmin, createCoursePage);
 router.get("/download/:id", downloadDocumentPage);
 router.get("/details/:title", courseDetailsPage);
 router.get("/document/:id", documentDetailsPage);
+router.get("/edit/:id", editCoursePage);
+router.get("/document/edit/:id", editDocumentPage);
+router.get("/submission/document/:id/type/assignment", submitDocumentPage);
 
 // POST ROUTES
 router.post("/upload", checkAdmin, upload.single("file"), uploadDocument);
 router.post("/create", checkAdmin, createCourse);
 router.post("/document/download/:id", downloadDocument);
+router.post("/edit", editCourse);
+router.post("/document/edit", editDocument);
+router.post(
+  "/submission/document/:id/type/assignment",
+  upload.single("file"),
+  submitDocument
+);
 
 module.exports = router;

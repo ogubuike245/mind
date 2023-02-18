@@ -2,9 +2,12 @@ const bcrypt = require("bcrypt");
 const Document = require("../model/document.model");
 const Course = require("../model/course.model");
 const User = require("../model/user.model");
+const Submission = require('../model/submissions.model');
+
 
 exports.uploadDocumentPage = async (request, response) => {
-  response.render("upload", { title: "UPLOAD DOCUMENT" });
+  const course = await Course.find();
+  response.render("upload", { title: "UPLOAD DOCUMENT", course });
 };
 
 exports.uploadDocument = async (request, response) => {
@@ -112,20 +115,81 @@ exports.downloadDocument = async (request, response) => {
 };
 
 // VIEW DOCUMENT DETAILS
-// This function displays the details of a document
-module.exports.documentDetailsPage = async (request, response) => {
+
+
+exports.documentDetailsPage = async (request, response) => {
   // Extract the document ID from the URL parameters
   const { id } = request.params;
   try {
     // Find the document by its ID
     const content = await Document.findById(id);
-    // Render the document details page, passing the document and a title to the template
-    response.render("document", {
-      document: content,
-      title: "DOCUMENT DETAIL",
-    });
+    let submission = null;
+
+    // Check if the current user is an admin
+    if (request.user.role === "admin") {
+      // Find all submissions for the current document
+      const submissions = await Submission.find({
+        documentSubmittedTo: content._id,
+      }).populate("submittedBy").populate("documentSubmittedTo")
+      .exec();
+
+      // Render the document details page, passing the document and all submissions to the template
+      response.render("document", {
+        document: content,
+        submissions: submissions,
+        title: "DOCUMENT DETAIL",
+      });
+    } else {
+      // Find the submission for the current document and user
+      submission = await Submission.findOne({
+        documentSubmittedTo: content._id,
+        submittedBy: request.user._id,
+      }).populate("submittedBy").populate("documentSubmittedTo")
+      .exec();
+
+      // Render the document details page, passing the document and the submission (if any) to the template
+      response.render("document", {
+        document: content,
+        submission: submission,
+        title: "DOCUMENT DETAIL",
+      });
+    }
   } catch (error) {
     // Log any errors that occur
     console.log(error);
+  }
+};
+
+
+
+exports.editDocumentPage = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const document = await Document.findById(id);
+    res.render("editDocument", { title: "Edit Document", document });
+  } catch (error) {
+    console.log(error);
+    res.render("error", { title: "Error", error });
+  }
+};
+
+exports.editDocument = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const document = await Document.findByIdAndUpdate(
+      { _id: id },
+      { ...req.body, updated_at: Date.now() }
+    );
+    res.redirect(`/api/v1/course/document/${document._id}`);
+
+    res.render("success", {
+      title: "Success",
+      success: "Course updated successfully.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.render("error", { title: "Error", error });
   }
 };
