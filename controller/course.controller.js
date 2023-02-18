@@ -2,7 +2,7 @@ const Course = require("../model/course.model");
 const Document = require("../model/document.model");
 
 exports.createCoursePage = async (req, res) => {
-   const course = await Course.find();
+  const course = await Course.find();
   res.render("createCourse", { title: "CREATE COURSE", course });
 };
 exports.createCourse = async (req, res) => {
