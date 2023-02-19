@@ -12,6 +12,165 @@ a {
   color: red;
 }
 
+input[type=checkbox] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+.container {
+  display: grid;
+  place-items: center;
+}
+
+.navbar {
+  background-color: hsl(184deg, 26%, 48%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+li {
+  margin: 0 10px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+a:hover {
+  color: red;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    height: auto;
+  }
+  ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  li {
+    margin: 10px 0;
+  }
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: hsl(184deg, 26%, 48%);
+}
+
+a {
+  color: red;
+}
+
+.container__login, .container__register {
+  background: #ffffff;
+  height: 100%;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px;
+}
+.container__login h1, .container__register h1 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333333;
+}
+.container__login .form-group, .container__register .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.container__login .form-group label, .container__register .form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #666666;
+}
+.container__login .form-group input[type=text],
+.container__login .form-group input[type=email],
+.container__login .form-group input[type=password], .container__register .form-group input[type=text],
+.container__register .form-group input[type=email],
+.container__register .form-group input[type=password] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+}
+.container__login .form-group input[type=email], .container__register .form-group input[type=email] {
+  margin-bottom: 10px;
+}
+.container__login .form-group input[type=checkbox], .container__register .form-group input[type=checkbox] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+.container__login .form-group input[type=checkbox]:focus, .container__register .form-group input[type=checkbox]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+.container__login .form-group input[type=checkbox]::before, .container__register .form-group input[type=checkbox]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: CanvasText;
+  transform-origin: bottom left;
+  -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+          clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+.container__login .form-group input[type=checkbox]:checked::before, .container__register .form-group input[type=checkbox]:checked::before {
+  transform: scale(1);
+}
+.container__login button[type=submit], .container__register button[type=submit] {
+  width: 100%;
+  background-color: #2ecc71;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.container__login button[type=submit]:hover, .container__register button[type=submit]:hover {
+  background-color: #27ae60;
+}
+
 canvas {
   width: 100px;
   height: 100px;

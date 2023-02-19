@@ -10,6 +10,204 @@ h1 {
 a {
   color: red;
 }
+input[type="checkbox"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+.container {
+  display: grid;
+  place-items: center;
+}
+
+//navbar styles
+.navbar {
+  background-color: hsl(184, 26%, 48%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+li {
+  margin: 0 10px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s ease;
+
+  &:hover {
+    color: red;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    height: auto;
+  }
+
+  ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  li {
+    margin: 10px 0;
+  }
+}
+
+//LOGIN STYLES
+body {
+  font-family: Arial, sans-serif;
+  background-color: hsl(184, 26%, 48%);
+}
+
+a {
+  color: red;
+}
+
+.container {
+  &__login,
+  &__register {
+    background: #ffffff;
+    height: 100%;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    padding: 20px;
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #333333;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #666666;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      input[type="email"] {
+        margin-bottom: 10px;
+      }
+      input[type="checkbox"] {
+        appearance: none;
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid currentColor;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+        display: grid;
+        place-content: center;
+
+        &:focus {
+          outline: max(2px, 0.15em) solid currentColor;
+          outline-offset: max(2px, 0.15em);
+        }
+
+        &::before {
+          content: "";
+          width: 0.65em;
+          height: 0.65em;
+          transform: scale(0);
+          transition: 120ms transform ease-in-out;
+          box-shadow: inset 1em 1em var(--form-control-color);
+          background-color: CanvasText;
+          transform-origin: bottom left;
+          clip-path: polygon(
+            14% 44%,
+            0 65%,
+            50% 100%,
+            100% 16%,
+            80% 0%,
+            43% 62%
+          );
+        }
+        &:checked::before {
+          transform: scale(1);
+        }
+      }
+
+      // input[type="checkbox"]::before {
+      //   content: "";
+      //   width: 0.65em;
+      //   height: 0.65em;
+      //   transform: scale(0);
+      //   transition: 120ms transform ease-in-out;
+      //   box-shadow: inset 1em 1em var(--form-control-color);
+      //   background-color: CanvasText;
+      //   transform-origin: bottom left;
+      //   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      // }
+
+      // input[type="checkbox"]:checked::before {
+      //   transform: scale(1);
+      // }
+
+      // input[type="checkbox"]:focus {
+      //   outline: max(2px, 0.15em) solid currentColor;
+      //   outline-offset: max(2px, 0.15em);
+      // }
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      background-color: #2ecc71;
+      color: #ffffff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #27ae60;
+      }
+    }
+  }
+}
 
 // homepage styles
 
