@@ -15,7 +15,7 @@ exports.submitDocumentPage = async (req, res) => {
 
   const isSubmitted = !!submission;
 
-  res.render("submissions", {
+  res.render("course/submissions", {
     title: "SUBMIT DOCUMENT",
     document,
     isSubmitted,
@@ -59,11 +59,9 @@ exports.submitDocument = async (req, response) => {
     }).lean();
 
     if (previousSubmission) {
-      return response
-        .status(400)
-        .json({
-          error: "You have already submitted a document for this assignment.",
-        });
+      return response.status(400).json({
+        error: "You have already submitted a document for this assignment.",
+      });
     }
 
     // Save the submission object to the database

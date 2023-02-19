@@ -10,18 +10,18 @@ const {
   documentDetailsPage,
   editDocumentPage,
   editDocument,
-} = require("../controller/document.controller");
+} = require("../controllers/document.controller");
 const {
   createCoursePage,
   createCourse,
   courseDetailsPage,
   editCoursePage,
   editCourse,
-} = require("../controller/course.controller");
+} = require("../controllers/course.controller");
 const {
   submitDocumentPage,
   submitDocument,
-} = require("../controller/submission.controller");
+} = require("../controllers/submission.controller");
 
 const { checkAdmin } = require("../middlewares/user.middleware");
 

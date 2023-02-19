@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Course = require("../model/course.model");
-const User = require("../model/user.model");
+const Course = require("../models/course.model");
+const User = require("../models/user.model");
 const { handleErrors } = require("../utils/errorHandling.utils");
 
 // THIS NEEDS TO BE PUT IN AN ENVIRONMENT VARIABLE

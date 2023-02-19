@@ -8,9 +8,9 @@ const {
   resendOTP,
   userProfile,
   userLogout,
-} = require("../controller/user.controller");
+} = require("../controllers/user.controller");
 const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
-const Course = require("../model/course.model");
+const Course = require("../models/course.model");
 
 const router = express.Router();
 
