@@ -3,7 +3,7 @@ const Document = require("../model/document.model");
 
 exports.createCoursePage = async (req, res) => {
   const course = await Course.find();
-  res.render("createCourse", { title: "CREATE COURSE", course });
+  res.render("course/createCourse", { title: "CREATE COURSE", course });
 };
 exports.createCourse = async (req, res) => {
   try {
@@ -31,7 +31,7 @@ exports.editCoursePage = async (req, res) => {
 
   try {
     const course = await Course.findById(id);
-    res.render("editCourse", { title: "Edit Course", course });
+    res.render("course/editCourse", { title: "Edit Course", course });
   } catch (error) {
     console.log(error);
     res.render("error", { title: "Error", error });
@@ -80,5 +80,5 @@ exports.courseDetailsPage = async (req, res) => {
     .populate("documents")
     .populate("registeredUsers");
 
-  res.render("course", { title: " COURSE DETAILS", course });
+  res.render("course/course", { title: " COURSE DETAILS", course });
 };

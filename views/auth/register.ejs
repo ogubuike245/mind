@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
-  <%- include('./head.ejs') %>
+  <%- include('../partials/head.ejs') %>
   <body>
-    <%- include('./navbar.ejs') %>
+    <%- include('../partials/navbar.ejs') %>
     <h1>Registration</h1>
 
     <form action="/api/v1/user/register" method="post">
@@ -25,28 +26,23 @@
         <br />
       </div>
 
-
       <div>
         <label for="selectedCourses">COURSE:</label>
 
         <div>
-
           <% course.forEach(element => { %>
-            <label for="selectedCourses"><%= element.title %>:</label>
-            <input
+          <label for="selectedCourses"><%= element.title %>:</label>
+          <input
             type="checkbox"
             name="selectedCourses"
             value="<%= element.title %>"
             id="selectedCourses"
-            />
-            <br />
-            <% }) %>
-          </div>
-      
+          />
+          <br />
+          <% }) %>
+        </div>
       </div>
 
-
-    
       <input type="submit" value="REGISTER" />
     </form>
   </body>

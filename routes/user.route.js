@@ -17,22 +17,22 @@ const router = express.Router();
 // GET ROUTES
 router.get("/register", isLoggedIn, async (req, res) => {
   const course = await Course.find();
-  res.render("register", { title: "User Registration", course });
+  res.render("auth/register", { title: "User Registration", course });
 });
 router.get("/request/password/reset", (req, res) => {
-  res.render("requestPasswordReset", { title: "PASSWORD RESET PAGE" });
+  res.render("auth/requestPasswordReset", { title: "PASSWORD RESET PAGE" });
 });
 router.get("/password/reset/:email", (req, res) => {
-  res.render("passwordReset", { title: "RESET " });
+  res.render("auth/passwordReset", { title: "RESET " });
 });
 router.get("/resend/otp", (req, res) => {
-  res.render("resendOTP", { title: "RESET " });
+  res.render("auth/resendOTP", { title: "RESET " });
 });
 router.get("/verify/email", (req, res) => {
-  res.render("verifyEmail", { title: "RESET " });
+  res.render("auth/verifyEmail", { title: "RESET " });
 });
 router.get("/login", isLoggedIn, (req, res) => {
-  res.render("login", { title: "User Login" });
+  res.render("auth/login", { title: "User Login" });
 });
 router.get("/profile/:id", userProfile);
 
@@ -41,7 +41,7 @@ router.get("/dashboard", checkAdmin, (req, res) => {
     .populate("documents")
     .populate("registeredUsers")
     .then((courses) => {
-      res.render("dashboard", { title: "Chart Page", courses });
+      res.render("user/dashboard", { title: "Chart Page", courses });
     })
     .catch((error) => {
       console.error(error);

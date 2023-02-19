@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
-  <%- include('./head.ejs') %>
+  <%- include('../partials/head.ejs') %>
   <body>
-    <%- include('./navbar.ejs') %>
+    <%- include('../partials/navbar.ejs') %>
     <h1>Edit Course</h1>
     <form method="POST" action="/api/v1/course/edit">
       <input type="hidden" name="id" value="<%= course._id %>" />

@@ -6,7 +6,7 @@ const Submission = require("../model/submissions.model");
 
 exports.uploadDocumentPage = async (request, response) => {
   const course = await Course.find();
-  response.render("upload", { title: "UPLOAD DOCUMENT", course });
+  response.render("course/upload", { title: "UPLOAD DOCUMENT", course });
 };
 
 exports.uploadDocument = async (request, response) => {
@@ -61,7 +61,7 @@ exports.uploadDocument = async (request, response) => {
 
 exports.downloadDocumentPage = async (req, res) => {
   const document = await Document.findById(req.params.id);
-  res.render("download", { title: "DOWNLOAD DOCUMENT", file: document });
+  res.render("course/download", { title: "DOWNLOAD DOCUMENT", file: document });
 };
 
 // This function downloads a document from the database.
@@ -134,7 +134,7 @@ exports.documentDetailsPage = async (request, response) => {
         .populate("documentSubmittedTo");
 
       // Render the document details page, passing the document and the submission/submissions to the template
-      response.render("document", {
+      response.render("course/document", {
         document: content,
         submissions: submissions,
         title: "DOCUMENT DETAIL",
@@ -142,7 +142,7 @@ exports.documentDetailsPage = async (request, response) => {
     } else {
       // If the user is not an admin, find their submission (if any) for the current document
       // Render the document details page, passing the document and the submission/submissions to the template
-      response.render("document", {
+      response.render("course/document", {
         document: content,
         title: "DOCUMENT DETAIL",
       });
@@ -157,7 +157,7 @@ exports.editDocumentPage = async (req, res) => {
 
   try {
     const document = await Document.findById(id);
-    res.render("editDocument", { title: "Edit Document", document });
+    res.render("course/editDocument", { title: "Edit Document", document });
   } catch (error) {
     console.log(error);
     res.render("error", { title: "Error", error });
