@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
-const Document = require("../model/document.model");
-const Course = require("../model/course.model");
-const User = require("../model/user.model");
-const Submission = require("../model/submissions.model");
+const Document = require("../models/document.model");
+const Course = require("../models/course.model");
+const User = require("../models/user.model");
+const Submission = require("../models/submissions.model");
 
 exports.uploadDocumentPage = async (request, response) => {
   const course = await Course.find();
@@ -182,4 +182,17 @@ exports.editDocument = async (req, res) => {
     console.log(error);
     res.render("error", { title: "Error", error });
   }
+};
+
+// Display all documents for a given course
+exports.document_list = function (req, res) {
+  Document.find({ course: req.params.courseId })
+    .populate("submissions")
+    .exec(function (err, documents) {
+      if (err) {
+        return next(err);
+      }
+      // Render the chart view with the document data
+      res.render("user/dashboard", { documents });
+    });
 };

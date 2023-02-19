@@ -31,6 +31,12 @@ const UserSchema = new mongoose.Schema({
       ref: "Document",
     },
   ],
+  submissions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Submission",
+    },
+  ],
   created_at: {
     type: Date,
     default: Date.now,

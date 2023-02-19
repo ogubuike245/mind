@@ -138,6 +138,19 @@ exports.userProfile = async (req, res) => {
   }
 };
 
+// Display all users for a given course
+exports.user_list = function (req, res) {
+  User.find({ courses: req.params.courseId })
+    .populate("submissions")
+    .exec(function (err, users) {
+      if (err) {
+        return next(err);
+      }
+      // Render the chart view with the user data
+      res.render("user/dashboard", { users });
+    });
+};
+
 exports.userLogout = async (req, res) => {
   res.clearCookie("jwt");
   res.redirect("/");

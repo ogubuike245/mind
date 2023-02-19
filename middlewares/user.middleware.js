@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const Course = require("../model/course.model");
-const User = require("../model/user.model");
+const Course = require("../models/course.model");
+const User = require("../models/user.model");
 
 // CHECK IF THERE IS A LOGGED IN USER FROM THE JWT TOKEN
 

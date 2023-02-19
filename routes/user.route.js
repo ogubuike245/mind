@@ -11,6 +11,8 @@ const {
 } = require("../controllers/user.controller");
 const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
 const Course = require("../models/course.model");
+const User = require("../models/user.model");
+const Document = require("../models/document.model");
 
 const router = express.Router();
 
@@ -36,17 +38,36 @@ router.get("/login", isLoggedIn, (req, res) => {
 });
 router.get("/profile/:id", userProfile);
 
-router.get("/dashboard", checkAdmin, (req, res) => {
-  Course.find({})
+router.get("/dashboard", checkAdmin, async (req, res) => {
+  const courses = await Course.find()
     .populate("documents")
-    .populate("registeredUsers")
-    .then((courses) => {
-      res.render("user/dashboard", { title: "Chart Page", courses });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.sendStatus(500);
-    });
+    .populate("registeredUsers");
+  const users = await User.find().populate("submissions");
+  const documents = await Document.find().populate("submissions");
+
+  const usersByDate = await User.aggregate([
+    {
+      $group: {
+        _id: {
+          year: { $year: "$created_at" },
+          month: { $month: "$created_at" },
+          day: { $dayOfMonth: "$created_at" },
+        },
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  // Sort by date
+
+  // Process the data as needed and pass it to the view
+  res.render("user/dashboard", {
+    title: "Chart Page",
+    courses,
+    users,
+    documents,
+    usersByDate,
+  });
 });
 
 router.get("/logout", userLogout);

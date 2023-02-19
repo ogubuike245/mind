@@ -1,6 +1,6 @@
-const Document = require("../model/document.model");
-const Submission = require("../model/submissions.model");
-const User = require("../model/user.model");
+const Document = require("../models/document.model");
+const Submission = require("../models/submissions.model");
+const User = require("../models/user.model");
 const { handleErrors } = require("../utils/errorHandling.utils");
 
 exports.submitDocumentPage = async (req, res) => {

@@ -1,16 +1,39 @@
 let courses = window.courses;
-const title = courses.map((course) => course.title);
-const displayDocumentsUploadedPerCourseLength = courses.map(
-  (course) => course.documents.length
-);
-const displayRegisteredUsersLength = courses.map(
-  (course) => course.registeredUsers.length
-);
-const displayDownloadedDocumentLength = courses.map(
-  (course) => course.registeredUsers.length
-);
+let usersByDate = window.usersByDate;
 
-const barBgColors = [
+usersByDate.sort((a, b) => {
+  return (
+    new Date(a._id.year, a._id.month, a._id.day) -
+    new Date(b._id.year, b._id.month, b._id.day)
+  );
+});
+
+// Get data for each chart
+const chartData = courses.map((course) => {
+  const users = course.registeredUsers;
+  const uploads = course.documents;
+
+  // Get number of users registered per course
+  const numUsersRegistered = users.length;
+
+  // Get number of documents uploaded per course
+  const numUploads = uploads.length;
+
+  return {
+    title: course.title,
+    numUsersRegistered,
+    numUploads,
+  };
+});
+
+// Get chart container
+const barChart = document.getElementById("bar");
+const barChart2 = document.getElementById("bar2");
+const lineChart = document.getElementById("line");
+const usersChart = document.getElementById("users");
+
+// Set background and border colors for charts
+const bgColors = [
   "rgba(255, 99, 132, 0.6)",
   "rgba(54, 162, 235, 0.6)",
   "rgba(255, 206, 86, 0.6)",
@@ -18,7 +41,7 @@ const barBgColors = [
   "rgba(153, 102, 255, 0.6)",
   "rgba(255, 159, 64, 0.6)",
 ];
-const barBorderColors = [
+const borderColors = [
   "rgba(255, 99, 132, 0.8)",
   "rgba(54, 162, 235, 0.8)",
   "rgba(255, 206, 86, 0.8)",
@@ -27,18 +50,53 @@ const barBorderColors = [
   "rgba(255, 159, 64, 0.8)",
 ];
 
-const boardOne = document.getElementById("pie").getContext("2d");
+// Create bar chart
+const barChartContext = barChart.getContext("2d");
+const barChartLabels = chartData.map((data) => data.title);
+const barChartData = chartData.map((data) => data.numUsersRegistered);
 
-const chartOne = new Chart(boardOne, {
+new Chart(barChartContext, {
   type: "bar",
   data: {
-    labels: title,
+    labels: barChartLabels,
+    datasets: [
+      {
+        label: "USERS REGISTERED PER COURSE",
+        data: barChartData,
+        backgroundColor: bgColors,
+        borderColor: borderColors,
+        borderWidth: 3,
+      },
+    ],
+  },
+  options: {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  },
+});
+
+// Create bar chart2
+const barChart2Context = barChart2.getContext("2d");
+const barChart2Labels = chartData.map((data) => data.title);
+const barChart2Data = chartData.map((data) => data.numUploads);
+
+new Chart(barChart2Context, {
+  type: "bar",
+  data: {
+    labels: barChart2Labels,
     datasets: [
       {
         label: "DOCUMENTS UPLOADED PER COURSE",
-        data: displayDocumentsUploadedPerCourseLength,
-        backgroundColor: barBgColors,
-        borderColor: barBorderColors,
+        data: barChart2Data,
+        backgroundColor: bgColors,
+        borderColor: borderColors,
         borderWidth: 3,
       },
     ],
@@ -48,62 +106,30 @@ const chartOne = new Chart(boardOne, {
       yAxes: [
         {
           ticks: {
-            callback: function (value) {
-              if (Number.isInteger(value)) {
-                return value;
-              }
-            },
+            beginAtZero: true,
           },
         },
       ],
     },
   },
 });
+// Create bar chart2
+const lineChartContext = lineChart.getContext("2d");
+const lineChartLabels = usersByDate.map(
+  (data) => `${data._id.year}-${data._id.month}-${data._id.day}`
+);
+const lineChartData = usersByDate.map((data) => data.count);
 
-const boardTwo = document.getElementById("bar").getContext("2d");
-
-const chartTwo = new Chart(boardTwo, {
-  type: "bar",
-  data: {
-    labels: title,
-    datasets: [
-      {
-        label: "REGISTERED USERS PER COURSE",
-        data: displayRegisteredUsersLength,
-        backgroundColor: barBgColors,
-        borderColor: barBorderColors,
-        borderWidth: 3,
-      },
-    ],
-  },
-  options: {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            callback: function (value) {
-              if (Number.isInteger(value)) {
-                return value;
-              }
-            },
-          },
-        },
-      ],
-    },
-  },
-});
-const boardThree = document.getElementById("line").getContext("2d");
-
-const chartThree = new Chart(boardThree, {
+new Chart(lineChartContext, {
   type: "line",
   data: {
-    labels: title,
+    labels: lineChartLabels,
     datasets: [
       {
-        label: "DOWNLOADED DOCUMENTS  PER COURSE",
-        data: displayDownloadedDocumentLength,
-        backgroundColor: barBgColors,
-        borderColor: barBorderColors,
+        label: "TOTAL NUMBER OF USERS REGISTERED PER DAY",
+        data: lineChartData,
+        backgroundColor: bgColors,
+        borderColor: borderColors,
         borderWidth: 3,
       },
     ],
@@ -113,11 +139,7 @@ const chartThree = new Chart(boardThree, {
       yAxes: [
         {
           ticks: {
-            callback: function (value) {
-              if (Number.isInteger(value)) {
-                return value;
-              }
-            },
+            beginAtZero: true,
           },
         },
       ],

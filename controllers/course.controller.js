@@ -1,5 +1,5 @@
-const Course = require("../model/course.model");
-const Document = require("../model/document.model");
+const Course = require("../models/course.model");
+const Document = require("../models/document.model");
 
 exports.createCoursePage = async (req, res) => {
   const course = await Course.find();
@@ -81,4 +81,18 @@ exports.courseDetailsPage = async (req, res) => {
     .populate("registeredUsers");
 
   res.render("course/course", { title: " COURSE DETAILS", course });
+};
+
+// Display all courses
+exports.course_list = function (req, res) {
+  Course.find({})
+    .populate("documents")
+    .populate("registeredUsers")
+    .exec(function (err, courses) {
+      if (err) {
+        return next(err);
+      }
+      // Render the chart view with the course data
+      res.render("user/dashboard", { courses });
+    });
 };

@@ -46,6 +46,12 @@ const DocumentSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  submissions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Submission",
+    },
+  ],
 
   downloadLink: String,
 
