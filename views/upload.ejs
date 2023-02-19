@@ -4,20 +4,15 @@
   <body>
     <%- include('./navbar.ejs') %>
     <h1>UPLOAD DOCUMENT</h1>
-    <form
-      action="/api/v1/course/upload"
-      method="post"
-      enctype="multipart/form-data"
-    >
+    <form id="upload-form" enctype="multipart/form-data">
       <div>
         <label for="title">COURSE:</label>
 
         <select name="title" id="title">
-        <% course.forEach(element => { %>
-            <option value="<%= element.title %>"><%= element.title %></option>
-            <% }) %>
-          </select>
-      
+          <% course.forEach(element => { %>
+          <option value="<%= element.title %>"><%= element.title %></option>
+          <% }) %>
+        </select>
       </div>
 
       <div>
@@ -41,10 +36,10 @@
             Choose a Type
           </option>
 
-          <option value="assignment">ASSIGNMENT</option>
-          <option value="note">NOTE</option>
-          <option value="aoc">AOC</option>
-          <option value="practical">PRACTICAL</option>
+          <option value="assignment">assignment</option>
+          <option value="note">note</option>
+          <option value="aoc">aoc</option>
+          <option value="practical">practical</option>
         </select>
       </div>
 
@@ -54,5 +49,50 @@
       </div>
       <button type="submit">Upload Document</button>
     </form>
+
+    <script>
+      const form = document.getElementById("upload-form");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const formData = new FormData(form);
+          const response = await fetch("/api/v1/course/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+          if (data.success) {
+            showToastifyNotification(
+              "success",
+              "Document uploaded successfully.",
+              data.redirect
+            );
+            form.reset();
+          } else {
+            showToastifyNotification(data.error);
+          }
+        } catch (error) {
+          console.log(error);
+          showToastifyNotification(error);
+        }
+      });
+
+      function showToastifyNotification(type, message, redirectUrl = null) {
+        Toastify({
+          text: message,
+          duration: 3000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: type === "success" ? "#2ecc71" : "#e74c3c",
+        }).showToast();
+
+        if (type === "success" && redirectUrl) {
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 2000);
+        }
+      }
+    </script>
   </body>
 </html>

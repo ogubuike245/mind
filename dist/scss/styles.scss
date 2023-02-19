@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: hsl(184, 26%, 48%);
+}
+h1 {
+  text-align: center;
+  margin-top: 50px;
+}
+
+a {
+  color: red;
+}
+
+// homepage styles
+
+// dashboard styles
+canvas {
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
+}
+
+.chart-container {
+  position: relative;
+  height: 40vh;
+  width: 80vw;
+  display: flex;
+}

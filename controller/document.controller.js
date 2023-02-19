@@ -2,8 +2,7 @@ const bcrypt = require("bcrypt");
 const Document = require("../model/document.model");
 const Course = require("../model/course.model");
 const User = require("../model/user.model");
-const Submission = require('../model/submissions.model');
-
+const Submission = require("../model/submissions.model");
 
 exports.uploadDocumentPage = async (request, response) => {
   const course = await Course.find();
@@ -12,15 +11,17 @@ exports.uploadDocumentPage = async (request, response) => {
 
 exports.uploadDocument = async (request, response) => {
   try {
-    const { title, description, originalName, heading, type } = request.body;
+    const { title, description, heading, type } = request.body;
     const course = await Course.findOne({ title: title });
+    console.log(request.file);
 
     // If the course is not found, return a 404 error message
     if (!course) {
-      return response.status(404).json({
-        success: false,
-        message: "Course not found.",
-      });
+      return response.status(400).json({ error: "Course not found." });
+    }
+
+    if (!request.file) {
+      return response.status(400).json({ error: "Select File to Upload" });
     }
 
     // Hash the password
@@ -46,12 +47,15 @@ exports.uploadDocument = async (request, response) => {
     await course.save();
 
     // Redirect the user to the course details page
-    response.redirect(`/api/v1/course/details/${newDoc.title}`);
+    response.status(200).json({
+      success: "Select File to Upload",
+      redirect: `/api/v1/course/details/${newDoc.title}`,
+    });
   } catch (err) {
     // Log the error to the console
     console.log(err);
     // Render an error page
-    response.render("error", { title: "ERROR", error: err });
+    response.status(400).json({ error: err });
   }
 };
 
@@ -116,51 +120,37 @@ exports.downloadDocument = async (request, response) => {
 
 // VIEW DOCUMENT DETAILS
 
-
 exports.documentDetailsPage = async (request, response) => {
-  // Extract the document ID from the URL parameters
   const { id } = request.params;
   try {
-    // Find the document by its ID
     const content = await Document.findById(id);
-    let submission = null;
 
-    // Check if the current user is an admin
     if (request.user.role === "admin") {
-      // Find all submissions for the current document
+      // If the user is an admin, find all submissions for the current document
       const submissions = await Submission.find({
         documentSubmittedTo: content._id,
-      }).populate("submittedBy").populate("documentSubmittedTo")
-      .exec();
+      })
+        .populate("submittedBy")
+        .populate("documentSubmittedTo");
 
-      // Render the document details page, passing the document and all submissions to the template
+      // Render the document details page, passing the document and the submission/submissions to the template
       response.render("document", {
         document: content,
         submissions: submissions,
         title: "DOCUMENT DETAIL",
       });
     } else {
-      // Find the submission for the current document and user
-      submission = await Submission.findOne({
-        documentSubmittedTo: content._id,
-        submittedBy: request.user._id,
-      }).populate("submittedBy").populate("documentSubmittedTo")
-      .exec();
-
-      // Render the document details page, passing the document and the submission (if any) to the template
+      // If the user is not an admin, find their submission (if any) for the current document
+      // Render the document details page, passing the document and the submission/submissions to the template
       response.render("document", {
         document: content,
-        submission: submission,
         title: "DOCUMENT DETAIL",
       });
     }
   } catch (error) {
-    // Log any errors that occur
     console.log(error);
   }
 };
-
-
 
 exports.editDocumentPage = async (req, res) => {
   const { id } = req.params;

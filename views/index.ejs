@@ -7,15 +7,15 @@
     <% if (locals.user) { %>
     <h1>SELECTED COURSES</h1>
 
-    <ul>
-      <% for (const course of locals.selectedCourses) { %>
+    <% for (const course of locals.selectedCourses) { %>
 
-      <a href="/api/v1/course/details/<%= course.title %>"
-        ><%= course.title %></a
-      >
-      <% } %>
-    </ul>
-
-    <% } %>
+    <div>
+      <button>
+        <a href="/api/v1/course/details/<%= course.title %>"
+          ><%= course.title %></a
+        >
+      </button>
+    </div>
+    <% } %> <% } %>
   </body>
 </html>

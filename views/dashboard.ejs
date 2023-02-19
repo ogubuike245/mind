@@ -5,33 +5,17 @@
 
     <h1>CHART PAGE</h1>
 
+    <h1>ALL COURSES TITLE</h1>
+
     <% courses.forEach(course => { %>
     <h1>COURSE TITLE: <%= course.title %></h1>
 
-    <table>
-      <thead>
-        <br />
-        <tr>
-          <th>DOCUMENT TYPE</th>
-          <th>DOWNLOAD COUNT</th>
-          <th>DOWNLOADED BY</th>
-        </tr>
-      </thead>
-      <br />
-      <tbody>
-        <br />
-        <% course.documents.forEach(document => { %>
-        <tr>
-          <td><%= document.type %></td>
-          <td><%= document.downloadCount %></td>
-          <td><%= document.downloadedBy %></td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
-
     <% }) %>
 
+    <h1>DISPLAY ALL COURSES INFORMATION</h1>
+    <h1>DISPLAY ALL SUBMISSIONS INFORMATION</h1>
+
+    <h1>DISPLAY SITE INFORMATION AND ANALYTICS BELOW IN CHARTS</h1>
     <div class="chart-container">
       <h1>PIE</h1>
       <canvas id="pie"></canvas>
@@ -40,11 +24,10 @@
       <h1>LINE</h1>
       <canvas id="line"></canvas>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script>
       window.courses = <%- JSON.stringify(courses) %>;
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
     <script src="/js/charts.js"></script>
   </body>
 </html>

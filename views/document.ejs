@@ -6,7 +6,7 @@
 
     <div>
       <h3>DOWNLOADED BY:</h3>
-      <h1><%= document.downloadBy %></h1>
+      <h1><%= document.downloadedBy %></h1>
       <h3>ID:</h3>
       <h1><%= document._id %></h1>
       <h3>HEADING:</h3>
@@ -17,49 +17,45 @@
       <h1><%= document.type %></h1>
 
       <% if (locals.user && (locals.user.role === "admin")) { %>
-        <h1>SUBMISSIONS:</h1>
-        <% if (submissions.length > 0) { %>
-          <% submissions.forEach(function(submission) { %>
-            <h4>COURSE TITLE: <%= submission.documentSubmittedTo[0].title %></h4>
-            <h4>Submitted by: <%= submission.submittedBy[0].name %></h4>
-            <h4>Submitted at: <%= submission.created_at %></h4>
-            <a href="<%= submission.path %>">
-              <button>DOWNLOAD SUBMISSION</button>
-            </a>
-          <% }); %>
-          
-        <% } else { %>
-          <h1>No submissions made yet</h1>
-        <% } %>
-      <% } else if (document.type === "assignment") { %>
-        <% if (submission) { %>
-          <h1>SUBMISSION DETAILS:</h1>
-          <h4>Submitted by: <%= submission.submittedBy[0].name %></h4>
-          <h4>Submitted at: <%= submission.created_at %></h4>
-          <a href="<%= submission.path %>">
-            <button>DOWNLOAD SUBMISSION</button>
-          </a>
-        <% } else { %>
-          <h1>No submissions made yet</h1>
-        <% } %>
-        <button>
-          <a href="/api/v1/course/submission/document/<%= document._id %>/type/assignment">SUBMIT ASSIGNMENT</a>
-        </button>
-      <% } %>
-
-      <% if (locals.user && (locals.user.role === "admin")) { %>
-        <div>
-          
-        </div>
-        <button class="edit">
-          <a href="/api/v1/course/document/edit/<%= document._id %>">EDIT</a>
-        </button>
-        <button class="delete" data-doc="<%= document._id %>">DELETE</button>
-      <% } %>
 
       <a href="<%= document.downloadLink %>">
         <button>DOWNLOAD LINK</button>
       </a>
+
+      <div>
+        <button class="edit">
+          <a href="/api/v1/course/document/edit/<%= document._id %>">EDIT</a>
+        </button>
+        <button class="delete" data-doc="<%= document._id %>">DELETE</button>
+      </div>
+
+      <% } %> <% if (document.type === "assignment") { %> <% if (locals.user &&
+      (locals.user.role === "admin")) { %> <% if (submissions &&
+      submissions.length > 0) { %>
+      <h1>SUBMISSION DETAILS:</h1>
+      <% submissions.forEach(function(submission) { %>
+      <h4>Submitted by: <%= submission.submittedBy[0].name %></h4>
+      <h4>Submitted at: <%= submission.created_at %></h4>
+      <br />
+
+      <button>DOWNLOAD SUBMISSION</button>
+
+      <br />
+
+      <% }); %> <% } else { %>
+      <h1>No submissions made yet</h1>
+      <% } %> <% } %>
+
+      <div>
+        <button>
+          <a
+            href="/api/v1/course/submission/document/<%= document._id %>/type/assignment"
+          >
+            SUBMIT ASSIGNMENT
+          </a>
+        </button>
+      </div>
+      <% } %>
     </div>
   </body>
 </html>
