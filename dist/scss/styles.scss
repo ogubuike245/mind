@@ -117,6 +117,7 @@ a {
 
       input[type="text"],
       input[type="email"],
+      input[type="number"],
       input[type="password"] {
         width: 100%;
         padding: 10px;
@@ -169,27 +170,6 @@ a {
           transform: scale(1);
         }
       }
-
-      // input[type="checkbox"]::before {
-      //   content: "";
-      //   width: 0.65em;
-      //   height: 0.65em;
-      //   transform: scale(0);
-      //   transition: 120ms transform ease-in-out;
-      //   box-shadow: inset 1em 1em var(--form-control-color);
-      //   background-color: CanvasText;
-      //   transform-origin: bottom left;
-      //   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-      // }
-
-      // input[type="checkbox"]:checked::before {
-      //   transform: scale(1);
-      // }
-
-      // input[type="checkbox"]:focus {
-      //   outline: max(2px, 0.15em) solid currentColor;
-      //   outline-offset: max(2px, 0.15em);
-      // }
     }
 
     button[type="submit"] {
@@ -206,6 +186,13 @@ a {
         background-color: #27ae60;
       }
     }
+  }
+
+  .courses {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 10px;
   }
 }
 

@@ -13,37 +13,93 @@
         <h1>Registration</h1>
 
         <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" name="name" id="name" required />
+          <input
+            type="text"
+            name="firstName"
+            id="name"
+            required
+            placeholder="First name:"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            name="lastName"
+            id="name"
+            required
+            placeholder="Last name:"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            name="registrationNumber"
+            id="name"
+            required
+            placeholder="Registration Number:"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="number"
+            name="phoneNumber"
+            id="name"
+            required
+            placeholder="Phone Number:"
+          />
         </div>
 
         <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" name="email" id="email" required />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            placeholder="Email:"
+          />
         </div>
 
         <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" name="password" id="password" required />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            placeholder="Password:"
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="search-box">
+            <input
+              type="text"
+              id="courseSearch"
+              placeholder="Search for a course"
+            />
+          </div>
         </div>
 
         <div class="form-group">
           <label for="selectedCourses">Select Course:</label>
-          <% course.forEach(element => { %>
-          <div>
-            <label for="selectedCourses"><%= element.title %>:</label>
+          <div class="courses">
+            <% course.forEach(element => { %>
+
+            <label for="<%= element.title %>"><%= element.title %></label>
             <input
               type="checkbox"
+              id="selectedCourses"
               name="selectedCourses"
               value="<%= element.title %>"
-              id="selectedCourses"
             />
+            <% }) %>
           </div>
-
-          <% }) %>
         </div>
 
         <button type="submit">Submit</button>
+
+        <div>
+          <a href="/api/v1/user/login">Already a User? __Login>>>></a>
+        </div>
       </form>
     </div>
   </body>

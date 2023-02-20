@@ -25,7 +25,8 @@ router.get("/request/password/reset", (req, res) => {
   res.render("auth/requestPasswordReset", { title: "PASSWORD RESET PAGE" });
 });
 router.get("/password/reset/:email", (req, res) => {
-  res.render("auth/passwordReset", { title: "RESET " });
+  const { email } = req.params;
+  res.render("auth/passwordReset", { title: "RESET ", email });
 });
 router.get("/resend/otp", (req, res) => {
   res.render("auth/resendOTP", { title: "RESET " });

@@ -3,16 +3,26 @@
   <body>
     <%- include('../partials/navbar.ejs') %>
     <h1>Profile</h1>
-    <p>Name: <%= user.name %></p>
-    <p>Name: <%= user.email %></p>
+    <p>First Name: <%= user.firstName %></p>
+    <p>Last Name: <%= user.lastName %></p>
+    <p>Registration Number: <%= user.registrationNumber %></p>
+    <p>Phone Number: <%= user.phoneNumber %></p>
+    <p>Email: <%= user.email %></p>
 
-    <p>Selected Courses:</p>
+    <h1>Selected Courses:</h1>
     <ul>
       <% for (const course of selectedCourses) { %>
 
       <a href="/api/v1/course/details/<%= course.title %>"
         ><%= course.title %></a
       >
+      <% } %>
+    </ul>
+    <h1>DOWNLOADS:</h1>
+    <ul>
+      <% for (const download of user.downloads) { %>
+
+      <p><%= download.title %></p>
       <% } %>
     </ul>
   </body>

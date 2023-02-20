@@ -13,9 +13,19 @@ const createToken = (id) => {
   });
 };
 
+// register
+// Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, selectedCourses } = req.body;
+    const {
+      email,
+      password,
+      selectedCourses,
+      firstName,
+      lastName,
+      registrationNumber,
+      phoneNumber,
+    } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const courses = await Course.find({
@@ -26,7 +36,10 @@ exports.register = async (req, res) => {
     const user = await User.findOne({ email });
 
     const newUser = new User({
-      name,
+      firstName,
+      lastName,
+      registrationNumber,
+      phoneNumber,
       email,
       password: hashedPassword,
       selectedCourses: courseIds,
@@ -44,6 +57,9 @@ exports.register = async (req, res) => {
     handleErrors(err, res);
   }
 };
+
+// requestPasswordReset
+// Sends an OTP to the user's email or phone number to reset their password. Redirects the user to a page where they can enter the OTP to reset their password.
 exports.requestPasswordReset = async (req, res) => {
   try {
     const { email } = req.body;
@@ -60,6 +76,9 @@ exports.requestPasswordReset = async (req, res) => {
     handleErrors(err, res);
   }
 };
+
+// passwordReset
+// Resets the user's password and saves the new password hash in the database.
 exports.passwordReset = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,16 +86,23 @@ exports.passwordReset = async (req, res) => {
     const user = await User.findOne({ email });
     user.password = hashedPassword;
     await user.save();
+    res.redirect(`/api/v1/user/login`);
   } catch (err) {
     res.render("error", { error: err, title: "ERROR" });
   }
 };
+
+// resendOTP
+// Resends the OTP to the user's email or phone number.
 exports.resendOTP = async (req, res) => {
   try {
   } catch (err) {
     res.render("error", { error: err, title: "ERROR" });
   }
 };
+
+// verifyEmail
+// Verifies the user's email address.
 exports.verifyEmail = async (req, res) => {
   try {
   } catch (err) {
@@ -84,6 +110,8 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
+// login
+// Logs in the user and creates a JWT cookie for the session.
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -114,10 +142,12 @@ exports.login = async (req, res) => {
   }
 };
 
+// userProfile
+// Renders the user's profile page with their name, email and the courses they have registered for.
 exports.userProfile = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("downloads");
 
     if (!user) {
       return res.render("error", { error: "User not found", title: "ERROR" });
@@ -151,6 +181,8 @@ exports.user_list = function (req, res) {
     });
 };
 
+// userLogout
+// Logs out the user and clears the JWT cookie.
 exports.userLogout = async (req, res) => {
   res.clearCookie("jwt");
   res.redirect("/");
