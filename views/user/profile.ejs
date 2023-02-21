@@ -13,9 +13,7 @@
     <ul>
       <% for (const course of selectedCourses) { %>
 
-      <a href="/api/v1/course/details/<%= course.title %>"
-        ><%= course.title %></a
-      >
+      <a href="/api/v1/course/details/<%= course.code %>"><%= course.code %></a>
       <% } %>
     </ul>
     <h1>DOWNLOADS:</h1>

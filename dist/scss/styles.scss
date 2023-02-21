@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: hsl(184, 26%, 48%);
+  background-color: hsl(184, 26%, 55%);
 }
 h1 {
   text-align: center;
@@ -74,30 +74,23 @@ a {
 }
 
 //LOGIN STYLES
-body {
-  font-family: Arial, sans-serif;
-  background-color: hsl(184, 26%, 48%);
-}
-
-a {
-  color: red;
-}
 
 .container {
   &__login,
   &__register {
+    font-family: "Nunito Sans", sans-serif;
     background: #ffffff;
     height: 100%;
     width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    align-items: center;
+    // align-items: center;
     border-radius: 10px;
     padding: 20px;
 
     h1 {
-      text-align: center;
+      text-align: left;
       margin-top: 0;
       margin-bottom: 20px;
       color: #333333;
@@ -118,7 +111,9 @@ a {
       input[type="text"],
       input[type="email"],
       input[type="number"],
+      input[type="file"],
       input[type="password"] {
+        height: 20px;
         width: 100%;
         padding: 10px;
         border-radius: 5px;
@@ -126,9 +121,14 @@ a {
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
       }
 
-      input[type="email"] {
-        margin-bottom: 10px;
+      select {
+        height: 20px;
+        width: 100%;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
       }
+
       input[type="checkbox"] {
         appearance: none;
         background-color: #fff;
@@ -138,7 +138,7 @@ a {
         width: 1.15em;
         height: 1.15em;
         border: 0.15em solid currentColor;
-        border-radius: 0.15em;
+        border-radius: 9999px;
         transform: translateY(-0.075em);
         display: grid;
         place-content: center;
@@ -173,12 +173,13 @@ a {
     }
 
     button[type="submit"] {
-      width: 100%;
+      width: 80%;
       background-color: #2ecc71;
       color: #ffffff;
       border: none;
       padding: 10px;
-      border-radius: 5px;
+      margin: auto;
+      border-radius: 9999px;
       cursor: pointer;
       transition: all 0.3s ease;
 
@@ -188,11 +189,55 @@ a {
     }
   }
 
-  .courses {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
-    grid-gap: 10px;
+  &__register {
+    width: 380px;
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      border-radius: 10px;
+
+      div {
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+        height: 40px;
+
+        input {
+          height: 100px;
+        }
+      }
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 10px;
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+    }
+
+    .search-box {
+      width: 95%;
+      margin: auto;
+      // border: 2px solid red;
+    }
+  }
+
+  .link,
+  h1 {
+    text-align: left !important;
+  }
+  p {
+    display: flex;
+    gap: 0.5rem;
+    a {
+      color: #2ecc71;
+    }
   }
 }
 

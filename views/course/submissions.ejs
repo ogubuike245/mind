@@ -3,28 +3,31 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/navbar.ejs') %>
-    <h1>SUBMIT DOCUMENT</h1>
-    <h1><%= document._id %></h1>
 
-    <form
-      action="/api/v1/course/submission/document/<%= document._id %>/type/assignment"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      <% if (isSubmitted) { %>
-      <div>
-        <input type="file" name="file" disabled />
-      </div>
-      <button type="submit" disabled>Already Submitted</button>
-      <% } else { %>
-      <input type="hidden" name="id" value="<%= document._id %>" />
-      <div>
-        <label for="file">FILE:</label>
-        <input type="file" name="file" />
-      </div>
-      <button type="submit">Submit Document</button>
-      <% } %>
-    </form>
+    <div class="container">
+      <form
+        action="/api/v1/course/submission/document/<%= document._id %>/type/assignment"
+        method="post"
+        enctype="multipart/form-data"
+        class="container__login"
+      >
+        <h1>Submit Assignment for <%= document.title %></h1>
+
+        <% if (isSubmitted) { %>
+
+        <div class="form-group">
+          <input type="file" name="file" disabled />
+        </div>
+        <button type="submit" disabled>Already Submitted</button>
+        <% } else { %>
+        <input type="hidden" name="id" value="<%= document._id %>" />
+        <div class="form-group">
+          <input type="file" id="file" name="file" />
+        </div>
+        <button type="submit">Submit</button>
+        <% } %>
+      </form>
+    </div>
 
     <script>
       const form = document.querySelector("form");

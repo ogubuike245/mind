@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: hsl(184deg, 26%, 48%);
+  background-color: hsl(184deg, 26%, 55%);
 }
 
 h1 {
@@ -71,28 +71,19 @@ a:hover {
     margin: 10px 0;
   }
 }
-body {
-  font-family: Arial, sans-serif;
-  background-color: hsl(184deg, 26%, 48%);
-}
-
-a {
-  color: red;
-}
-
 .container__login, .container__register {
+  font-family: "Nunito Sans", sans-serif;
   background: #ffffff;
   height: 100%;
   width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
   border-radius: 10px;
   padding: 20px;
 }
 .container__login h1, .container__register h1 {
-  text-align: center;
+  text-align: left;
   margin-top: 0;
   margin-bottom: 20px;
   color: #333333;
@@ -111,18 +102,25 @@ a {
 .container__login .form-group input[type=text],
 .container__login .form-group input[type=email],
 .container__login .form-group input[type=number],
+.container__login .form-group input[type=file],
 .container__login .form-group input[type=password], .container__register .form-group input[type=text],
 .container__register .form-group input[type=email],
 .container__register .form-group input[type=number],
+.container__register .form-group input[type=file],
 .container__register .form-group input[type=password] {
+  height: 20px;
   width: 100%;
   padding: 10px;
   border-radius: 5px;
   border: none;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 }
-.container__login .form-group input[type=email], .container__register .form-group input[type=email] {
-  margin-bottom: 10px;
+.container__login .form-group select, .container__register .form-group select {
+  height: 20px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 }
 .container__login .form-group input[type=checkbox], .container__register .form-group input[type=checkbox] {
   -webkit-appearance: none;
@@ -135,7 +133,7 @@ a {
   width: 1.15em;
   height: 1.15em;
   border: 0.15em solid currentColor;
-  border-radius: 0.15em;
+  border-radius: 9999px;
   transform: translateY(-0.075em);
   display: grid;
   place-content: center;
@@ -160,23 +158,62 @@ a {
   transform: scale(1);
 }
 .container__login button[type=submit], .container__register button[type=submit] {
-  width: 100%;
+  width: 80%;
   background-color: #2ecc71;
   color: #ffffff;
   border: none;
   padding: 10px;
-  border-radius: 5px;
+  margin: auto;
+  border-radius: 9999px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 .container__login button[type=submit]:hover, .container__register button[type=submit]:hover {
   background-color: #27ae60;
 }
-.container .courses {
+.container__register {
+  width: 380px;
+}
+.container__register .row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border-radius: 10px;
+}
+.container__register .row div {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  height: 40px;
+}
+.container__register .row div input {
+  height: 100px;
+}
+.container__register .courses-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto;
-  grid-gap: 10px;
+  grid-template-rows: repeat(2, auto);
+  gap: 10px;
+}
+.container__register .courses-grid div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.container__register .search-box {
+  width: 95%;
+  margin: auto;
+}
+.container .link,
+.container h1 {
+  text-align: left !important;
+}
+.container p {
+  display: flex;
+  gap: 0.5rem;
+}
+.container p a {
+  color: #2ecc71;
 }
 
 canvas {

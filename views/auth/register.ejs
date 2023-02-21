@@ -9,97 +9,113 @@
         action="/api/v1/user/register"
         method="post"
         class="container__register"
+        autocomplete="off"
       >
-        <h1>Registration</h1>
+        <h1>Create Account</h1>
 
-        <div class="form-group">
-          <input
-            type="text"
-            name="firstName"
-            id="name"
-            required
-            placeholder="First name:"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            name="lastName"
-            id="name"
-            required
-            placeholder="Last name:"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            name="registrationNumber"
-            id="name"
-            required
-            placeholder="Registration Number:"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="number"
-            name="phoneNumber"
-            id="name"
-            required
-            placeholder="Phone Number:"
-          />
+        <div class="link">
+          <p>Already a User? <a href="/api/v1/user/login">Log in </a></p>
         </div>
 
         <div class="form-group">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            required
-            placeholder="Email:"
-          />
+          <div class="row">
+            <div>
+              <input
+                type="text"
+                name="firstName"
+                id="name"
+                required
+                placeholder="First name:"
+              /><i class="fa-regular fa-address-card"></i>
+            </div>
+            <div>
+              <input
+                type="text"
+                name="lastName"
+                id="name"
+                required
+                placeholder="Last name:"
+              /><i class="fa-regular fa-address-card"></i>
+            </div>
+          </div>
         </div>
-
         <div class="form-group">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            required
-            placeholder="Password:"
-          />
+          <div class="row">
+            <div>
+              <input
+                type="text"
+                name="registrationNumber"
+                id="name"
+                required
+                placeholder="Registration Number:"
+              />
+              <i class="fa-solid fa-hashtag"></i>
+            </div>
+
+            <div>
+              <input
+                type="number"
+                name="phoneNumber"
+                id="name"
+                required
+                placeholder="Phone Number:"
+              />
+              <i class="fa-solid fa-phone"></i>
+            </div>
+          </div>
         </div>
-
         <div class="form-group">
-          <div class="search-box">
-            <input
-              type="text"
-              id="courseSearch"
-              placeholder="Search for a course"
-            />
+          <div class="row">
+            <div>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                required
+                placeholder="Email:"
+              />
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="password"
+                required
+                placeholder="Password:"
+              />
+              <i class="fa-solid fa-lock"></i>
+            </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="selectedCourses">Select Course:</label>
-          <div class="courses">
-            <% course.forEach(element => { %>
+        <div class="form-group search-box">
+          <input
+            type="text"
+            id="courseSearch"
+            placeholder="Search for a course"
+          />
+        </div>
 
-            <label for="<%= element.title %>"><%= element.title %></label>
-            <input
-              type="checkbox"
-              id="selectedCourses"
-              name="selectedCourses"
-              value="<%= element.title %>"
-            />
+        <div class="form-group">
+          <!-- <label for="selectedCourses">SELECT COURSE:</label> -->
+          <div class="courses-grid">
+            <% course.forEach(element => { %>
+            <div>
+              <label for="<%= element.code %>"><%= element.code %></label>
+              <input
+                type="checkbox"
+                id="selectedCourses"
+                name="selectedCourses"
+                value="<%= element.code %>"
+              />
+            </div>
             <% }) %>
           </div>
         </div>
 
-        <button type="submit">Submit</button>
-
-        <div>
-          <a href="/api/v1/user/login">Already a User? __Login>>>></a>
-        </div>
+        <button type="submit">Create Account</button>
       </form>
     </div>
   </body>

@@ -7,22 +7,38 @@
     <div class="container">
       <form action="/api/v1/user/login" method="post" class="container__login">
         <h1>Login</h1>
+
         <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" name="email" id="email" required />
+          <label for="email"></label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            placeholder="Email:"
+          />
         </div>
 
         <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" name="password" id="password" required />
+          <label for="password"></label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            placeholder="Password:"
+          />
         </div>
 
         <button type="submit">Login</button>
 
-        <div>
-          <a href="/api/v1/user/register">Not a User? __Register>>>></a>
-          <br />
-          <a href="/api/v1/user/request/password/reset">Forgot Password?</a>
+        <div class="link">
+          <p>No Account yet? <a href="/api/v1/user/register">Signup </a></p>
+          <p>
+            Forgot Password?<a href="/api/v1/user/request/password/reset"
+              >Reset
+            </a>
+          </p>
         </div>
       </form>
     </div>

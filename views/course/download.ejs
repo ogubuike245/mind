@@ -5,19 +5,31 @@
     <%- include('../partials/navbar.ejs') %> <% if (locals.error) { %>
     <div style="color: red; margin-bottom: 1rem">Incorrect Password</div>
     <% } %>
-    <form
-      action="/api/v1/course/document/download/<%= file._id %>"
-      method="post"
-    >
-      <% if(locals.file.password ) { %>
-      <h1>ENTER PASSWORD</h1>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
-      <% } else { %>
-      <h1>NO PASSWORD</h1>
-      <% } %>
 
-      <button style="grid-column: span 2" type="submit">DOWNLOAD NOW</button>
-    </form>
+    <div class="container">
+      <form
+        action="/api/v1/course/document/download/<%= file._id %>"
+        method="post"
+        class="container__login"
+      >
+        <h1>Download Document</h1>
+
+        <% if(locals.file.password ) { %>
+        <div class="form-group">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            placeholder="Enter Password :"
+          />
+        </div>
+        <% } else { %>
+        <h1>NO PASSWORD</h1>
+        <% } %>
+
+        <button type="submit">Download</button>
+      </form>
+    </div>
   </body>
 </html>

@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "613d93b19f112b1dbf6df5a5",
+    "title": "physics",
+    "description": "A course about the laws that govern the natural world.",
+    "documents": [],
+    "registeredUsers": [],
+    "created_at": "2022-09-12T14:45:00.000Z",
+    "updated_at": "2022-09-12T14:45:00.000Z"
+  },
+  {
+    "_id": "613d93b19f112b1dbf6df5a6",
+    "title": "chemistry",
+    "description": "A course about the properties and behavior of matter.",
+    "documents": [],
+    "registeredUsers": [],
+    "created_at": "2022-09-12T14:46:00.000Z",
+    "updated_at": "2022-09-12T14:46:00.000Z"
+  },
+  {
+    "_id": "613d93b19f112b1dbf6df5a7",
+    "title": "biology",
+    "description": "A course about the study of living organisms and their interactions with the environment.",
+    "documents": [],
+    "registeredUsers": [],
+    "created_at": "2022-09-12T14:47:00.000Z",
+    "updated_at": "2022-09-12T14:47:00.000Z"
+  },
+  {
+    "_id": "613d93b19f112b1dbf6df5a8",
+    "title": "ergonomics",
+    "description": "A course about designing products and systems that are comfortable and efficient for people to use.",
+    "documents": [],
+    "registeredUsers": [],
+    "created_at": "2022-09-12T14:48:00.000Z",
+    "updated_at": "2022-09-12T14:48:00.000Z"
+  }
+]

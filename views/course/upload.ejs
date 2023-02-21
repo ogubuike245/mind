@@ -3,96 +3,73 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/navbar.ejs') %>
-    <h1>UPLOAD DOCUMENT</h1>
-    <form id="upload-form" enctype="multipart/form-data">
-      <div>
-        <label for="title">COURSE:</label>
 
-        <select name="title" id="title">
-          <% course.forEach(element => { %>
-          <option value="<%= element.title %>"><%= element.title %></option>
-          <% }) %>
-        </select>
-      </div>
+    <div class="container">
+      <form
+        id="upload-form"
+        enctype="multipart/form-data"
+        class="container__login"
+      >
+        <h1>Upload Document</h1>
 
-      <div>
-        <label for="heading">HEADING:</label>
-        <input type="text" id="heading" name="heading" />
-      </div>
+        <div class="form-group">
+          <select name="title" id="title">
+            <option value="default" disabled selected>Select Course</option>
+            <% course.forEach(element => { %>
+            <option value="<%= element.title %>"><%= element.title %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <select name="code" id="code">
+            <option value="default" disabled selected>Course code</option>
+            <% course.forEach(element => { %>
+            <option value="<%= element.code %>"><%= element.code %></option>
+            <% }) %>
+          </select>
+        </div>
 
-      <div>
-        <label for="description">DESCRIPTION</label>
-        <input type="text" name="description" id="description" />
-      </div>
-      <div>
-        <label for="file">FILE:</label>
-        <input type="file" name="file" />
-      </div>
+        <div class="form-group">
+          <input
+            type="text"
+            id="heading"
+            name="heading"
+            placeholder="Heading:"
+          />
+        </div>
 
-      <div>
-        <label for="type">TYPE:</label>
-        <select name="type" id="type">
-          <option value="default" disabled selected hidden>
-            Choose a Type
-          </option>
+        <div class="form-group">
+          <input
+            type="text"
+            id="description"
+            name="description"
+            placeholder="Description:"
+          />
+        </div>
+        <div class="form-group">
+          <select name="type" id="type">
+            <option value="default" disabled selected>Choose Type</option>
+            <option value="assignment">assignment</option>
+            <option value="note">note</option>
+            <option value="aoc">aoc</option>
+            <option value="practical">practical</option>
+          </select>
+        </div>
 
-          <option value="assignment">assignment</option>
-          <option value="note">note</option>
-          <option value="aoc">aoc</option>
-          <option value="practical">practical</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" minlength="3" />
-      </div>
-      <button type="submit">Upload Document</button>
-    </form>
-
-    <script>
-      const form = document.getElementById("upload-form");
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        try {
-          const formData = new FormData(form);
-          const response = await fetch("/api/v1/course/upload", {
-            method: "POST",
-            body: formData,
-          });
-          const data = await response.json();
-          if (data.success) {
-            showToastifyNotification(
-              "success",
-              "Document uploaded successfully.",
-              data.redirect
-            );
-            form.reset();
-          } else {
-            showToastifyNotification(data.error);
-          }
-        } catch (error) {
-          console.log(error);
-          showToastifyNotification(error);
-        }
-      });
-
-      function showToastifyNotification(type, message, redirectUrl = null) {
-        Toastify({
-          text: message,
-          duration: 3000,
-          gravity: "top",
-          position: "center",
-          backgroundColor: type === "success" ? "#2ecc71" : "#e74c3c",
-        }).showToast();
-
-        if (type === "success" && redirectUrl) {
-          setTimeout(() => {
-            window.location.href = redirectUrl;
-          }, 2000);
-        }
-      }
-    </script>
+        <div class="form-group">
+          <input type="file" id="file" name="file" />
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password:"
+          />
+        </div>
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+    <script src="/js/upload.js"></script>
   </body>
 </html>

@@ -8,7 +8,10 @@
     <h1>ALL COURSES TITLE</h1>
 
     <% courses.forEach(course => { %>
-    <h1>COURSE TITLE: <%= course.title %></h1>
+    <p>
+      COURSE TITLE: <%= course.title %>
+      <span>COURSE CODE: <%= course.code %></span>
+    </p>
 
     <% }) %>
 

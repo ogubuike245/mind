@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const express = require("express");
 const {
   register,
@@ -13,13 +15,17 @@ const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
 const Document = require("../models/document.model");
+const filepath = path.join(__dirname, "../utils/", "course.json");
+const rawdata = fs.readFileSync(filepath);
+// const courses = JSON.parse(rawdata);
 
 const router = express.Router();
 
 // GET ROUTES
 router.get("/register", isLoggedIn, async (req, res) => {
-  const course = await Course.find();
-  res.render("auth/register", { title: "User Registration", course });
+  const courses = await Course.find();
+  // console.log(courses);
+  res.render("auth/register", { title: "User Registration", course: courses });
 });
 router.get("/request/password/reset", (req, res) => {
   res.render("auth/requestPasswordReset", { title: "PASSWORD RESET PAGE" });
@@ -33,6 +39,9 @@ router.get("/resend/otp", (req, res) => {
 });
 router.get("/verify/email", (req, res) => {
   res.render("auth/verifyEmail", { title: "RESET " });
+});
+router.get("/reset/password/email/sent", (req, res) => {
+  res.render("auth/resetEmail", { title: "RESET " });
 });
 router.get("/login", isLoggedIn, (req, res) => {
   res.render("auth/login", { title: "User Login" });

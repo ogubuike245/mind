@@ -2,7 +2,7 @@
   <%- include('./partials/head.ejs') %>
   <body>
     <%- include('./partials/navbar.ejs') %>
-    <h1>HOME PAGE</h1>
+    <h1>WELCOME TO GUBALT</h1>
 
     <% if (locals.user) { %>
     <h1>SELECTED COURSES</h1>
@@ -11,7 +11,7 @@
 
     <div>
       <button>
-        <a href="/api/v1/course/details/<%= course.title %>"
+        <a href="/api/v1/course/details/<%= course.code %>"
           ><%= course.title %></a
         >
       </button>

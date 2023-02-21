@@ -11,9 +11,9 @@ exports.uploadDocumentPage = async (request, response) => {
 
 exports.uploadDocument = async (request, response) => {
   try {
-    const { title, description, heading, type } = request.body;
-    const course = await Course.findOne({ title: title });
-    console.log(request.file);
+    const { title, code, description, heading, type } = request.body;
+    const course = await Course.findOne({ code: code });
+    // console.log(request.file);
 
     // If the course is not found, return a 404 error message
     if (!course) {
@@ -34,6 +34,7 @@ exports.uploadDocument = async (request, response) => {
       type,
       description,
       title,
+      course: course._id,
       password: hashedPassword,
     });
 
@@ -43,13 +44,14 @@ exports.uploadDocument = async (request, response) => {
     // Save the document to the database
     const savedDocument = await newDoc.save();
     // Add the saved document to the course
+
     course.documents.push(savedDocument._id);
     await course.save();
 
     // Redirect the user to the course details page
     response.status(200).json({
       success: "Select File to Upload",
-      redirect: `/api/v1/course/details/${newDoc.title}`,
+      redirect: `/api/v1/course/details/${code}`,
     });
   } catch (err) {
     // Log the error to the console
@@ -80,7 +82,7 @@ exports.downloadDocument = async (request, response) => {
     if (file.password) {
       if (!request.body.password)
         // If the password was not provided, render the download page with the file information
-        return response.render("download", { title: "DOWNLOAD", file });
+        return response.render("course/download", { title: "DOWNLOAD", file });
 
       const passwordMatch = await bcrypt.compare(
         request.body.password,
@@ -88,7 +90,7 @@ exports.downloadDocument = async (request, response) => {
       );
       if (!passwordMatch)
         // If the password doesn't match, render the download page with an error message
-        return response.render("download", {
+        return response.render("course/download", {
           error: "incorrect password",
           title: "DOWNLOAD",
           file,

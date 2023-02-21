@@ -31,7 +31,7 @@ const router = express.Router();
 router.get("/upload", checkAdmin, uploadDocumentPage);
 router.get("/create", checkAdmin, createCoursePage);
 router.get("/download/:id", downloadDocumentPage);
-router.get("/details/:title", courseDetailsPage);
+router.get("/details/:code", courseDetailsPage);
 router.get("/document/:id", documentDetailsPage);
 router.get("/edit/:id", editCoursePage);
 router.get("/document/edit/:id", editDocumentPage);

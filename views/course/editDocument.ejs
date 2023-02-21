@@ -3,39 +3,65 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/navbar.ejs') %>
-    <h1>Edit Course</h1>
-    <form method="POST" action="/api/v1/course/document/edit">
-      <input type="hidden" name="id" value="<%= document._id %>" />
 
-      <div>
-        <label>Title:</label>
-        <input type="text" name="title" value="<%= document.title %>" />
-      </div>
-      <div>
-        <label>Heading:</label>
-        <input type="text" name="heading" value="<%= document.heading %>" />
-      </div>
-      <div>
-        <label>Description:</label>
-        <textarea name="description"><%= document.description %></textarea>
-      </div>
-      <div>
-        <label for="type">TYPE OF DOCUMENT :</label>
-        <select name="type" id="type">
-          <option value="default" disabled selected hidden>
-            <%= document.type %>
-          </option>
+    <div class="container">
+      <form
+        method="post"
+        action="/api/v1/course/document/edit"
+        class="container__login"
+      >
+        <h1>Edit Document Info</h1>
+        <input type="hidden" name="id" value="<%= document._id %>" />
+        <div class="form-group">
+          <label>Course Title:</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            required
+            placeholder="Course title:"
+            value="<%= document.title %>"
+          />
+        </div>
 
-          <option value="assignment">assignment</option>
-          <option value="note">note</option>
-          <option value="aoc">aoc</option>
-          <option value="practical">practical</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label>Heading:</label>
+          <input
+            type="text"
+            name="heading"
+            id="heading"
+            required
+            placeholder="Course Code:"
+            value="<%= document.heading %>"
+          />
+        </div>
+        <div class="form-group">
+          <label>Description:</label>
+          <input
+            type="text"
+            name="description"
+            id="description"
+            required
+            placeholder="Course Description:"
+            value="<%= document.description %>"
+          />
+        </div>
 
-      <div>
-        <button type="submit">Update Document</button>
-      </div>
-    </form>
+        <div class="form-group">
+          <select name="type" id="type">
+            <option value="<%= document.type %>" selected hidden>
+              <%= document.type %>
+            </option>
+
+            <option value="assignment">assignment</option>
+            <option value="note">note</option>
+            <option value="aoc">aoc</option>
+            <option value="practical">practical</option>
+          </select>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   </body>
 </html>

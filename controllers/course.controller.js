@@ -7,11 +7,12 @@ exports.createCoursePage = async (req, res) => {
 };
 exports.createCourse = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, code } = req.body;
 
     const course = new Course({
-      title,
+      code,
       description,
+      title,
     });
 
     await course.save();
@@ -40,11 +41,11 @@ exports.editCoursePage = async (req, res) => {
 
 exports.editCourse = async (req, res) => {
   try {
-    const { id, title, description } = req.body;
+    const { id, title, description, code } = req.body;
 
     await Course.findOneAndUpdate(
       { _id: id },
-      { title, description, updated_at: Date.now() }
+      { title, description, code, updated_at: Date.now() }
     );
 
     res.render("success", {
@@ -74,13 +75,13 @@ exports.deleteCourse = async (req, res) => {
 };
 
 exports.courseDetailsPage = async (req, res) => {
-  const { title } = req.params;
+  const { code } = req.params;
 
-  const course = await Course.findOne({ title: title })
+  const course = await Course.findOne({ code: code })
     .populate("documents")
     .populate("registeredUsers");
 
-  res.render("course/course", { title: " COURSE DETAILS", course });
+  res.render("course/index", { title: " COURSE DETAILS", course });
 };
 
 // Display all courses

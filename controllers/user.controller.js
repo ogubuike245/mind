@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const courses = await Course.find({
-      title: { $in: selectedCourses },
+      code: { $in: selectedCourses },
     });
     const courseIds = courses.map((course) => course._id);
 
@@ -66,7 +66,7 @@ exports.requestPasswordReset = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user) {
-      res.redirect(`/api/v1/user/password/reset/${email}`);
+      res.redirect(`/api/v1/user/reset/password/email/sent`);
       //SEND OTP TO EMAIL AND LINK TO REDIRECT USER TO PASSWORD RESET PAGE
       // ALTERNATIVE IS TO SEND OTP TO PHONE NUMBER
     } else {

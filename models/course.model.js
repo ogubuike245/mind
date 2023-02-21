@@ -7,6 +7,12 @@ const CourseSchema = new mongoose.Schema({
     // enum: ["biology", "chemistry", "physics"],
     unique: true,
   },
+  code: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
   description: {
     type: String,
     required: true,
