@@ -28,8 +28,8 @@ exports.submitDocumentPage = async (req, res) => {
 exports.submitDocument = async (req, response) => {
   try {
     // Get the file details
-
-    const { originalName, path } = req.file;
+    const path = req.file.path;
+    const originalName = req.file.originalname;
 
     // Get the document ID from the request body
     const { id } = req.body;

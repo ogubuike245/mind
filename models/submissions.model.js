@@ -22,6 +22,7 @@ const SubmissionSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Document",
+      unique: true,
     },
   ],
   created_at: {

@@ -53,7 +53,16 @@ router.get("/dashboard", checkAdmin, async (req, res) => {
     .populate("documents")
     .populate("registeredUsers");
   const users = await User.find().populate("submissions");
-  const documents = await Document.find().populate("submissions");
+  const documents = await Document.find()
+    .populate("downloadedBy")
+    .populate("submissions");
+
+  courses.forEach((course) => {
+    const test = course.documents;
+    test.forEach((doc) => {
+      console.log(doc.title);
+    });
+  });
 
   const usersByDate = await User.aggregate([
     {

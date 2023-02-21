@@ -13,6 +13,8 @@ const chartData = courses.map((course) => {
   const users = course.registeredUsers;
   const uploads = course.documents;
 
+  const downloads = course.documents;
+
   // Get number of users registered per course
   const numUsersRegistered = users.length;
 

@@ -18,6 +18,13 @@
     <h1>DISPLAY ALL COURSES INFORMATION</h1>
     <h1>DISPLAY ALL SUBMISSIONS INFORMATION</h1>
 
+    <% documents.forEach(element => { %>
+
+    <h4>downloadedBy -- <%= element.downloadedBy %></h4>
+
+    <h4>submissions --- <%= element.submissions %></h4>
+    <% }) %>
+
     <h1>DISPLAY SITE INFORMATION AND ANALYTICS BELOW IN CHARTS</h1>
 
     <div class="chart-container">
