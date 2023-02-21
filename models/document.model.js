@@ -40,12 +40,12 @@ const DocumentSchema = new mongoose.Schema({
     default: 0,
   },
 
-  downloadedBy: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+  downloadedBy: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
+    unique: true,
+  },
+
   submissions: [
     {
       type: mongoose.Schema.Types.ObjectId,

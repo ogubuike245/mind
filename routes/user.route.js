@@ -72,7 +72,7 @@ router.get("/dashboard", checkAdmin, async (req, res) => {
 
   // Process the data as needed and pass it to the view
   res.render("user/dashboard", {
-    title: "Chart Page",
+    title: "Dashboard",
     courses,
     users,
     documents,

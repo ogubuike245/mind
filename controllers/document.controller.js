@@ -4,6 +4,8 @@ const Course = require("../models/course.model");
 const User = require("../models/user.model");
 const Submission = require("../models/submissions.model");
 
+// const { Document, Submission, User, Course } = require("../models");
+
 exports.uploadDocumentPage = async (request, response) => {
   const course = await Course.find();
   response.render("course/upload", { title: "UPLOAD DOCUMENT", course });
@@ -70,7 +72,7 @@ exports.downloadDocumentPage = async (req, res) => {
 exports.downloadDocument = async (request, response) => {
   try {
     // Find the document by its ID
-    const file = await Document.findById(request.params.id);
+    const file = await Document.findById(request.params.id).populate("course");
 
     // Find the user who requested the download
     const user = await User.findById(request.user);
@@ -98,19 +100,25 @@ exports.downloadDocument = async (request, response) => {
     }
 
     // Update the download information for the file
-    file.downloadedBy.push(user._id);
-    file.downloadCount++;
+    const hasUserDownloadedFile = file.downloadedBy.includes(user._id);
+    if (!hasUserDownloadedFile) {
+      file.downloadedBy.push(user._id);
+      file.downloadCount++;
+    }
     await file.save();
 
     // Update the download information for the user
-    user.downloads.push(file._id);
-    await user.save();
+    const hasFileBeenDownloadedByUser = user.downloads.includes(file._id);
+    if (!hasFileBeenDownloadedByUser) {
+      user.downloads.push(file._id);
+      await user.save();
+    }
 
     // Download the file
-    response.download(file.path, file.originalName);
+    await response.download(file.path, file.originalName);
 
     // Redirect to the course details page
-    response.redirect(`/api/v1/course/details/${file.title}`);
+    response.redirect(`/api/v1/course/details/${file.course.code}`);
   } catch (err) {
     // Log the error
     console.log(err);
@@ -122,35 +130,41 @@ exports.downloadDocument = async (request, response) => {
 
 // VIEW DOCUMENT DETAILS
 
-exports.documentDetailsPage = async (request, response) => {
-  const { id } = request.params;
-  try {
-    const content = await Document.findById(id);
+exports.documentDetailsPage = async (req, res) => {
+  const { id } = req.params;
 
-    if (request.user.role === "admin") {
-      // If the user is an admin, find all submissions for the current document
+  try {
+    // If the user is an admin, find all submissions for the current document
+    if (req.user.role === "admin") {
+      const document = await Document.findById(id)
+        .populate("downloadedBy")
+        .populate("submissions");
+
       const submissions = await Submission.find({
-        documentSubmittedTo: content._id,
+        documentSubmittedTo: document._id,
       })
         .populate("submittedBy")
         .populate("documentSubmittedTo");
 
       // Render the document details page, passing the document and the submission/submissions to the template
-      response.render("course/document", {
-        document: content,
-        submissions: submissions,
-        title: "DOCUMENT DETAIL",
+      res.render("course/document", {
+        title: "Document info",
+        document,
+        submissions,
       });
     } else {
       // If the user is not an admin, find their submission (if any) for the current document
-      // Render the document details page, passing the document and the submission/submissions to the template
-      response.render("course/document", {
-        document: content,
+      const document = await Document.findById(id);
+
+      // Render the document details page, passing the document to the template
+      res.render("course/document", {
         title: "DOCUMENT DETAIL",
+        document,
       });
     }
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
 };
 

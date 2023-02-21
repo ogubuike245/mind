@@ -33,19 +33,22 @@ const UserSchema = new mongoose.Schema({
   },
   selectedCourses: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: [mongoose.Schema.Types.ObjectId],
+      unique: true,
       ref: "Course",
     },
   ],
   downloads: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: [mongoose.Schema.Types.ObjectId],
+      unique: true,
       ref: "Document",
     },
   ],
   submissions: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: [mongoose.Schema.Types.ObjectId],
+      unique: true,
       ref: "Submission",
     },
   ],

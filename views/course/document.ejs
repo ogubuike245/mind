@@ -6,7 +6,11 @@
 
     <div>
       <h3>DOWNLOADED BY:</h3>
-      <h1><%= document.downloadedBy %></h1>
+
+      <% document.downloadedBy.forEach(element => { %>
+      <h1><%= element.firstName %></h1>
+      <h1><%= element.email %></h1>
+      <% }) %>
       <h3>ID:</h3>
       <h1><%= document._id %></h1>
       <h3>HEADING:</h3>
