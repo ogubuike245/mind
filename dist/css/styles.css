@@ -1,22 +1,22 @@
 @font-face {
   font-family: JosefinSans_Bold;
-  src: url("fonts/JosefinSans-Bold.ttf");
+  src: url("../../fonts/JosefinSans-Bold.ttf");
 }
 @font-face {
   font-family: JosefinSans_Light;
-  src: url("fonts/JosefinSans-Light.ttf");
+  src: url("../../fonts/JosefinSans-Light.ttf");
 }
 @font-face {
   font-family: JosefinSans_Medium;
-  src: url("fonts/JosefinSans-Medium.ttf");
+  src: url("../../fonts/JosefinSans-Medium.ttf");
 }
 @font-face {
   font-family: JosefinSans_Regular;
-  src: url("fonts/JosefinSans-Regular.ttf");
+  src: url("../../fonts/JosefinSans-Regular.ttf");
 }
 @font-face {
   font-family: JosefinSans_Thin;
-  src: url("fonts/JosefinSans-Thin.ttf");
+  src: url("../../fonts/JosefinSans-Thin.ttf");
 }
 :root {
   --JosefinSans_Bold: JosefinSans_Bold;
@@ -26,8 +26,11 @@
   --JosefinSans_Light: JosefinSans_Light;
 }
 
+* {
+  font-family: var(--JosefinSans_Light);
+}
+
 body {
-  font-family: Arial, sans-serif;
   background-color: hsl(184deg, 26%, 55%);
 }
 
@@ -103,7 +106,6 @@ a:hover {
   color: #2ecc71;
 }
 .container__login, .container__register {
-  font-family: "Nunito Sans", sans-serif;
   background: #ffffff;
   height: 100%;
   width: 300px;
@@ -239,6 +241,58 @@ a:hover {
 .container__register .search-box {
   width: 95%;
   margin: auto;
+}
+
+.home__container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.home__card {
+  cursor: pointer;
+  padding: 2rem;
+  background: whitesmoke;
+  width: 250px;
+}
+
+.coursedetails__container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.document-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.document-wrapper {
+  padding: 2rem;
+  background: whitesmoke;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.document-wrapper button {
+  width: 80%;
+  background-color: #2ecc71;
+  color: #ffffff !important;
+  border: none;
+  padding: 10px;
+  margin: auto;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.document-wrapper button:hover {
+  background-color: #27ae60;
+}
+.document-wrapper button a {
+  color: #ffffff !important;
 }
 
 canvas {

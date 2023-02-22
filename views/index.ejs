@@ -7,15 +7,19 @@
     <% if (locals.user) { %>
     <h1>SELECTED COURSES</h1>
 
-    <% for (const course of locals.selectedCourses) { %>
+    <div class="home__container">
+      <% for (const course of locals.selectedCourses) { %>
 
-    <div>
-      <button>
-        <a href="/api/v1/course/details/<%= course.code %>"
-          ><%= course.title %></a
-        >
-      </button>
+      <div class="home__card">
+        <a href="/api/v1/course/details/<%= course.code %>">
+          <div>
+            <%= course.title %>
+            <p><%= course.code %></p>
+          </div>
+        </a>
+        <i class="fa fa-book" aria-hidden="true"></i>
+      </div>
+      <% } %> <% } %>
     </div>
-    <% } %> <% } %>
   </body>
 </html>

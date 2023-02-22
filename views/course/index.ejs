@@ -2,47 +2,58 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/navbar.ejs') %>
-    <h1>COURSE MATERIALS</h1>
-    <p>COURSE TITLE: <%= course.title %></p>
-    <p>COURSE DESCRIPTION: <%= course.description %></p>
-    <% if (locals.user.role === "admin") { %>
-    <button class="edit">
-      <a href="/api/v1/course/edit/<%= course._id %>">EDIT COURSE DETAILS</a>
-    </button>
-    <button class="delete" data-doc="<%= course._id %>">DELETE COURSE</button>
-    <% } %>
 
-    <p>COURSE MATERIALS:</p>
-    <h1>DOCUMENTS</h1>
-    <p><%= course.documents.title %></p>
-
-    <% for (let i = 0; i < course.documents.length; i++) { %> <% let document =
-    course.documents[i]; %>
-    <p>Document Title: <%= document.title %></p>
-    <p>Document Description: <%= document.description %></p>
-    <p>Document Type: <%= document.type %></p>
-    <div>
-      <a href="/api/v1/course/document/<%= document._id %>">VIEW DOCUMENT</a>
+    <div class="coursedetails__container">
+      <div class="document-wrapper">
+        <h1>COURSE INFO</h1>
+        <p>COURSE TITLE: <%= course.title %></p>
+        <p>COURSE DESCRIPTION: <%= course.description %></p>
+        <% if (locals.user.role === "admin") { %>
+        <button>
+          <a href="/api/v1/course/edit/<%= course._id %>"
+            >EDIT COURSE DETAILS</a
+          >
+        </button>
+        <button data-doc="<%= course._id %>">DELETE COURSE</button>
+        <% } %>
+      </div>
     </div>
-    <div>
-      <% if (locals.user.role === "admin") { %>
-      <button class="edit">
-        <a href="/api/v1/course/document/edit/<%= document._id %>"
-          >EDIT DOCUMENT</a
-        >
-      </button>
-      <button class="delete" data-doc="<%= document._id %>">
-        DELETE DOCUMENT
-      </button>
+
+    <h1>COURSE MATERIALS:</h1>
+
+    <div class="document-container">
+      <% for (let i = 0; i < course.documents.length; i++) { %> <% let document
+      = course.documents[i]; %>
+      <div class="document-wrapper">
+        <p>Document Title: <%= document.title %></p>
+        <p>Document Description: <%= document.description %></p>
+        <p>Document Type: <%= document.type %></p>
+        <div>
+          <a href="/api/v1/course/document/<%= document._id %>"
+            >VIEW DOCUMENT</a
+          >
+        </div>
+        <div>
+          <% if (locals.user.role === "admin") { %>
+          <button class="edit">
+            <a href="/api/v1/course/document/edit/<%= document._id %>"
+              >EDIT DOCUMENT</a
+            >
+          </button>
+          <button class="delete" data-doc="<%= document._id %>">
+            DELETE DOCUMENT
+          </button>
+          <% } %>
+        </div>
+        <div>
+          <a href="/api/v1/course/download/<%= document._id %>"
+            >DOWNLOAD DOCUMENT</a
+          >
+        </div>
+      </div>
       <% } %>
     </div>
-    <div>
-      <a href="/api/v1/course/download/<%= document._id %>"
-        >DOWNLOAD DOCUMENT</a
-      >
-    </div>
-
-    <% } %> <% if (locals.user.role === "admin") { %>
+    <% if (locals.user.role === "admin") { %>
     <h1>REGISTERED USERS</h1>
 
     <p><%= course.registeredUsers.email %></p>
