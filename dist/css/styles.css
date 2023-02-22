@@ -254,6 +254,7 @@ a:hover {
   padding: 2rem;
   background: whitesmoke;
   width: 250px;
+  border-radius: 9999px;
 }
 
 .coursedetails__container {
@@ -276,6 +277,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  border-radius: 10px;
 }
 .document-wrapper button {
   width: 80%;
