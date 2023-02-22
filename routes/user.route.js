@@ -23,8 +23,8 @@ const router = express.Router();
 
 // GET ROUTES
 router.get("/register", isLoggedIn, async (req, res) => {
-  const courses = await Course.find();
-  // console.log(courses);
+  const courses = await Course.find().sort({ title: 1 });
+
   res.render("auth/register", { title: "User Registration", course: courses });
 });
 router.get("/request/password/reset", (req, res) => {
@@ -50,18 +50,18 @@ router.get("/profile/:id", userProfile);
 
 router.get("/dashboard", checkAdmin, async (req, res) => {
   const courses = await Course.find()
+    .sort({ title: 1 })
     .populate("documents")
     .populate("registeredUsers");
+
   const users = await User.find().populate("submissions");
   const documents = await Document.find()
+    .populate("course")
     .populate("downloadedBy")
     .populate("submissions");
 
-  courses.forEach((course) => {
-    const test = course.documents;
-    test.forEach((doc) => {
-      console.log(doc.title);
-    });
+  documents.forEach((doc) => {
+    console.log("DOCUMENT:", doc.course, doc.downloadedBy);
   });
 
   const usersByDate = await User.aggregate([

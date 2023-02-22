@@ -24,7 +24,9 @@
           <select name="code" id="code">
             <option value="default" disabled selected>Course code</option>
             <% course.forEach(element => { %>
-            <option value="<%= element.code %>"><%= element.code %></option>
+            <option value="<%= element.code %>">
+              <%= element.title %> : <%= element.code %>
+            </option>
             <% }) %>
           </select>
         </div>

@@ -3,11 +3,12 @@ const Document = require("../models/document.model");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
 const Submission = require("../models/submissions.model");
+const { handleErrors } = require("../utils/errorHandling.utils");
 
 // const { Document, Submission, User, Course } = require("../models");
 
 exports.uploadDocumentPage = async (request, response) => {
-  const course = await Course.find();
+  const course = await Course.find().sort({ title: 1 });
   response.render("course/upload", { title: "UPLOAD DOCUMENT", course });
 };
 
@@ -38,6 +39,7 @@ exports.uploadDocument = async (request, response) => {
       title,
       course: course._id,
       password: hashedPassword,
+      downloadedBy: [],
     });
 
     // Generate a download link for the document
@@ -52,14 +54,15 @@ exports.uploadDocument = async (request, response) => {
 
     // Redirect the user to the course details page
     response.status(200).json({
-      success: "Select File to Upload",
+      success: true,
       redirect: `/api/v1/course/details/${code}`,
     });
   } catch (err) {
     // Log the error to the console
     console.log(err);
     // Render an error page
-    response.status(400).json({ error: err });
+    // response.status(400).json({ error: err });
+    handleErrors(err, response);
   }
 };
 

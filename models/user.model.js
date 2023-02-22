@@ -12,8 +12,10 @@ const UserSchema = new mongoose.Schema({
   registrationNumber: {
     type: String,
     required: true,
+    unique: true,
   },
   phoneNumber: {
+    unique: true,
     type: String,
     required: true,
   },
@@ -35,21 +37,18 @@ const UserSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
-      unique: true,
     },
   ],
   downloads: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Document",
-      unique: true,
     },
   ],
   submissions: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Submission",
-      unique: true,
     },
   ],
   created_at: {

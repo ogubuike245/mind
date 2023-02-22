@@ -1,6 +1,7 @@
 const Document = require("../models/document.model");
 const Submission = require("../models/submissions.model");
 const User = require("../models/user.model");
+const { handleErrors } = require("../utils/errorHandling.utils");
 // const { handleErrors } = require("../utils/errorHandling.utils");
 
 exports.submitDocumentPage = async (req, res) => {
@@ -95,6 +96,6 @@ exports.submitDocument = async (req, response) => {
   } catch (err) {
     // Log the error to the console
     console.log(err);
-    // handleErrors(err, response);
+    handleErrors(err, response);
   }
 };

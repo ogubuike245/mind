@@ -4,7 +4,7 @@ const handleErrors = (error, res) => {
     // If it is, extract the error messages from each validation error and send them back to the client
     const errors = Object.values(error.errors) // Get an array of all the errors
       .map((err) => err.message); // Map over the array and extract the error message for each error
-    return res.status(400).json({ error: error }); // Send the error messages back to the client
+    return res.status(400).json({ error: errors }); // Send the error messages back to the client
   }
 
   // Check if the error is a duplicate key error

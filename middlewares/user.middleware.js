@@ -8,6 +8,7 @@ const checkForLoggedInUser = async (request, res, next) => {
   try {
     const token = request.cookies.jwt;
     if (!token) return next();
+    // if (!token) return next();
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decodedToken.id).lean();
@@ -15,7 +16,9 @@ const checkForLoggedInUser = async (request, res, next) => {
 
     const selectedCourses = await Course.find({
       _id: { $in: user.selectedCourses },
-    }).lean();
+    })
+      .sort({ title: 1 })
+      .lean();
 
     request.user = res.locals.user = user;
     request.selectedCourses = res.locals.selectedCourses = selectedCourses;
@@ -42,7 +45,7 @@ const isLoggedIn = (request, response, next) => {
 const checkAdmin = async (request, response, next) => {
   const user = await request.user;
 
-  console.log(user);
+  // console.log(user);
   if (!user) {
     return response.redirect("/");
   } else if (user.role !== "admin") {

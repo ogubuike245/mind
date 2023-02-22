@@ -3,7 +3,8 @@
   <body>
     <%- include('../partials/navbar.ejs') %>
 
-    <h1>CHART PAGE</h1>
+    <h1><%= documents.course %></h1>
+    <h1>DashBoard</h1>
 
     <h1>ALL COURSES TITLE</h1>
 
@@ -17,12 +18,15 @@
 
     <h1>DISPLAY ALL COURSES INFORMATION</h1>
     <h1>DISPLAY ALL SUBMISSIONS INFORMATION</h1>
+    <h1>DISPLAY ALL DOWNLOADEDBY INFORMATION</h1>
 
     <% documents.forEach(element => { %>
 
+    <h4>course -- <%= element.title %></h4>
+    <h4>type -- <%= element.type %></h4>
     <h4>downloadedBy -- <%= element.downloadedBy %></h4>
+    <h4>submissions -- <%= element.submissions %></h4>
 
-    <h4>submissions --- <%= element.submissions %></h4>
     <% }) %>
 
     <h1>DISPLAY SITE INFORMATION AND ANALYTICS BELOW IN CHARTS</h1>
@@ -44,6 +48,7 @@
 
     <script>
       window.courses = <%- JSON.stringify(courses) %>;
+
       window.users = <%- JSON.stringify(users) %>;
       window.usersByDate = <%- JSON.stringify(usersByDate) %>;
     </script>

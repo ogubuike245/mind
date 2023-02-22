@@ -33,7 +33,11 @@ exports.register = async (req, res) => {
     });
     const courseIds = courses.map((course) => course._id);
 
-    const user = await User.findOne({ email });
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      throw new Error(`A user with the email already exists.`);
+    }
 
     const newUser = new User({
       firstName,
@@ -155,7 +159,7 @@ exports.userProfile = async (req, res) => {
 
     const selectedCourses = await Course.find({
       _id: { $in: user.selectedCourses },
-    });
+    }).sort({ title: 1 });
 
     res.render("user/profile", {
       name: user.name,
@@ -187,3 +191,52 @@ exports.userLogout = async (req, res) => {
   res.clearCookie("jwt");
   res.redirect("/");
 };
+
+// // register
+// // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
+// exports.register = async (req, res) => {
+//   try {
+//     const {
+//       email,
+//       password,
+//       // selectedCourses,
+//       firstName,
+//       lastName,
+//       registrationNumber,
+//       phoneNumber,
+//     } = req.body;
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // const courses = await Course.find({
+//     //   code: { $in: selectedCourses },
+//     // });
+//     // const courseIds = courses.map((course) => course._id);
+
+//     const existingUser = await User.findOne({ email });
+
+//     if (existingUser) {
+//       throw new Error(`A user with the email already exists.`);
+//     }
+
+//     const newUser = new User({
+//       firstName,
+//       lastName,
+//       registrationNumber,
+//       phoneNumber,
+//       email,
+//       password: hashedPassword,
+//       // selectedCourses: courseIds,
+//     });
+//     const savedUser = await newUser.save();
+
+//     // for (const courseId of courseIds) {
+//     //   const course = await Course.findById(courseId);
+//     //   course.registeredUsers.push(savedUser._id);
+//     //   await course.save();
+//     // }
+
+//     res.redirect("/api/v1/user/login");
+//   } catch (err) {
+//     handleErrors(err, res);
+//   }
+// };

@@ -1,0 +1,253 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: hsl(184, 26%, 55%);
+}
+h1 {
+  text-align: center;
+  margin-top: 50px;
+}
+
+input[type="checkbox"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  // background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+.container {
+  display: grid;
+  place-items: center;
+}
+
+//navbar styles
+.navbar {
+  background-color: hsl(184, 26%, 48%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+li {
+  margin: 0 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #2ecc71;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s ease;
+
+  &:hover {
+    color: rgb(29, 27, 27);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    height: auto;
+  }
+
+  ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  li {
+    margin: 10px 0;
+  }
+}
+
+//LOGIN STYLES
+
+.container {
+  select {
+    height: 20px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    color: #2ecc71;
+  }
+
+  &__login,
+  &__register {
+    font-family: "Nunito Sans", sans-serif;
+    background: #ffffff;
+    height: 100%;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 10px;
+    padding: 20px;
+
+    h1 {
+      text-align: left;
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #333333;
+    }
+    .link,
+    h1 {
+      text-align: left !important;
+    }
+    p {
+      display: flex;
+      gap: 0.5rem;
+      a {
+        color: #2ecc71;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #666666;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="number"],
+      input[type="file"],
+      input[type="password"] {
+        height: 20px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      input[type="checkbox"] {
+        appearance: none;
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid currentColor;
+        border-radius: 9999px;
+        transform: translateY(-0.075em);
+        display: grid;
+        place-content: center;
+
+        &:focus {
+          outline: max(2px, 0.15em) solid currentColor;
+          outline-offset: max(2px, 0.15em);
+        }
+
+        &::before {
+          content: "";
+          width: 0.65em;
+          height: 0.65em;
+          transform: scale(0);
+          transition: 120ms transform ease-in-out;
+          box-shadow: inset 1em 1em var(--form-control-color);
+          background-color: CanvasText;
+          transform-origin: bottom left;
+          clip-path: polygon(
+            14% 44%,
+            0 65%,
+            50% 100%,
+            100% 16%,
+            80% 0%,
+            43% 62%
+          );
+        }
+        &:checked::before {
+          transform: scale(1);
+        }
+      }
+    }
+
+    button[type="submit"] {
+      width: 80%;
+      background-color: #2ecc71;
+      color: #ffffff;
+      border: none;
+      padding: 10px;
+      margin: auto;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #27ae60;
+      }
+    }
+  }
+
+  &__register {
+    width: 380px;
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      border-radius: 10px;
+
+      div {
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+        height: 40px;
+
+        input {
+          height: 100px;
+        }
+      }
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 10px;
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+    }
+
+    .search-box {
+      width: 95%;
+      margin: auto;
+    }
+  }
+}
+
+// homepage styles
+
+// dashboard styles
+canvas {
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
+}
+
+.chart-container {
+  position: relative;
+  height: 100vh;
+  width: 80vw;
+  display: flex;
+}

@@ -1,3 +1,31 @@
+@font-face {
+  font-family: JosefinSans_Bold;
+  src: url("fonts/JosefinSans-Bold.ttf");
+}
+@font-face {
+  font-family: JosefinSans_Light;
+  src: url("fonts/JosefinSans-Light.ttf");
+}
+@font-face {
+  font-family: JosefinSans_Medium;
+  src: url("fonts/JosefinSans-Medium.ttf");
+}
+@font-face {
+  font-family: JosefinSans_Regular;
+  src: url("fonts/JosefinSans-Regular.ttf");
+}
+@font-face {
+  font-family: JosefinSans_Thin;
+  src: url("fonts/JosefinSans-Thin.ttf");
+}
+:root {
+  --JosefinSans_Bold: JosefinSans_Bold;
+  --JosefinSans_Regular: JosefinSans_Regular;
+  --JosefinSans_Medium: JosefinSans_Medium;
+  --JosefinSans_Thin: JosefinSans_Thin;
+  --JosefinSans_Light: JosefinSans_Light;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: hsl(184deg, 26%, 55%);
@@ -14,7 +42,6 @@ input[type=checkbox] {
   -moz-appearance: none;
        appearance: none;
   /* For iOS < 15 to remove gradient background */
-  background-color: #fff;
   /* Not removed via appearance */
   margin: 0;
 }
@@ -46,13 +73,13 @@ li {
 
 a {
   text-decoration: none;
-  color: white;
+  color: #2ecc71;
   font-size: 16px;
   font-weight: bold;
   transition: 0.3s ease;
 }
 a:hover {
-  color: red;
+  color: rgb(29, 27, 27);
 }
 
 @media (max-width: 768px) {
@@ -66,6 +93,14 @@ a:hover {
   li {
     margin: 10px 0;
   }
+}
+.container select {
+  height: 20px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  color: #2ecc71;
 }
 .container__login, .container__register {
   font-family: "Nunito Sans", sans-serif;
@@ -83,6 +118,18 @@ a:hover {
   margin-top: 0;
   margin-bottom: 20px;
   color: #333333;
+}
+.container__login .link,
+.container__login h1, .container__register .link,
+.container__register h1 {
+  text-align: left !important;
+}
+.container__login p, .container__register p {
+  display: flex;
+  gap: 0.5rem;
+}
+.container__login p a, .container__register p a {
+  color: #2ecc71;
 }
 .container__login .form-group, .container__register .form-group {
   display: flex;
@@ -107,13 +154,6 @@ a:hover {
   height: 20px;
   width: 100%;
   padding: 10px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-}
-.container__login .form-group select, .container__register .form-group select {
-  height: 20px;
-  width: 100%;
   border-radius: 5px;
   border: none;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
@@ -199,17 +239,6 @@ a:hover {
 .container__register .search-box {
   width: 95%;
   margin: auto;
-}
-.container .link,
-.container h1 {
-  text-align: left !important;
-}
-.container p {
-  display: flex;
-  gap: 0.5rem;
-}
-.container p a {
-  color: #2ecc71;
 }
 
 canvas {
