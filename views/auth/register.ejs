@@ -5,175 +5,73 @@
     <%- include('../partials/navbar.ejs') %>
 
     <div class="container">
-      <form
-        action="/api/v1/user/register"
-        method="post"
-        class="container__register"
-        autocomplete="off"
-      >
-        <h1>Create Account</h1>
+      <section>
+        <div class="form-box">
+          <div class="form-value">
+            <form
+              action="/api/v1/user/register"
+              method="post"
+              autocomplete="off"
+            >
+              <h2>Create Account</h2>
+              <div class="inputbox">
+                <i class="fa-regular fa-address-card"></i>
+                <input type="text" name="firstName" required />
+                <label for="">First Name</label>
+              </div>
+              <div class="inputbox">
+                <i class="fa-regular fa-address-card"></i>
+                <input type="text" name="lastName" required />
+                <label for="">Last Name</label>
+              </div>
+              <div class="inputbox">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <input type="email" name="email" required />
+                <label for="">Email</label>
+              </div>
+              <div class="inputbox">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" required />
+                <label for="">Password</label>
+              </div>
+              <div class="inputbox">
+                <i class="fa-solid fa-hashtag"></i>
+                <input type="text" name="registrationNumber" required />
+                <label for="">Registration Number</label>
+              </div>
+              <div class="inputbox">
+                <i class="fa-solid fa-phone"></i>
+                <input type="text" name="phoneNumber" required />
+                <label for="">Phone Number</label>
+              </div>
+              <div class="form-group">
+                <label for="selectedCourses">SELECT COURSE:</label>
+                <div class="courses-grid">
+                  <% course.forEach(element => { %>
+                  <div>
+                    <label for="<%= element.code %>"><%= element.code %></label>
+                    <input
+                      type="checkbox"
+                      id="selectedCourses"
+                      name="selectedCourses"
+                      value="<%= element.code %>"
+                    />
+                  </div>
+                  <% }) %>
+                </div>
+              </div>
 
-        <div class="link">
-          <p>Already a User? <a href="/api/v1/user/login">Log in </a></p>
-        </div>
-
-        <div class="form-group">
-          <div class="row">
-            <div>
-              <input
-                type="text"
-                name="firstName"
-                id="name"
-                required
-                placeholder="First name:"
-              /><i class="fa-regular fa-address-card"></i>
-            </div>
-            <div>
-              <input
-                type="text"
-                name="lastName"
-                id="name"
-                required
-                placeholder="Last name:"
-              /><i class="fa-regular fa-address-card"></i>
-            </div>
+              <button type="submit">Submit</button>
+              <div class="register">
+                <p>
+                  Already have an account?
+                  <a href="/api/v1/user/login">Login</a>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
-        <div class="form-group">
-          <div class="row">
-            <div>
-              <input
-                type="text"
-                name="registrationNumber"
-                id="name"
-                required
-                placeholder="Registration Number:"
-              />
-              <i class="fa-solid fa-hashtag"></i>
-            </div>
-
-            <div>
-              <input
-                type="number"
-                name="phoneNumber"
-                id="name"
-                required
-                placeholder="Phone Number:"
-              />
-              <i class="fa-solid fa-phone"></i>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                required
-                placeholder="Email:"
-              />
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-            </div>
-            <div>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                class="password"
-                required
-                placeholder="Password:"
-              />
-              <i class="fa-solid fa-lock"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group search-box">
-          <input
-            type="text"
-            id="courseSearch"
-            placeholder="Search for a course"
-          />
-        </div>
-
-        <div class="form-group">
-          <!-- <label for="selectedCourses">SELECT COURSE:</label> -->
-          <div class="courses-grid">
-            <% course.forEach(element => { %>
-            <div>
-              <label for="<%= element.code %>"><%= element.code %></label>
-              <input
-                type="checkbox"
-                id="selectedCourses"
-                name="selectedCourses"
-                value="<%= element.code %>"
-              />
-            </div>
-            <% }) %>
-          </div>
-        </div>
-
-        <button type="submit">Create Account</button>
-      </form>
+      </section>
     </div>
-  </body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="stylesheet" href="index.css" />
-    <title>HASH TECHIE OFFICIAL</title>
-  </head>
-  <body>
-    <section>
-      <div class="form-box">
-        <div class="form-value">
-          <form action="">
-            <h2>Create Account</h2>
-            <div class="inputbox">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" required />
-              <label for="">First Name</label>
-            </div>
-            <div class="inputbox">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" required />
-              <label for="">Last Name</label>
-            </div>
-            <div class="inputbox">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" required />
-              <label for="">Email</label>
-            </div>
-            <div class="inputbox">
-              <ion-icon name="lock-closed-outline"></ion-icon>
-              <input type="password" required />
-              <label for="">Password</label>
-            </div>
-            <div class="inputbox">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" required />
-              <label for="">Registration Number</label>
-            </div>
-            <div class="inputbox">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" required />
-              <label for="">Phone Number</label>
-            </div>
-
-            <div class="forget">
-              <label for=""> <a href="#">Forget Password?</a></label>
-            </div>
-            <button>Log in</button>
-            <div class="register">
-              <p>Don't have a account <a href="#">Register</a></p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
   </body>
 </html>

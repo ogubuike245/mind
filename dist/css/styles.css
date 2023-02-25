@@ -31,7 +31,9 @@
 }
 
 body {
-  background-color: hsl(184deg, 26%, 55%);
+  background: url("/images/background6.jpg") no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 h1 {
@@ -55,7 +57,7 @@ input[type=checkbox] {
 }
 
 .navbar {
-  background-color: hsl(184deg, 26%, 48%);
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,7 +84,7 @@ a {
   transition: 0.3s ease;
 }
 a:hover {
-  color: rgb(29, 27, 27);
+  color: rgb(247, 243, 243);
 }
 
 @media (max-width: 768px) {
@@ -303,14 +305,13 @@ section {
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background: url("background6.jpg") no-repeat;
-  background-position: center;
-  background-size: cover;
 }
 section .form-box {
   position: relative;
   width: 400px;
-  height: 450px;
+  height: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
@@ -320,10 +321,14 @@ section .form-box {
   justify-content: center;
   align-items: center;
 }
-section h2 {
+section h2,
+section p {
   font-size: 2em;
   color: #fff;
   text-align: center;
+}
+section p {
+  font-size: 0.7rem;
 }
 section .inputbox {
   position: relative;
@@ -355,7 +360,7 @@ section .inputbox input {
   padding: 0 35px 0 5px;
   color: #fff;
 }
-section .inputbox ion-icon {
+section .inputbox i {
   position: absolute;
   right: 8px;
   color: #fff;
@@ -389,6 +394,10 @@ section button {
   cursor: pointer;
   font-size: 1em;
   font-weight: 600;
+  transition: all 0.3s ease;
+}
+section button:hover {
+  background-color: #27ae60;
 }
 section .register {
   font-size: 0.9em;
@@ -403,6 +412,68 @@ section .register p a {
 }
 section .register p a:hover {
   text-decoration: underline;
+}
+section input:focus {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+section .courses-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 10px;
+}
+section .courses-grid div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+section .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+section .form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #666666;
+}
+section .form-group input[type=checkbox] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 9999px;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+section .form-group input[type=checkbox]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+section .form-group input[type=checkbox]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: CanvasText;
+  transform-origin: bottom left;
+  -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+          clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+section .form-group input[type=checkbox]:checked::before {
+  transform: scale(1);
 }
 
 canvas {
