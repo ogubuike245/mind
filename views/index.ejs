@@ -1,25 +1,51 @@
 <html>
   <%- include('./partials/head.ejs') %>
   <body>
-    <%- include('./partials/navbar.ejs') %>
-    <h1>WELCOME TO GUBALT SPIKES</h1>
-
-    <% if (locals.user) { %>
-    <h1>SELECTED COURSES</h1>
-
+    <% if (locals.user) { %> <%- include('./partials/navbar.ejs') %>
     <div class="home__container">
-      <% for (const course of locals.selectedCourses) { %>
-
-      <div class="home__card">
-        <a href="/api/v1/course/details/<%= course.code %>">
-          <div>
-            <%= course.title %>
-            <p><%= course.code %></p>
-          </div>
-        </a>
-        <i class="fa fa-book" aria-hidden="true"></i>
+      <div class="heading">
+        <h1>WELCOME TO GUBALT SPIKES</h1>
+        <h1>
+          SELECTED COURSES <i class="fa fa-registered" aria-hidden="true"></i>
+        </h1>
       </div>
-      <% } %> <% } %>
+
+      <div class="home__user-content">
+        <% for (const course of locals.selectedCourses) { %>
+
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">
+              <%= course.title %>[ <%= course.code %> ]
+            </h3>
+
+            <p class="card-description"><%= course.description %></p>
+            <div class="card-footer">
+              <a
+                href="/api/v1/course/details/<%= course.code %>"
+                class="card-link"
+              >
+                View Course <i class="fa fa-book" aria-hidden="true"></i
+              ></a>
+              <span class="card-date"><%= course.updated_at %></span>
+            </div>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
     </div>
+    <% } else { %>
+    <div class="home__container">
+      <div class="heading">
+        <h1>WELCOME TO GUBALT SPIKES</h1>
+        <button>
+          <a href="/api/v1/user/login">
+            Login to get Access to course Materials
+          </a>
+        </button>
+      </div>
+    </div>
+    <% } %>
   </body>
 </html>
