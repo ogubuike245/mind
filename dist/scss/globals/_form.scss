@@ -1,16 +1,9 @@
 .container {
-  select {
-    height: 20px;
-    width: 100%;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-    color: #2ecc71;
-  }
-
   &__upload,
-  &__edit,
-  &__create {
+  &__editCourse,
+  &__editDocument,
+  &__create,
+  &__submit {
     background: #ffffff;
     height: 100%;
     width: 300px;
@@ -25,9 +18,6 @@
       margin-top: 0;
       margin-bottom: 20px;
       color: #333333;
-    }
-    .link {
-      text-align: left !important;
     }
 
     .form-group {
@@ -53,6 +43,27 @@
         border-radius: 5px;
         border: none;
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+      }
+      input[type="file"]::-webkit-file-upload-button {
+        visibility: hidden;
+      }
+
+      input[type="file"]::before {
+        content: "Choose File";
+        display: inline-block;
+        background-color: #4caf50;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type="file"]:hover::before {
+        background-color: #3e8e41;
+      }
+
+      input[type="file"]:active::before {
+        background-color: #1e5631;
       }
 
       input[type="checkbox"] {
@@ -97,6 +108,14 @@
         }
       }
     }
+    select {
+      height: 20px;
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+      color: #2ecc71;
+    }
 
     button[type="submit"] {
       width: 80%;
@@ -112,44 +131,6 @@
       &:hover {
         background-color: #27ae60;
       }
-    }
-  }
-
-  &__register {
-    width: 380px;
-    .row {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      border-radius: 10px;
-
-      div {
-        display: flex;
-        align-items: center;
-        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-        height: 40px;
-
-        input {
-          height: 100px;
-        }
-      }
-    }
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, auto);
-      gap: 10px;
-
-      div {
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-    }
-
-    .search-box {
-      width: 95%;
-      margin: auto;
     }
   }
 }

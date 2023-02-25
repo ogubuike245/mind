@@ -9,16 +9,15 @@
         action="/api/v1/course/submission/document/<%= document._id %>/type/assignment"
         method="post"
         enctype="multipart/form-data"
-        class="container__login"
+        class="container__submit"
       >
         <h1>Submit Assignment for <%= document.title %></h1>
 
         <% if (isSubmitted) { %>
 
         <div class="form-group">
-          <input type="file" name="file" disabled />
+          <button disabled>Already Submitted</button>
         </div>
-        <button disabled>Already Submitted</button>
         <% } else { %>
         <input type="hidden" name="id" value="<%= document._id %>" />
         <div class="form-group">

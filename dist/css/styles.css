@@ -308,15 +308,7 @@ a:hover {
   display: flex;
 }
 
-.container select {
-  height: 20px;
-  width: 100%;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-  color: #2ecc71;
-}
-.container__upload, .container__edit, .container__create {
+.container__upload, .container__editCourse, .container__editDocument, .container__create, .container__submit {
   background: #ffffff;
   height: 100%;
   width: 300px;
@@ -326,22 +318,19 @@ a:hover {
   border-radius: 10px;
   padding: 20px;
 }
-.container__upload h1, .container__edit h1, .container__create h1 {
+.container__upload h1, .container__editCourse h1, .container__editDocument h1, .container__create h1, .container__submit h1 {
   text-align: left;
   margin-top: 0;
   margin-bottom: 20px;
   color: #333333;
 }
-.container__upload .link, .container__edit .link, .container__create .link {
-  text-align: left !important;
-}
-.container__upload .form-group, .container__edit .form-group, .container__create .form-group {
+.container__upload .form-group, .container__editCourse .form-group, .container__editDocument .form-group, .container__create .form-group, .container__submit .form-group {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
 }
-.container__upload .form-group label, .container__edit .form-group label, .container__create .form-group label {
+.container__upload .form-group label, .container__editCourse .form-group label, .container__editDocument .form-group label, .container__create .form-group label, .container__submit .form-group label {
   font-weight: bold;
   margin-bottom: 5px;
   color: #666666;
@@ -350,15 +339,23 @@ a:hover {
 .container__upload .form-group input[type=email],
 .container__upload .form-group input[type=number],
 .container__upload .form-group input[type=file],
-.container__upload .form-group input[type=password], .container__edit .form-group input[type=text],
-.container__edit .form-group input[type=email],
-.container__edit .form-group input[type=number],
-.container__edit .form-group input[type=file],
-.container__edit .form-group input[type=password], .container__create .form-group input[type=text],
+.container__upload .form-group input[type=password], .container__editCourse .form-group input[type=text],
+.container__editCourse .form-group input[type=email],
+.container__editCourse .form-group input[type=number],
+.container__editCourse .form-group input[type=file],
+.container__editCourse .form-group input[type=password], .container__editDocument .form-group input[type=text],
+.container__editDocument .form-group input[type=email],
+.container__editDocument .form-group input[type=number],
+.container__editDocument .form-group input[type=file],
+.container__editDocument .form-group input[type=password], .container__create .form-group input[type=text],
 .container__create .form-group input[type=email],
 .container__create .form-group input[type=number],
 .container__create .form-group input[type=file],
-.container__create .form-group input[type=password] {
+.container__create .form-group input[type=password], .container__submit .form-group input[type=text],
+.container__submit .form-group input[type=email],
+.container__submit .form-group input[type=number],
+.container__submit .form-group input[type=file],
+.container__submit .form-group input[type=password] {
   height: 20px;
   width: 100%;
   padding: 10px;
@@ -366,7 +363,25 @@ a:hover {
   border: none;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 }
-.container__upload .form-group input[type=checkbox], .container__edit .form-group input[type=checkbox], .container__create .form-group input[type=checkbox] {
+.container__upload .form-group input[type=file]::-webkit-file-upload-button, .container__editCourse .form-group input[type=file]::-webkit-file-upload-button, .container__editDocument .form-group input[type=file]::-webkit-file-upload-button, .container__create .form-group input[type=file]::-webkit-file-upload-button, .container__submit .form-group input[type=file]::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.container__upload .form-group input[type=file]::before, .container__editCourse .form-group input[type=file]::before, .container__editDocument .form-group input[type=file]::before, .container__create .form-group input[type=file]::before, .container__submit .form-group input[type=file]::before {
+  content: "Choose File";
+  display: inline-block;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.container__upload .form-group input[type=file]:hover::before, .container__editCourse .form-group input[type=file]:hover::before, .container__editDocument .form-group input[type=file]:hover::before, .container__create .form-group input[type=file]:hover::before, .container__submit .form-group input[type=file]:hover::before {
+  background-color: #3e8e41;
+}
+.container__upload .form-group input[type=file]:active::before, .container__editCourse .form-group input[type=file]:active::before, .container__editDocument .form-group input[type=file]:active::before, .container__create .form-group input[type=file]:active::before, .container__submit .form-group input[type=file]:active::before {
+  background-color: #1e5631;
+}
+.container__upload .form-group input[type=checkbox], .container__editCourse .form-group input[type=checkbox], .container__editDocument .form-group input[type=checkbox], .container__create .form-group input[type=checkbox], .container__submit .form-group input[type=checkbox] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -382,11 +397,11 @@ a:hover {
   display: grid;
   place-content: center;
 }
-.container__upload .form-group input[type=checkbox]:focus, .container__edit .form-group input[type=checkbox]:focus, .container__create .form-group input[type=checkbox]:focus {
+.container__upload .form-group input[type=checkbox]:focus, .container__editCourse .form-group input[type=checkbox]:focus, .container__editDocument .form-group input[type=checkbox]:focus, .container__create .form-group input[type=checkbox]:focus, .container__submit .form-group input[type=checkbox]:focus {
   outline: max(2px, 0.15em) solid currentColor;
   outline-offset: max(2px, 0.15em);
 }
-.container__upload .form-group input[type=checkbox]::before, .container__edit .form-group input[type=checkbox]::before, .container__create .form-group input[type=checkbox]::before {
+.container__upload .form-group input[type=checkbox]::before, .container__editCourse .form-group input[type=checkbox]::before, .container__editDocument .form-group input[type=checkbox]::before, .container__create .form-group input[type=checkbox]::before, .container__submit .form-group input[type=checkbox]::before {
   content: "";
   width: 0.65em;
   height: 0.65em;
@@ -398,10 +413,18 @@ a:hover {
   -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
           clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
-.container__upload .form-group input[type=checkbox]:checked::before, .container__edit .form-group input[type=checkbox]:checked::before, .container__create .form-group input[type=checkbox]:checked::before {
+.container__upload .form-group input[type=checkbox]:checked::before, .container__editCourse .form-group input[type=checkbox]:checked::before, .container__editDocument .form-group input[type=checkbox]:checked::before, .container__create .form-group input[type=checkbox]:checked::before, .container__submit .form-group input[type=checkbox]:checked::before {
   transform: scale(1);
 }
-.container__upload button[type=submit], .container__edit button[type=submit], .container__create button[type=submit] {
+.container__upload select, .container__editCourse select, .container__editDocument select, .container__create select, .container__submit select {
+  height: 20px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  color: #2ecc71;
+}
+.container__upload button[type=submit], .container__editCourse button[type=submit], .container__editDocument button[type=submit], .container__create button[type=submit], .container__submit button[type=submit] {
   width: 80%;
   background-color: #2ecc71;
   color: #ffffff;
@@ -412,41 +435,8 @@ a:hover {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.container__upload button[type=submit]:hover, .container__edit button[type=submit]:hover, .container__create button[type=submit]:hover {
+.container__upload button[type=submit]:hover, .container__editCourse button[type=submit]:hover, .container__editDocument button[type=submit]:hover, .container__create button[type=submit]:hover, .container__submit button[type=submit]:hover {
   background-color: #27ae60;
-}
-.container__register {
-  width: 380px;
-}
-.container__register .row {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  border-radius: 10px;
-}
-.container__register .row div {
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-  height: 40px;
-}
-.container__register .row div input {
-  height: 100px;
-}
-.container__register .courses-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, auto);
-  gap: 10px;
-}
-.container__register .courses-grid div {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.container__register .search-box {
-  width: 95%;
-  margin: auto;
 }
 
 .home__container {

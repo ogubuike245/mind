@@ -5,7 +5,11 @@
     <%- include('../partials/navbar.ejs') %>
 
     <div class="container">
-      <form method="post" action="/api/v1/course/edit" class="container__login">
+      <form
+        method="post"
+        action="/api/v1/course/edit"
+        class="container__editCourse"
+      >
         <h1>Edit Course Details</h1>
         <input type="hidden" name="id" value="<%= course._id %>" />
         <div class="form-group">
