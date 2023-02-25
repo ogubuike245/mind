@@ -1,0 +1,58 @@
+.home__container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  // border: 2px solid yellow;
+}
+.home__card {
+  cursor: pointer;
+  padding: 2rem;
+  background: whitesmoke;
+  width: 250px;
+  border-radius: 9999px;
+  // border: 2px solid red;
+}
+// course details styles
+
+.coursedetails__container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  // border: 2px solid yellow;
+}
+
+.document-container {
+  display: flex;
+  gap: 1rem;
+}
+.document-wrapper {
+  padding: 2rem;
+  background: whitesmoke;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 10px;
+
+  button {
+    width: 80%;
+    background-color: #2ecc71;
+    color: #ffffff !important;
+    border: none;
+    padding: 10px;
+    margin: auto;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #27ae60;
+    }
+
+    a {
+      color: #ffffff !important;
+    }
+  }
+}

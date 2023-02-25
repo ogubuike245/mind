@@ -31,6 +31,8 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
   background: url("/images/background6.jpg") no-repeat;
   background-position: center;
   background-size: cover;
@@ -49,6 +51,23 @@ input[type=checkbox] {
   /* For iOS < 15 to remove gradient background */
   /* Not removed via appearance */
   margin: 0;
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid transparent;
+  -webkit-text-fill-color: whitesmoke;
+  -webkit-box-shadow: 0 0 0px 1000px transparent;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .container {
@@ -99,70 +118,153 @@ a:hover {
     margin: 10px 0;
   }
 }
-.container select {
-  height: 20px;
+.auth-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   width: 100%;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-  color: #2ecc71;
 }
-.container__login, .container__register {
-  background: #ffffff;
+.auth-section .form-box {
+  position: relative;
+  width: 400px;
   height: 100%;
-  width: 300px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  -webkit-backdrop-filter: blur(15px);
+          backdrop-filter: blur(15px);
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  border-radius: 10px;
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
 }
-.container__login h1, .container__register h1 {
-  text-align: left;
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #333333;
+.auth-section .form-box h2,
+.auth-section .form-box p {
+  font-size: 2em;
+  color: #fff;
+  text-align: center;
 }
-.container__login .link,
-.container__login h1, .container__register .link,
-.container__register h1 {
-  text-align: left !important;
+.auth-section .form-box p {
+  font-size: 0.7rem;
 }
-.container__login p, .container__register p {
+.auth-section .form-box .inputbox {
+  position: relative;
+  margin: 30px 0;
+  width: 310px;
+  border-bottom: 2px solid #fff;
+}
+.auth-section .form-box .inputbox label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1em;
+  pointer-events: none;
+  transition: 0.5s;
+}
+.auth-section .form-box .inputbox input {
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 0 35px 0 5px;
+  color: #fff;
+}
+.auth-section .form-box .inputbox input:focus ~ label, .auth-section .form-box .inputbox input:valid ~ label {
+  top: -5px;
+}
+.auth-section .form-box .inputbox i {
+  position: absolute;
+  right: 8px;
+  color: #fff;
+  font-size: 1.2em;
+  top: 20px;
+}
+.auth-section .forgot {
+  margin: -15px 0 15px;
+  font-size: 0.9em;
+  color: #fff;
   display: flex;
-  gap: 0.5rem;
+  justify-content: space-between;
 }
-.container__login p a, .container__register p a {
-  color: #2ecc71;
+.auth-section .forgot label input {
+  margin-right: 3px;
 }
-.container__login .form-group, .container__register .form-group {
+.auth-section .forgot label a {
+  color: #fff;
+  text-decoration: none;
+}
+.auth-section .forgot label a:hover {
+  text-decoration: underline;
+}
+.auth-section button {
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  background: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.auth-section button:hover {
+  background-color: #27ae60;
+}
+.auth-section .register,
+.auth-section .login {
+  font-size: 0.9em;
+  color: #fff;
+  text-align: center;
+  margin: 25px 0 10px;
+}
+.auth-section .register a,
+.auth-section .login a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+}
+.auth-section .register a:hover,
+.auth-section .login a:hover {
+  text-decoration: underline;
+}
+.auth-section .form-group {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
 }
-.container__login .form-group label, .container__register .form-group label {
+.auth-section .form-group label {
   font-weight: bold;
   margin-bottom: 5px;
-  color: #666666;
+  color: #fff;
+  font-size: 1em;
+  text-transform: capitalize;
 }
-.container__login .form-group input[type=text],
-.container__login .form-group input[type=email],
-.container__login .form-group input[type=number],
-.container__login .form-group input[type=file],
-.container__login .form-group input[type=password], .container__register .form-group input[type=text],
-.container__register .form-group input[type=email],
-.container__register .form-group input[type=number],
-.container__register .form-group input[type=file],
-.container__register .form-group input[type=password] {
-  height: 20px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+.auth-section .form-group .courses-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 10px;
 }
-.container__login .form-group input[type=checkbox], .container__register .form-group input[type=checkbox] {
+.auth-section .form-group .courses-grid div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.auth-section .form-group .courses-grid div label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #fff;
+  font-size: 1em;
+}
+.auth-section .form-group .courses-grid div input[type=checkbox] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -178,11 +280,113 @@ a:hover {
   display: grid;
   place-content: center;
 }
-.container__login .form-group input[type=checkbox]:focus, .container__register .form-group input[type=checkbox]:focus {
+.auth-section .form-group .courses-grid div input[type=checkbox]:focus {
   outline: max(2px, 0.15em) solid currentColor;
   outline-offset: max(2px, 0.15em);
 }
-.container__login .form-group input[type=checkbox]::before, .container__register .form-group input[type=checkbox]::before {
+.auth-section .form-group .courses-grid div input[type=checkbox]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: #27ae60;
+  transform-origin: bottom left;
+  -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+          clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+.auth-section .form-group .courses-grid div input[type=checkbox]:checked::before {
+  transform: scale(1);
+}
+
+.reset p {
+  font-size: 1.2rem !important;
+}
+
+.sent {
+  display: flex;
+}
+
+.container select {
+  height: 20px;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  color: #2ecc71;
+}
+.container__upload, .container__edit, .container__create {
+  background: #ffffff;
+  height: 100%;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 10px;
+  padding: 20px;
+}
+.container__upload h1, .container__edit h1, .container__create h1 {
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333333;
+}
+.container__upload .link, .container__edit .link, .container__create .link {
+  text-align: left !important;
+}
+.container__upload .form-group, .container__edit .form-group, .container__create .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.container__upload .form-group label, .container__edit .form-group label, .container__create .form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #666666;
+}
+.container__upload .form-group input[type=text],
+.container__upload .form-group input[type=email],
+.container__upload .form-group input[type=number],
+.container__upload .form-group input[type=file],
+.container__upload .form-group input[type=password], .container__edit .form-group input[type=text],
+.container__edit .form-group input[type=email],
+.container__edit .form-group input[type=number],
+.container__edit .form-group input[type=file],
+.container__edit .form-group input[type=password], .container__create .form-group input[type=text],
+.container__create .form-group input[type=email],
+.container__create .form-group input[type=number],
+.container__create .form-group input[type=file],
+.container__create .form-group input[type=password] {
+  height: 20px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+}
+.container__upload .form-group input[type=checkbox], .container__edit .form-group input[type=checkbox], .container__create .form-group input[type=checkbox] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 9999px;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+.container__upload .form-group input[type=checkbox]:focus, .container__edit .form-group input[type=checkbox]:focus, .container__create .form-group input[type=checkbox]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+.container__upload .form-group input[type=checkbox]::before, .container__edit .form-group input[type=checkbox]::before, .container__create .form-group input[type=checkbox]::before {
   content: "";
   width: 0.65em;
   height: 0.65em;
@@ -194,10 +398,10 @@ a:hover {
   -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
           clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
-.container__login .form-group input[type=checkbox]:checked::before, .container__register .form-group input[type=checkbox]:checked::before {
+.container__upload .form-group input[type=checkbox]:checked::before, .container__edit .form-group input[type=checkbox]:checked::before, .container__create .form-group input[type=checkbox]:checked::before {
   transform: scale(1);
 }
-.container__login button[type=submit], .container__register button[type=submit] {
+.container__upload button[type=submit], .container__edit button[type=submit], .container__create button[type=submit] {
   width: 80%;
   background-color: #2ecc71;
   color: #ffffff;
@@ -208,7 +412,7 @@ a:hover {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.container__login button[type=submit]:hover, .container__register button[type=submit]:hover {
+.container__upload button[type=submit]:hover, .container__edit button[type=submit]:hover, .container__create button[type=submit]:hover {
   background-color: #27ae60;
 }
 .container__register {
@@ -297,183 +501,6 @@ a:hover {
 }
 .document-wrapper button a {
   color: #ffffff !important;
-}
-
-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  width: 100%;
-}
-section .form-box {
-  position: relative;
-  width: 400px;
-  height: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  -webkit-backdrop-filter: blur(15px);
-          backdrop-filter: blur(15px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-section h2,
-section p {
-  font-size: 2em;
-  color: #fff;
-  text-align: center;
-}
-section p {
-  font-size: 0.7rem;
-}
-section .inputbox {
-  position: relative;
-  margin: 30px 0;
-  width: 310px;
-  border-bottom: 2px solid #fff;
-}
-section .inputbox label {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  transform: translateY(-50%);
-  color: #fff;
-  font-size: 1em;
-  pointer-events: none;
-  transition: 0.5s;
-}
-section input:focus ~ label,
-section input:valid ~ label {
-  top: -5px;
-}
-section .inputbox input {
-  width: 100%;
-  height: 50px;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 1em;
-  padding: 0 35px 0 5px;
-  color: #fff;
-}
-section .inputbox i {
-  position: absolute;
-  right: 8px;
-  color: #fff;
-  font-size: 1.2em;
-  top: 20px;
-}
-section .forget {
-  margin: -15px 0 15px;
-  font-size: 0.9em;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-}
-section .forget label input {
-  margin-right: 3px;
-}
-section .forget label a {
-  color: #fff;
-  text-decoration: none;
-}
-section .forget label a:hover {
-  text-decoration: underline;
-}
-section button {
-  width: 100%;
-  height: 40px;
-  border-radius: 40px;
-  background: #fff;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-section button:hover {
-  background-color: #27ae60;
-}
-section .register {
-  font-size: 0.9em;
-  color: #fff;
-  text-align: center;
-  margin: 25px 0 10px;
-}
-section .register p a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: 600;
-}
-section .register p a:hover {
-  text-decoration: underline;
-}
-section input:focus {
-  background-color: transparent;
-  border: none;
-  outline: none;
-}
-section .courses-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, auto);
-  gap: 10px;
-}
-section .courses-grid div {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-section .form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-section .form-group label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #666666;
-}
-section .form-group input[type=checkbox] {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background-color: #fff;
-  margin: 0;
-  font: inherit;
-  color: currentColor;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid currentColor;
-  border-radius: 9999px;
-  transform: translateY(-0.075em);
-  display: grid;
-  place-content: center;
-}
-section .form-group input[type=checkbox]:focus {
-  outline: max(2px, 0.15em) solid currentColor;
-  outline-offset: max(2px, 0.15em);
-}
-section .form-group input[type=checkbox]::before {
-  content: "";
-  width: 0.65em;
-  height: 0.65em;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em var(--form-control-color);
-  background-color: CanvasText;
-  transform-origin: bottom left;
-  -webkit-clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-          clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-}
-section .form-group input[type=checkbox]:checked::before {
-  transform: scale(1);
 }
 
 canvas {

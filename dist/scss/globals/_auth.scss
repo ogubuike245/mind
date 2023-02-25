@@ -1,0 +1,208 @@
+.auth-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+
+  .form-box {
+    position: relative;
+    width: 400px;
+    height: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2,
+    p {
+      font-size: 2em;
+      color: #fff;
+      text-align: center;
+    }
+
+    p {
+      font-size: 0.7rem;
+    }
+    .inputbox {
+      position: relative;
+      margin: 30px 0;
+      width: 310px;
+      border-bottom: 2px solid #fff;
+      label {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 1em;
+        pointer-events: none;
+        transition: 0.5s;
+      }
+
+      input {
+        width: 100%;
+        height: 50px;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding: 0 35px 0 5px;
+        color: #fff;
+
+        &:focus ~ label,
+        &:valid ~ label {
+          top: -5px;
+        }
+      }
+      i {
+        position: absolute;
+        right: 8px;
+        color: #fff;
+        font-size: 1.2em;
+        top: 20px;
+      }
+    }
+  }
+  .forgot {
+    margin: -15px 0 15px;
+    font-size: 0.9em;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .forgot label input {
+    margin-right: 3px;
+  }
+  .forgot label a {
+    color: #fff;
+    text-decoration: none;
+  }
+  .forgot label a:hover {
+    text-decoration: underline;
+  }
+  button {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #27ae60;
+    }
+  }
+
+  .register,
+  .login {
+    font-size: 0.9em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+    a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #fff;
+      font-size: 1em;
+      text-transform: capitalize;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 10px;
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+
+        label {
+          font-weight: bold;
+          margin-bottom: 5px;
+          color: #fff;
+          font-size: 1em;
+        }
+
+        input[type="checkbox"] {
+          appearance: none;
+          background-color: #fff;
+          margin: 0;
+          font: inherit;
+          color: currentColor;
+          width: 1.15em;
+          height: 1.15em;
+          border: 0.15em solid currentColor;
+          border-radius: 9999px;
+          transform: translateY(-0.075em);
+          display: grid;
+          place-content: center;
+
+          &:focus {
+            outline: max(2px, 0.15em) solid currentColor;
+            outline-offset: max(2px, 0.15em);
+          }
+
+          &::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em var(--form-control-color);
+            // background-color: CanvasText;
+            background-color: #27ae60;
+            transform-origin: bottom left;
+            clip-path: polygon(
+              14% 44%,
+              0 65%,
+              50% 100%,
+              100% 16%,
+              80% 0%,
+              43% 62%
+            );
+          }
+          &:checked::before {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  }
+}
+
+.reset {
+  p {
+    font-size: 1.2rem !important;
+  }
+}
+
+.sent {
+  display: flex;
+}

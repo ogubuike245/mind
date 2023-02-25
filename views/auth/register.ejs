@@ -5,7 +5,7 @@
     <%- include('../partials/navbar.ejs') %>
 
     <div class="container">
-      <section>
+      <section class="auth-section">
         <div class="form-box">
           <div class="form-value">
             <form
@@ -17,32 +17,32 @@
               <div class="inputbox">
                 <i class="fa-regular fa-address-card"></i>
                 <input type="text" name="firstName" required />
-                <label for="">First Name</label>
+                <label for="firstName">First Name</label>
               </div>
               <div class="inputbox">
                 <i class="fa-regular fa-address-card"></i>
                 <input type="text" name="lastName" required />
-                <label for="">Last Name</label>
+                <label for="lastName">Last Name</label>
               </div>
               <div class="inputbox">
                 <i class="fa fa-envelope" aria-hidden="true"></i>
                 <input type="email" name="email" required />
-                <label for="">Email</label>
+                <label for="email">Email</label>
               </div>
               <div class="inputbox">
                 <i class="fa-solid fa-lock"></i>
                 <input type="password" name="password" required />
-                <label for="">Password</label>
+                <label for="password">Password</label>
               </div>
               <div class="inputbox">
                 <i class="fa-solid fa-hashtag"></i>
                 <input type="text" name="registrationNumber" required />
-                <label for="">Registration Number</label>
+                <label for="registrationNumber">Registration Number</label>
               </div>
               <div class="inputbox">
                 <i class="fa-solid fa-phone"></i>
                 <input type="text" name="phoneNumber" required />
-                <label for="">Phone Number</label>
+                <label for="phoneNumber">Phone Number</label>
               </div>
               <div class="form-group">
                 <label for="selectedCourses">SELECT COURSE:</label>
@@ -62,7 +62,7 @@
               </div>
 
               <button type="submit">Submit</button>
-              <div class="register">
+              <div class="login">
                 <p>
                   Already have an account?
                   <a href="/api/v1/user/login">Login</a>
