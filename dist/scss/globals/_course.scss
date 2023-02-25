@@ -1,0 +1,102 @@
+// course details styles
+
+.coursedetails-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  // border: 2px solid yellow;
+
+  .coursedetails-wrapper {
+    background: transparent;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+    padding: 1rem;
+
+    h1,
+    p {
+      color: whitesmoke;
+    }
+
+    div {
+      display: flex;
+      gap: 1rem;
+    }
+
+    button {
+      width: 100%;
+      background-color: #2ecc71;
+      color: whitesmoke;
+      border: none;
+      padding: 5px;
+      margin: auto;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      font-weight: lighter;
+      a {
+        color: whitesmoke;
+      }
+
+      &:hover {
+        background-color: #27ae60;
+      }
+    }
+
+    .edit {
+      background-color: hsl(184, 26%, 48%);
+
+      &:hover {
+        background-color: hsl(184, 49%, 25%);
+      }
+    }
+    .delete {
+      background-color: #7d0505;
+
+      &:hover {
+        background-color: #5a0005;
+      }
+    }
+  }
+}
+
+.document-container {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-rows: auto;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+.document-wrapper {
+  padding: 2rem;
+  background: whitesmoke;
+  height: 250px;
+  width: 250px;
+  gap: 1rem;
+  border-radius: 10px;
+
+  button {
+    width: 80%;
+    background-color: #2ecc71;
+    color: #ffffff !important;
+    border: none;
+    padding: 10px;
+    margin: auto;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #27ae60;
+    }
+
+    a {
+      color: #ffffff !important;
+    }
+  }
+}

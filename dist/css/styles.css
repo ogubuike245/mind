@@ -308,6 +308,193 @@ a:hover {
   display: flex;
 }
 
+.home__container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-direction: column;
+}
+.home__container .heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.home__container .heading h1 {
+  font-family: var(--JosefinSans_Thin);
+  font-size: 2.5rem;
+  color: whitesmoke;
+  text-decoration: underline;
+}
+.home__container .heading button {
+  width: 60%;
+  background-color: #2ecc71;
+  color: whitesmoke;
+  border: none;
+  padding: 10px;
+  margin: auto;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.home__container .heading button a {
+  color: whitesmoke;
+  font-size: 1.5rem;
+}
+.home__container .heading button:hover {
+  background-color: #27ae60;
+}
+.home__container .home__user-content {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  grid-template-rows: auto;
+  gap: 2rem;
+  margin: 2rem;
+}
+.home__container .home__user-content .card {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 200px;
+}
+.home__container .home__user-content .card img {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+.home__container .home__user-content .card-content {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.home__container .home__user-content .card-title {
+  font-size: 24px;
+  margin: 0 0 10px;
+}
+.home__container .home__user-content .card-description {
+  font-size: 16px;
+  margin: 0;
+}
+.home__container .home__user-content .card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.home__container .home__user-content .card-link {
+  color: #2ecc71;
+  text-decoration: none;
+  font-weight: 500;
+}
+.home__container .home__user-content .card-link:hover {
+  text-decoration: underline;
+}
+.home__container .home__user-content .card-date {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.coursedetails-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.coursedetails-container .coursedetails-wrapper {
+  background: transparent;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(15px);
+          backdrop-filter: blur(15px);
+  padding: 1rem;
+}
+.coursedetails-container .coursedetails-wrapper h1,
+.coursedetails-container .coursedetails-wrapper p {
+  color: whitesmoke;
+}
+.coursedetails-container .coursedetails-wrapper div {
+  display: flex;
+  gap: 1rem;
+}
+.coursedetails-container .coursedetails-wrapper button {
+  width: 100%;
+  background-color: #2ecc71;
+  color: whitesmoke;
+  border: none;
+  padding: 5px;
+  margin: auto;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: lighter;
+}
+.coursedetails-container .coursedetails-wrapper button a {
+  color: whitesmoke;
+}
+.coursedetails-container .coursedetails-wrapper button:hover {
+  background-color: #27ae60;
+}
+.coursedetails-container .coursedetails-wrapper .edit {
+  background-color: hsl(184deg, 26%, 48%);
+}
+.coursedetails-container .coursedetails-wrapper .edit:hover {
+  background-color: hsl(184deg, 49%, 25%);
+}
+.coursedetails-container .coursedetails-wrapper .delete {
+  background-color: #7d0505;
+}
+.coursedetails-container .coursedetails-wrapper .delete:hover {
+  background-color: #5a0005;
+}
+
+.document-container {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-rows: auto;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.document-wrapper {
+  padding: 2rem;
+  background: whitesmoke;
+  height: 250px;
+  width: 250px;
+  gap: 1rem;
+  border-radius: 10px;
+}
+.document-wrapper button {
+  width: 80%;
+  background-color: #2ecc71;
+  color: #ffffff !important;
+  border: none;
+  padding: 10px;
+  margin: auto;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.document-wrapper button:hover {
+  background-color: #27ae60;
+}
+.document-wrapper button a {
+  color: #ffffff !important;
+}
+
 .container__upload, .container__editCourse, .container__editDocument, .container__create, .container__submit {
   background: #ffffff;
   height: 100%;
@@ -437,141 +624,6 @@ a:hover {
 }
 .container__upload button[type=submit]:hover, .container__editCourse button[type=submit]:hover, .container__editDocument button[type=submit]:hover, .container__create button[type=submit]:hover, .container__submit button[type=submit]:hover {
   background-color: #27ae60;
-}
-
-.home__container {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-direction: column;
-}
-.home__container .heading {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-.home__container .heading h1 {
-  font-family: var(--JosefinSans_Bold);
-  font-size: 2.5rem;
-  color: whitesmoke;
-}
-.home__container .heading button {
-  width: 60%;
-  background-color: #2ecc71;
-  color: whitesmoke;
-  border: none;
-  padding: 10px;
-  margin: auto;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.home__container .heading button a {
-  color: whitesmoke;
-  font-size: 1.5rem;
-}
-.home__container .heading button:hover {
-  background-color: #27ae60;
-}
-.home__container .home__user-content {
-  display: grid;
-  place-items: center;
-  grid-template-columns: repeat(3, 1fr);
-  grid-row: auto;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-.home__container .home__user-content .card {
-  display: flex;
-  flex-direction: column;
-  width: 350px;
-  background-color: whitesmoke;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin: 10px;
-}
-.home__container .home__user-content .card img {
-  width: 100%;
-  height: auto;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 10px 10px 0 0;
-}
-.home__container .home__user-content .card-content {
-  padding: 20px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.home__container .home__user-content .card-title {
-  font-size: 24px;
-  margin: 0 0 10px;
-}
-.home__container .home__user-content .card-description {
-  font-size: 16px;
-  margin: 0;
-}
-.home__container .home__user-content .card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-}
-.home__container .home__user-content .card-link {
-  color: #2ecc71;
-  text-decoration: none;
-  font-weight: 500;
-}
-.home__container .home__user-content .card-link:hover {
-  text-decoration: underline;
-}
-.home__container .home__user-content .card-date {
-  font-size: 12px;
-  color: #6c757d;
-}
-
-.coursedetails__container {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.document-container {
-  display: flex;
-  gap: 1rem;
-}
-
-.document-wrapper {
-  padding: 2rem;
-  background: whitesmoke;
-  width: 250px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border-radius: 10px;
-}
-.document-wrapper button {
-  width: 80%;
-  background-color: #2ecc71;
-  color: #ffffff !important;
-  border: none;
-  padding: 10px;
-  margin: auto;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.document-wrapper button:hover {
-  background-color: #27ae60;
-}
-.document-wrapper button a {
-  color: #ffffff !important;
 }
 
 canvas {

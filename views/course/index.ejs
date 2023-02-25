@@ -3,18 +3,21 @@
   <body>
     <%- include('../partials/navbar.ejs') %>
 
-    <div class="coursedetails__container">
-      <div class="document-wrapper">
+    <div class="coursedetails-container">
+      <div class="coursedetails-wrapper">
         <h1>COURSE INFO</h1>
-        <p>COURSE TITLE: <%= course.title %></p>
-        <p>COURSE DESCRIPTION: <%= course.description %></p>
+        <p>Title: <%= course.title %></p>
+        <p>Description: <%= course.description %></p>
         <% if (locals.user.role === "admin") { %>
-        <button>
-          <a href="/api/v1/course/edit/<%= course._id %>"
-            >EDIT COURSE DETAILS</a
-          >
-        </button>
-        <button data-doc="<%= course._id %>">DELETE COURSE</button>
+
+        <div>
+          <button class="edit">
+            <a href="/api/v1/course/edit/<%= course._id %>">EDIT INFO </a>
+          </button>
+          <button data-doc="<%= course._id %>" class="delete">
+            DELETE COURSE
+          </button>
+        </div>
         <% } %>
       </div>
     </div>
@@ -51,17 +54,8 @@
           >
         </div>
       </div>
+
       <% } %>
     </div>
-    <% if (locals.user.role === "admin") { %>
-    <h1>REGISTERED USERS</h1>
-
-    <p><%= course.registeredUsers.email %></p>
-
-    <% for (let i = 0; i < course.registeredUsers.length; i++) { %> <% let user
-    = course.registeredUsers[i]; %>
-    <p>User Name: <%= user.name %></p>
-    <p>User Email: <%= user.email %></p>
-    <% } %> <% } %>
   </body>
 </html>

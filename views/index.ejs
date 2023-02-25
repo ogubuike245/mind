@@ -27,7 +27,9 @@
               >
                 View Course <i class="fa fa-book" aria-hidden="true"></i
               ></a>
-              <span class="card-date"><%= course.updated_at %></span>
+              <span class="card-date"
+                >updated <%= moment().from(course.updated_at,true) %> ago</span
+              >
             </div>
           </div>
         </div>

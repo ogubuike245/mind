@@ -7,11 +7,14 @@
 //auth form STYLES
 @use "auth";
 
+// homepage STYLES
+@use "home";
+
+// course view STYLES
+@use "course";
+
 //course actions form STYLES
 @use "form";
 
-// homepage styles
-@use "home";
-
-// dashboard styles
+// dashboard STYLES
 @use "dashboard";

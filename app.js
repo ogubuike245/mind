@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const moment = require("moment");
 const compression = require("compression");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -41,12 +42,11 @@ connectToDatabase(app);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-
 // MIDDLEWARES AND STATIC
 // Parse incoming request bodies as JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static("./dist"))
+app.use(express.static("./dist"));
 app.use(cookieParser());
 app.use(cors());
 app.use(morgan("dev"));
@@ -63,8 +63,8 @@ app.use((_, res, next) => {
 
 //APP ROUTES
 app.use(checkForLoggedInUser);
-app.get("/", async (_, response) => {
-  response.render("index", { title: "HOME" });
+app.get("/", (_, response) => {
+  response.render("index", { title: "HOME", moment });
 });
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/course", courseRoutes);
