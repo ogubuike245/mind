@@ -11,13 +11,13 @@
   .coursedetails-wrapper {
     background: transparent;
     border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid $transparent-border;
     backdrop-filter: blur(15px);
     padding: 1rem;
 
     h1,
     p {
-      color: whitesmoke;
+      color: $white;
     }
 
     .coursedetails-actions {
@@ -27,12 +27,11 @@
       gap: 1rem;
 
       a {
-        color: whitesmoke;
         width: 100%;
         button {
           width: 100%;
-          background-color: #2ecc71;
-          color: whitesmoke;
+          background-color: $secondary;
+          color: $white;
           border: none;
           padding: 5px;
           margin: auto;
@@ -42,7 +41,7 @@
           font-size: 1rem;
           font-weight: lighter;
           &:hover {
-            background-color: #27ae60;
+            background-color: $secondary_hover;
           }
         }
       }
@@ -60,17 +59,17 @@
         }
       }
       .edit {
-        background-color: hsl(184, 26%, 48%);
+        background-color: $primary;
 
         &:hover {
-          background-color: hsl(184, 49%, 25%);
+          background-color: $primary_hover;
         }
       }
       .delete {
-        background-color: #7d0505;
+        background-color: $danger;
 
         &:hover {
-          background-color: #5a0005;
+          background-color: $danger_hover;
         }
       }
     }
@@ -86,8 +85,7 @@
   margin-bottom: 2rem;
   .document-wrapper {
     padding: 2rem;
-    background: whitesmoke;
-    // border: 0.3px dotted hsl(184, 49%, 25%);
+    background: $color;
     height: 250px;
     width: 250px;
     gap: 1rem;
@@ -97,9 +95,9 @@
       display: flex;
       justify-content: space-between;
 
-      .info {
-        // border: 2px solid white;
-      }
+      // .info {
+      //   // border: 2px solid white;
+      // }
       .icon {
         img {
           border-radius: 10px;
@@ -120,8 +118,8 @@
       }
       button {
         width: 100%;
-        background-color: #2ecc71;
-        color: #ffffff !important;
+        background-color: $secondary_hover;
+        color: $white !important;
         border: none;
         padding: 10px;
         margin: auto;
@@ -135,7 +133,7 @@
         gap: 0.25rem;
 
         &:hover {
-          background-color: #27ae60;
+          background-color: $secondary_hover;
         }
 
         img {
@@ -147,16 +145,16 @@
     }
   }
   .assignment {
-    border: 2px solid red;
+    border: 2px solid $danger;
   }
   .note {
-    border: 2px solid green;
+    border: 2px solid $secondary;
   }
   .practical {
-    border: 2px solid blue;
+    border: 2px solid $primary;
   }
   .aoc {
-    border: 2px solid yellow;
+    border: 2px solid $info;
   }
   .default {
     border: 2px solid black;

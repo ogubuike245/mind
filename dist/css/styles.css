@@ -426,12 +426,11 @@ a:hover {
   gap: 1rem;
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions a {
-  color: whitesmoke;
   width: 100%;
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions a button {
   width: 100%;
-  background-color: #2ecc71;
+  background-color: #1ac886;
   color: whitesmoke;
   border: none;
   padding: 5px;
@@ -464,10 +463,10 @@ a:hover {
   background-color: hsl(184, 49%, 25%);
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions .delete {
-  background-color: #7d0505;
+  background-color: hsl(0, 92%, 25%);
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions .delete:hover {
-  background-color: #5a0005;
+  background-color: hsl(357, 100%, 18%);
 }
 
 .document-container {
