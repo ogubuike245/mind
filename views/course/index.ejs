@@ -34,12 +34,12 @@
       <% for (let i = 0; i < course.documents.length; i++) { %> <% let document
       = course.documents[i]; %>
       <div class="document-wrapper">
-        <!-- <div class="document-wrapper <%= document.type %>"> -->
         <div class="document-header">
           <div class="info">
             <p>Title: <%= document.title %></p>
-            <p>Description: <%= document.description %></p>
+            <!-- <p>Description: <%= document.description %></p> -->
             <p>Type: <%= document.type %></p>
+            <p>updated <%= moment().from(course.updated_at,true) %> ago</p>
           </div>
 
           <div class="icon">

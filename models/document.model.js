@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+const Course = require("./course.model");
+
 const DocumentSchema = new mongoose.Schema({
   heading: {
     type: String,

@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const Course = require("../models/course.model");
 const Document = require("../models/document.model");
 
@@ -81,7 +83,7 @@ exports.courseDetailsPage = async (req, res) => {
     .populate("documents")
     .populate("registeredUsers");
 
-  res.render("course/index", { title: " COURSE DETAILS", course });
+  res.render("course/index", { title: " COURSE DETAILS", course, moment });
 };
 
 // Display all courses

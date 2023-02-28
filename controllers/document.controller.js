@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const moment = require("moment");
 const Document = require("../models/document.model");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
@@ -50,6 +51,8 @@ exports.uploadDocument = async (request, response) => {
     // Add the saved document to the course
 
     course.documents.push(savedDocument._id);
+    // course.updated_at = Date.now();
+
     await course.save();
 
     // Redirect the user to the course details page
@@ -190,13 +193,17 @@ exports.editDocument = async (req, res) => {
     const document = await Document.findByIdAndUpdate(
       { _id: id },
       { ...req.body, updated_at: Date.now() }
-    );
-    res.redirect(`/api/v1/course/document/${document._id}`);
+    ).populate("course");
 
-    res.render("success", {
-      title: "Success",
-      success: "Course updated successfully.",
-    });
+    // FIND THE COURSE RELATED TO THE DOCUMENT
+    const course = await Course.findOne(document.course._id);
+
+    // UPDATE THE COURSE UPDATED_at FIELD
+    course.updated_at = Date.now();
+    await course.save();
+
+    // REDIRECT TO THE DOCUMENT DETAILS PAGE
+    res.redirect(`/api/v1/course/document/${document._id}`);
   } catch (error) {
     console.log(error);
     res.render("error", { title: "Error", error });
