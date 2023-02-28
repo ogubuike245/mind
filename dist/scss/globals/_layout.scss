@@ -5,16 +5,16 @@
 @use "navbar";
 
 //auth form STYLES
-@use "auth";
+@use "../auth/auth";
 
 // homepage STYLES
-@use "home";
+@use "../home/home";
 
 // course view STYLES
-@use "course";
+@use "../course/course";
 
 //course actions form STYLES
 @use "form";
 
 // dashboard STYLES
-@use "dashboard";
+@use "../user/dashboard";

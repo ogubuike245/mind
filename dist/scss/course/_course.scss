@@ -20,44 +20,46 @@
       color: whitesmoke;
     }
 
-    div {
+    .coursedetails-actions {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 1rem;
-    }
 
-    button {
-      width: 100%;
-      background-color: #2ecc71;
-      color: whitesmoke;
-      border: none;
-      padding: 5px;
-      margin: auto;
-      border-radius: 9999px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1rem;
-      font-weight: lighter;
       a {
         color: whitesmoke;
+        width: 100%;
+        button {
+          width: 100%;
+          background-color: #2ecc71;
+          color: whitesmoke;
+          border: none;
+          padding: 5px;
+          margin: auto;
+          border-radius: 9999px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 1rem;
+          font-weight: lighter;
+          &:hover {
+            background-color: #27ae60;
+          }
+        }
       }
 
-      &:hover {
-        background-color: #27ae60;
+      .edit {
+        background-color: hsl(184, 26%, 48%);
+
+        &:hover {
+          background-color: hsl(184, 49%, 25%);
+        }
       }
-    }
+      .delete {
+        background-color: #7d0505;
 
-    .edit {
-      background-color: hsl(184, 26%, 48%);
-
-      &:hover {
-        background-color: hsl(184, 49%, 25%);
-      }
-    }
-    .delete {
-      background-color: #7d0505;
-
-      &:hover {
-        background-color: #5a0005;
+        &:hover {
+          background-color: #5a0005;
+        }
       }
     }
   }

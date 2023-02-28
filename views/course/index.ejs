@@ -10,13 +10,15 @@
         <p>Description: <%= course.description %></p>
         <% if (locals.user.role === "admin") { %>
 
-        <div>
-          <button class="edit">
-            <a href="/api/v1/course/edit/<%= course._id %>">EDIT INFO </a>
-          </button>
-          <button data-doc="<%= course._id %>" class="delete">
-            DELETE COURSE
-          </button>
+        <div class="coursedetails-actions">
+          <a href="/api/v1/course/edit/<%= course._id %>">
+            <button class="edit">EDIT INFO</button>
+          </a>
+          <a href="#">
+            <button data-doc="<%= course._id %>" class="delete">
+              DELETE COURSE
+            </button>
+          </a>
         </div>
         <% } %>
       </div>
