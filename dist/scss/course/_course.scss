@@ -22,7 +22,7 @@
 
     .coursedetails-actions {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
       gap: 1rem;
 
@@ -47,6 +47,18 @@
         }
       }
 
+      .edit,
+      .delete {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 20%;
+          height: 25px;
+          object-fit: contain;
+        }
+      }
       .edit {
         background-color: hsl(184, 26%, 48%);
 
@@ -72,33 +84,81 @@
   grid-template-rows: auto;
   gap: 1rem;
   margin-bottom: 2rem;
-  gap: 1rem;
-}
-.document-wrapper {
-  padding: 2rem;
-  background: whitesmoke;
-  height: 250px;
-  width: 250px;
-  gap: 1rem;
-  border-radius: 10px;
+  .document-wrapper {
+    padding: 2rem;
+    background: whitesmoke;
+    // border: 0.3px dotted hsl(184, 49%, 25%);
+    height: 250px;
+    width: 250px;
+    gap: 1rem;
+    border-radius: 10px;
 
-  button {
-    width: 80%;
-    background-color: #2ecc71;
-    color: #ffffff !important;
-    border: none;
-    padding: 10px;
-    margin: auto;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    .document-header {
+      display: flex;
+      justify-content: space-between;
 
-    &:hover {
-      background-color: #27ae60;
+      .info {
+        // border: 2px solid white;
+      }
+      .icon {
+        img {
+          border-radius: 10px;
+        }
+      }
     }
 
-    a {
-      color: #ffffff !important;
+    .document-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 70px);
+      gap: 1rem;
+
+      a {
+        font-family: var(--JosefinSans_Thin);
+        font-size: 10px;
+        width: 100%;
+      }
+      button {
+        width: 100%;
+        background-color: #2ecc71;
+        color: #ffffff !important;
+        border: none;
+        padding: 10px;
+        margin: auto;
+        border-radius: 10000px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.25rem;
+
+        &:hover {
+          background-color: #27ae60;
+        }
+
+        img {
+          width: 45%;
+          height: 35px;
+          object-fit: contain;
+        }
+      }
     }
+  }
+  .assignment {
+    border: 2px solid red;
+  }
+  .note {
+    border: 2px solid green;
+  }
+  .practical {
+    border: 2px solid blue;
+  }
+  .aoc {
+    border: 2px solid yellow;
+  }
+  .default {
+    border: 2px solid black;
   }
 }
