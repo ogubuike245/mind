@@ -154,7 +154,7 @@ a:hover {
 }
 .auth-section .form-box .inputbox label {
   position: absolute;
-  top: 50%;
+  top: 90%;
   left: 5px;
   transform: translateY(-50%);
   color: #fff;
@@ -601,6 +601,7 @@ a:hover {
   padding: 10px;
   border-radius: 5px;
   border: none;
+  color: black;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 }
 .container__upload .form-group input[type=file]::-webkit-file-upload-button, .container__editCourse .form-group input[type=file]::-webkit-file-upload-button, .container__editDocument .form-group input[type=file]::-webkit-file-upload-button, .container__create .form-group input[type=file]::-webkit-file-upload-button, .container__submit .form-group input[type=file]::-webkit-file-upload-button, .container__download .form-group input[type=file]::-webkit-file-upload-button {
