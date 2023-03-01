@@ -1,3 +1,15 @@
+// theme colors
+$primary: hsl(184, 26%, 48%) !default;
+$primary_hover: hsl(184, 26%, 48%) !default;
+$secondary: hsl(157, 56%, 46%) !default;
+$secondary_hover: hsl(145, 85%, 32%) !default;
+$danger: hsl(0, 69%, 35%) !default;
+$danger_hover: hsl(0, 92%, 25%) !default;
+$info: hsl(46, 92%, 54%) !default;
+$white: whitesmoke !default;
+$transparent_border: rgba(255, 255, 255, 0.5);
+$black: hsla(0, 6%, 3%, 0.5);
+
 .container {
   &__upload,
   &__editCourse,

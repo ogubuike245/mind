@@ -411,7 +411,7 @@ a:hover {
 .coursedetails-container .coursedetails-wrapper {
   background: transparent;
   border-radius: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid hsl(184, 26%, 48%);
   backdrop-filter: blur(15px);
   padding: 1rem;
 }
@@ -430,7 +430,7 @@ a:hover {
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions a button {
   width: 100%;
-  background-color: #1ac886;
+  background-color: hsl(157, 56%, 46%);
   color: whitesmoke;
   border: none;
   padding: 5px;
@@ -442,7 +442,7 @@ a:hover {
   font-weight: lighter;
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions a button:hover {
-  background-color: #27ae60;
+  background-color: hsl(145, 85%, 32%);
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions .edit,
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions .delete {
@@ -460,13 +460,13 @@ a:hover {
   background-color: hsl(184, 26%, 48%);
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions .edit:hover {
-  background-color: hsl(184, 49%, 25%);
+  background-color: hsl(184, 26%, 48%);
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions .delete {
-  background-color: hsl(0, 92%, 25%);
+  background-color: hsl(0, 69%, 35%);
 }
 .coursedetails-container .coursedetails-wrapper .coursedetails-actions .delete:hover {
-  background-color: hsl(357, 100%, 18%);
+  background-color: hsl(0, 92%, 25%);
 }
 
 .document-container {
@@ -503,10 +503,10 @@ a:hover {
   font-size: 10px;
   width: 100%;
 }
-.document-container .document-wrapper .document-actions button {
+.document-container .document-wrapper .document-actions a button {
   width: 100%;
-  background-color: #2ecc71;
-  color: #ffffff !important;
+  background-color: hsl(145, 85%, 32%);
+  color: whitesmoke !important;
   border: none;
   padding: 10px;
   margin: auto;
@@ -519,32 +519,64 @@ a:hover {
   align-items: center;
   gap: 0.25rem;
 }
-.document-container .document-wrapper .document-actions button:hover {
-  background-color: #27ae60;
+.document-container .document-wrapper .document-actions a button:hover {
+  background-color: hsl(145, 85%, 32%);
 }
-.document-container .document-wrapper .document-actions button img {
+.document-container .document-wrapper .document-actions a button img {
   width: 45%;
   height: 35px;
   object-fit: contain;
 }
 .document-container .assignment {
-  border: 2px solid red;
+  border: 2px solid hsl(0, 69%, 35%);
 }
 .document-container .note {
-  border: 2px solid green;
+  border: 2px solid hsl(157, 56%, 46%);
 }
 .document-container .practical {
-  border: 2px solid blue;
+  border: 2px solid hsl(184, 26%, 48%);
 }
 .document-container .aoc {
-  border: 2px solid yellow;
+  border: 2px solid hsl(46, 92%, 54%);
 }
 .document-container .default {
   border: 2px solid black;
 }
 
+.document-page_container {
+  padding: 1rem;
+}
+.document-page_container a {
+  font-family: var(--JosefinSans_Thin);
+  font-size: 10px;
+  width: 100%;
+}
+.document-page_container a button {
+  width: 100%;
+  background-color: hsl(157, 56%, 46%);
+  color: whitesmoke !important;
+  border: none;
+  padding: 10px;
+  margin: auto;
+  border-radius: 10000px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+}
+.document-page_container a button:hover {
+  background-color: hsl(145, 85%, 32%);
+}
+.document-page_container a button img {
+  width: 45%;
+  height: 35px;
+  object-fit: contain;
+}
 .container__upload, .container__editCourse, .container__editDocument, .container__create, .container__submit, .container__download {
-  background: #ffffff;
+  background: whitesmoke;
   height: 100%;
   width: 300px;
   display: flex;
@@ -600,7 +632,7 @@ a:hover {
   padding: 10px;
   border-radius: 5px;
   border: none;
-  color: black;
+  color: hsla(0, 6%, 3%, 0.5);
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 }
 .container__upload .form-group input[type=file]::-webkit-file-upload-button, .container__editCourse .form-group input[type=file]::-webkit-file-upload-button, .container__editDocument .form-group input[type=file]::-webkit-file-upload-button, .container__create .form-group input[type=file]::-webkit-file-upload-button, .container__submit .form-group input[type=file]::-webkit-file-upload-button, .container__download .form-group input[type=file]::-webkit-file-upload-button {
@@ -609,21 +641,21 @@ a:hover {
 .container__upload .form-group input[type=file]::before, .container__editCourse .form-group input[type=file]::before, .container__editDocument .form-group input[type=file]::before, .container__create .form-group input[type=file]::before, .container__submit .form-group input[type=file]::before, .container__download .form-group input[type=file]::before {
   content: "Choose File";
   display: inline-block;
-  background-color: #4caf50;
-  color: #fff;
+  background-color: hsl(157, 56%, 46%);
+  color: whitesmoke;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
 }
 .container__upload .form-group input[type=file]:hover::before, .container__editCourse .form-group input[type=file]:hover::before, .container__editDocument .form-group input[type=file]:hover::before, .container__create .form-group input[type=file]:hover::before, .container__submit .form-group input[type=file]:hover::before, .container__download .form-group input[type=file]:hover::before {
-  background-color: #3e8e41;
+  background-color: hsl(157, 56%, 46%);
 }
 .container__upload .form-group input[type=file]:active::before, .container__editCourse .form-group input[type=file]:active::before, .container__editDocument .form-group input[type=file]:active::before, .container__create .form-group input[type=file]:active::before, .container__submit .form-group input[type=file]:active::before, .container__download .form-group input[type=file]:active::before {
-  background-color: #1e5631;
+  background-color: hsl(145, 85%, 32%);
 }
 .container__upload .form-group input[type=checkbox], .container__editCourse .form-group input[type=checkbox], .container__editDocument .form-group input[type=checkbox], .container__create .form-group input[type=checkbox], .container__submit .form-group input[type=checkbox], .container__download .form-group input[type=checkbox] {
   appearance: none;
-  background-color: #fff;
+  background-color: whitesmoke;
   margin: 0;
   font: inherit;
   color: currentColor;
@@ -659,12 +691,12 @@ a:hover {
   border-radius: 5px;
   border: none;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
-  color: #2ecc71;
+  color: hsl(157, 56%, 46%);
 }
 .container__upload button[type=submit], .container__editCourse button[type=submit], .container__editDocument button[type=submit], .container__create button[type=submit], .container__submit button[type=submit], .container__download button[type=submit] {
   width: 80%;
-  background-color: #2ecc71;
-  color: #ffffff;
+  background-color: hsl(157, 56%, 46%);
+  color: whitesmoke;
   border: none;
   padding: 10px;
   margin: auto;
@@ -673,7 +705,7 @@ a:hover {
   transition: all 0.3s ease;
 }
 .container__upload button[type=submit]:hover, .container__editCourse button[type=submit]:hover, .container__editDocument button[type=submit]:hover, .container__create button[type=submit]:hover, .container__submit button[type=submit]:hover, .container__download button[type=submit]:hover {
-  background-color: #27ae60;
+  background-color: hsl(145, 85%, 32%);
 }
 
 canvas {

@@ -136,7 +136,7 @@ exports.login = async (req, res) => {
       });
     }
 
-    res.cookie("jwt", createToken(user._id), {
+    res.cookie(process.env.JWT_NAME, createToken(user._id), {
       httpOnly: true,
       maximumAge: maximumAge * 1000,
     });
@@ -188,55 +188,6 @@ exports.user_list = function (req, res) {
 // userLogout
 // Logs out the user and clears the JWT cookie.
 exports.userLogout = async (req, res) => {
-  res.clearCookie("jwt");
+  res.clearCookie(process.env.JWT_NAME);
   res.redirect("/");
 };
-
-// // register
-// // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
-// exports.register = async (req, res) => {
-//   try {
-//     const {
-//       email,
-//       password,
-//       // selectedCourses,
-//       firstName,
-//       lastName,
-//       registrationNumber,
-//       phoneNumber,
-//     } = req.body;
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // const courses = await Course.find({
-//     //   code: { $in: selectedCourses },
-//     // });
-//     // const courseIds = courses.map((course) => course._id);
-
-//     const existingUser = await User.findOne({ email });
-
-//     if (existingUser) {
-//       throw new Error(`A user with the email already exists.`);
-//     }
-
-//     const newUser = new User({
-//       firstName,
-//       lastName,
-//       registrationNumber,
-//       phoneNumber,
-//       email,
-//       password: hashedPassword,
-//       // selectedCourses: courseIds,
-//     });
-//     const savedUser = await newUser.save();
-
-//     // for (const courseId of courseIds) {
-//     //   const course = await Course.findById(courseId);
-//     //   course.registeredUsers.push(savedUser._id);
-//     //   await course.save();
-//     // }
-
-//     res.redirect("/api/v1/user/login");
-//   } catch (err) {
-//     handleErrors(err, res);
-//   }
-// };

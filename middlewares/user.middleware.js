@@ -6,20 +6,16 @@ const User = require("../models/user.model");
 
 const checkForLoggedInUser = async (request, res, next) => {
   try {
-    const token = request.cookies.jwt;
+    const token = request.cookies.gubi;
     if (!token) return next();
-    // if (!token) return next();
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decodedToken.id).lean();
+    const user = await User.findById(decodedToken.id);
     if (!user) return res.redirect("/api/v1/user/register");
 
     const selectedCourses = await Course.find({
       _id: { $in: user.selectedCourses },
-    })
-      .sort({ title: 1 })
-      .lean();
-
+    }).sort({ title: 1 });
     request.user = res.locals.user = user;
     request.selectedCourses = res.locals.selectedCourses = selectedCourses;
     return next();
@@ -34,7 +30,7 @@ const checkForLoggedInUser = async (request, res, next) => {
 // CHECK FOR IF THE USER IS LOGGED IN BEFORE REDIRECTING USER
 const isLoggedIn = (request, response, next) => {
   if (request.user) {
-    request.redirect("/api/v1/user/");
+    request.redirect("/api/v1/user");
   } else {
     next();
   }
@@ -70,7 +66,7 @@ const tokenVerification = async (request, res, next) => {
 
     // Attach user ID to request object and response locals
     request.user = decodedToken.id;
-    res.locals.user = decodedToken.id;
+    res.locals.user = request.user;
 
     return next();
   } catch (err) {

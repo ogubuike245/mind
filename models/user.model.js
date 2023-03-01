@@ -51,6 +51,7 @@ const UserSchema = new mongoose.Schema({
       ref: "Submission",
     },
   ],
+  points: { type: Number, default: 0 },
   created_at: {
     type: Date,
     default: Date.now,

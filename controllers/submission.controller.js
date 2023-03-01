@@ -17,7 +17,8 @@ exports.submitDocumentPage = async (req, res) => {
     submittedBy: user._id,
   });
   // Check if the user has already submitted a document for this assignment
-  const isSubmitted = !!submission;
+  const isSubmitted = submission ? true : false;
+
   // Render the submission page with the document and submission status
   res.render("course/submissions", {
     title: "SUBMIT DOCUMENT",
@@ -86,6 +87,11 @@ exports.submitDocument = async (req, response) => {
 
     // Add the submission to the user and save the user
     user.submissions.push(submission._id);
+
+    // Update the points field of the User model
+
+    user.points += 10; // Assign 10 points for submitting an assignment
+
     await user.save();
 
     // Return a success response with redirect URL
