@@ -12,11 +12,6 @@
         <h1>Description: <%= document.description %></h1>
       </div>
 
-      <h1>DOWNLOADED BY:</h1>
-      <% document.downloadedBy.forEach(element => { %>
-      <h1><%= element.firstName %></h1>
-      <h1><%= element.email %></h1>
-      <% }) %>
       <h3>ID:</h3>
       <h1><%= document._id %></h1>
       <h3>HEADING:</h3>
@@ -25,19 +20,28 @@
       <h3>TYPE:</h3>
       <h1><%= document.type %></h1>
 
-      <a href="<%= document.downloadLink %>">
-        <button>DOWNLOAD LINK</button>
+      <a href="/api/v1/course/download/<%= document._id %>">
+        <button>
+          DOWNLOAD
+          <img src="/images/icons/download.png" />
+        </button>
       </a>
+
       <div class="actions">
         <% if (locals.user && (locals.user.role === "admin")) { %>
 
         <div>
           <a href="/api/v1/course/document/edit/<%= document._id %>">
-            <button class="edit">EDIT</button>
+            <button>
+              EDIT
+              <img src="/images/icons/edit.png" />
+            </button>
           </a>
-          <a href="#">
-            <button class="delete" data-doc="<%= document._id %>">
+
+          <a data-doc="<%= document._id %>">
+            <button>
               DELETE
+              <img src="/images/icons/delete.png" />
             </button>
           </a>
         </div>

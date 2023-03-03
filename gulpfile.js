@@ -6,7 +6,7 @@ function compose() {
 }
 
 function track() {
-  watch(["dist/scss/**/*.scss"], buildStyles);
+  watch(["dist/scss/**/*.scss"], compose);
 }
 
 exports.default = series(compose, track);

@@ -40,7 +40,6 @@ exports.uploadDocument = async (request, response) => {
       title,
       course: course._id,
       password: hashedPassword,
-      downloadedBy: [],
     });
 
     // Generate a download link for the document
@@ -51,7 +50,7 @@ exports.uploadDocument = async (request, response) => {
     // Add the saved document to the course
 
     course.documents.push(savedDocument._id);
-    // course.updated_at = Date.now();
+    course.updated_at = Date.now();
 
     await course.save();
 

@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const Course = require("./course.model");
-
 const DocumentSchema = new mongoose.Schema({
   heading: {
     type: String,
@@ -28,6 +26,17 @@ const DocumentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
   },
+  downloadedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  }],
+  
+  submissions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Submission",
+  }],
+  
+
   originalName: {
     type: String,
     required: true,
@@ -41,21 +50,6 @@ const DocumentSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-
-  downloadedBy: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      unique: true,
-    },
-  ],
-
-  submissions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Submission",
-    },
-  ],
 
   downloadLink: String,
 

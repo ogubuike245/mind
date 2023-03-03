@@ -38,6 +38,6 @@ function showToastifyNotification(type, message, redirectUrl = null) {
   if (type === "success" && redirectUrl) {
     setTimeout(() => {
       window.location.href = redirectUrl;
-    }, 2000);
+    }, 500);
   }
 }
