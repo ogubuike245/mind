@@ -1,6 +1,7 @@
 const Document = require("../models/document.model");
 const Submission = require("../models/submissions.model");
 const User = require("../models/user.model");
+const Course = require("../models/course.model");
 const { handleErrors } = require("../utils/errorHandling.utils");
 // const { handleErrors } = require("../utils/errorHandling.utils");
 
@@ -41,7 +42,6 @@ exports.submitDocument = async (req, response) => {
 
     // Check if the user exists
     const user = await User.findOne({ _id });
-
     if (!user) {
       // If user not found, return an error response
       return response.status(400).json({ error: "User not found" });
@@ -49,14 +49,27 @@ exports.submitDocument = async (req, response) => {
 
     // Check if the document exists and is an assignment
     const document = await Document.findOne({ _id: id, type: "assignment" })
-      .select("_id type submissions")
+      .select("_id type submissions course")
       .populate("submissions");
-
     if (!document) {
       // If document not found or not an assignment, return an error response
       return response
         .status(400)
         .json({ error: "Document not found or not an assignment" });
+    }
+
+    // Get the corresponding course of the submitted document
+    const course = await Course.findById(document.course);
+
+    // Find the selected course in the user model
+    const selectedCourse = user.selectedCourses.find(
+      (c) => c.courseId.toString() === course._id.toString()
+    );
+
+    // If the selected course is found, update the points field and save the user model
+    if (selectedCourse) {
+      selectedCourse.points += 10; // Assign 10 points for submitting an assignment
+      await user.save();
     }
 
     // Check if the user has already submitted a document for this assignment
@@ -87,12 +100,6 @@ exports.submitDocument = async (req, response) => {
 
     // Add the submission to the user and save the user
     user.submissions.push(submission._id);
-
-    // Update the points field of the User model
-
-    user.points += 10; // Assign 10 points for submitting an assignment
-
-    await user.save();
 
     // Return a success response with redirect URL
     response.status(200).json({
