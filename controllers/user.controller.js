@@ -46,15 +46,20 @@ exports.register = async (req, res) => {
       phoneNumber,
       email,
       password: hashedPassword,
-      selectedCourses: courseIds,
     });
-    const savedUser = await newUser.save();
 
     for (const courseId of courseIds) {
       const course = await Course.findById(courseId);
-      course.registeredUsers.push(savedUser._id);
+      course.registeredUsers.push(newUser._id);
+
+      newUser.selectedCourses.push({
+        courseId,
+      });
+
       await course.save();
     }
+
+    await newUser.save();
 
     res.redirect("/api/v1/user/login");
   } catch (err) {

@@ -10,14 +10,24 @@ const checkForLoggedInUser = async (request, res, next) => {
     if (!token) return next();
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decodedToken.id);
+    const user = await User.findById(decodedToken.id).populate({
+      path: "selectedCourses.courseId",
+      model: "Course",
+    });
+
+    console.log(user.selectedCourses);
     if (!user) return res.redirect("/api/v1/user/register");
 
-    const selectedCourses = await Course.find({
-      _id: { $in: user.selectedCourses },
-    }).sort({ title: 1 });
     request.user = res.locals.user = user;
-    request.selectedCourses = res.locals.selectedCourses = selectedCourses;
+
+    const selectedCourses = user.selectedCourses.map(
+      (course) => course.courseId
+    );
+    const courses = await Course.find({
+      _id: { $in: selectedCourses },
+    }).sort({ title: 1 });
+
+    request.selectedCourses = res.locals.selectedCourses = courses;
     return next();
   } catch (err) {
     console.error(err);

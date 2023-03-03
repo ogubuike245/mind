@@ -35,10 +35,14 @@ const UserSchema = new mongoose.Schema({
   },
   selectedCourses: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
+      courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+      points: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
+
   downloads: [
     {
       type: mongoose.Schema.Types.ObjectId,
