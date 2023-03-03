@@ -74,56 +74,71 @@ exports.downloadDocumentPage = async (req, res) => {
 };
 
 // This function downloads a document from the database.
+
 exports.downloadDocument = async (request, response) => {
   try {
     // Find the document by its ID
-    const file = await Document.findById(request.params.id).populate("course");
+    const documentId = request.params.id;
+    const document = await Document.findById(documentId).populate("course");
 
     // Find the user who requested the download
     const user = await User.findById(request.user);
 
     // If the file doesn't exist, return a bad request error
-    if (!file) return response.status(400).send("File not found");
+    if (!document) return response.status(400).send("File not found");
 
     // If the file has a password, check if it matches the one provided by the user
-    if (file.password) {
+    if (document.password) {
       if (!request.body.password)
         // If the password was not provided, render the download page with the file information
-        return response.render("course/download", { title: "DOWNLOAD", file });
+        return response.render("course/download", {
+          title: "DOWNLOAD",
+          file: document,
+        });
 
       const passwordMatch = await bcrypt.compare(
         request.body.password,
-        file.password
+        document.password
       );
       if (!passwordMatch)
         // If the password doesn't match, render the download page with an error message
         return response.render("course/download", {
           error: "incorrect password",
           title: "DOWNLOAD",
-          file,
+          file: document,
         });
     }
 
     // Update the download information for the file
-    const hasUserDownloadedFile = file.downloadedBy.includes(user._id);
+    const hasUserDownloadedFile = document.downloadedBy.includes(user._id);
     if (!hasUserDownloadedFile) {
-      file.downloadedBy.push(user._id);
-      file.downloadCount++;
+      document.downloadedBy.push(user._id);
+      document.downloadCount++;
     }
-    await file.save();
+    await document.save();
 
     // Update the download information for the user
-    const hasFileBeenDownloadedByUser = user.downloads.includes(file._id);
+    const hasFileBeenDownloadedByUser = user.downloads.includes(document._id);
     if (!hasFileBeenDownloadedByUser) {
-      user.downloads.push(file._id);
+      user.downloads.push(document._id);
+      await user.save();
+    }
+
+    // Update the points field in the user model for the corresponding course
+    const course = await Course.findById(document.course);
+    const selectedCourse = user.selectedCourses.find(
+      (c) => c.courseId.toString() === course._id.toString()
+    );
+    if (selectedCourse) {
+      selectedCourse.points += 5; // Assign 5 points for downloading a document
       await user.save();
     }
 
     // Download the file
-    await response.download(file.path, file.originalName);
+    await response.download(document.path, document.originalName);
 
     // Redirect to the course details page
-    response.redirect(`/api/v1/course/details/${file.course.code}`);
+    response.redirect(`/api/v1/course/details/${document.course.code}`);
   } catch (err) {
     // Log the error
     console.log(err);
