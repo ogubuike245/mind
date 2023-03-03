@@ -115,12 +115,25 @@ exports.downloadDocument = async (request, response) => {
       document.downloadedBy.push(user._id);
       document.downloadCount++;
     }
+    document.downloadAttempts++; // Increment the download attempts counter
     await document.save();
 
     // Update the download information for the user
-    const hasFileBeenDownloadedByUser = user.downloads.includes(document._id);
+    const hasFileBeenDownloadedByUser = user.downloads.some(
+      (download) => download.document.toString() === document._id.toString()
+    );
     if (!hasFileBeenDownloadedByUser) {
-      user.downloads.push(document._id);
+      user.downloads.push({
+        document: document._id,
+        downloadAttempts: 1, // Initialize the download attempts counter to 1
+      });
+      await user.save();
+    } else {
+      // If the file has already been downloaded by the user, update the download attempts counter
+      const downloadIndex = user.downloads.findIndex(
+        (download) => download.document.toString() === document._id.toString()
+      );
+      user.downloads[downloadIndex].downloadAttempts++;
       await user.save();
     }
 

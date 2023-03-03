@@ -42,13 +42,16 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
-
   downloads: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Document",
+      document: { type: mongoose.Schema.Types.ObjectId, ref: "Document" },
+      downloadAttempts: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
+
   submissions: [
     {
       type: mongoose.Schema.Types.ObjectId,

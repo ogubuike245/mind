@@ -100,6 +100,7 @@ exports.submitDocument = async (req, response) => {
 
     // Add the submission to the user and save the user
     user.submissions.push(submission._id);
+    await user.save();
 
     // Return a success response with redirect URL
     response.status(200).json({
