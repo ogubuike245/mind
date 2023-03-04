@@ -2,16 +2,20 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
+const Token = require("../models/token.model");
 const { handleErrors } = require("../utils/errorHandling.utils");
-
-// THIS NEEDS TO BE PUT IN AN ENVIRONMENT VARIABLE
-const maximumAge = 3 * 24 * 60 * 60;
+const { sendVerificationEmail } = require("../utils/sendEmail.utils");
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: maximumAge,
+    expiresIn: process.env.MAX_AGE,
   });
 };
+
+// GENERATE OTP OF FOUR DIGITS
+function generateOTP() {
+  return Math.floor(1000 + Math.random() * 9000).toString();
+}
 
 // register
 // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
@@ -26,7 +30,6 @@ exports.register = async (req, res) => {
       registrationNumber,
       phoneNumber,
     } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const courses = await Course.find({
       code: { $in: selectedCourses },
@@ -39,6 +42,14 @@ exports.register = async (req, res) => {
       throw new Error(`A user with the email already exists.`);
     }
 
+    // Generate and hash the OTP
+    const generatedOTP = generateOTP();
+    const saltRounds = 10;
+    const hashedOtp = await bcrypt.hash(generatedOTP, saltRounds);
+
+    // Hash password and save the user data along with the encrypted OTP in the database
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     const newUser = new User({
       firstName,
       lastName,
@@ -46,6 +57,7 @@ exports.register = async (req, res) => {
       phoneNumber,
       email,
       password: hashedPassword,
+      isVerified: false,
     });
 
     for (const courseId of courseIds) {
@@ -59,9 +71,17 @@ exports.register = async (req, res) => {
       await course.save();
     }
 
-    await newUser.save();
+    const token = new Token({
+      value: hashedOtp,
+      user: newUser._id,
+    });
 
-    res.redirect("/api/v1/user/login");
+    await newUser.save();
+    await token.save();
+
+    await sendVerificationEmail(newUser, generatedOTP);
+
+    res.status(200).json("verification email sent , please check your email");
   } catch (err) {
     handleErrors(err, res);
   }
@@ -114,8 +134,38 @@ exports.resendOTP = async (req, res) => {
 // Verifies the user's email address.
 exports.verifyEmail = async (req, res) => {
   try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json("EMPTY VALUES");
+    }
+
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      return res.status(400).json("NO RECORD FOUND");
+    }
+
+    const existingToken = await Token.findOne({ user: existingUser._id });
+
+    if (!existingToken) {
+      return res.status(400).json("OTP NOT FOUND OR HAS EXPIRED");
+    }
+
+    const isValidOTP = await bcrypt.compare(otp, existingToken.value);
+
+    if (!isValidOTP) {
+      return res.status(400).json("INVALID OTP");
+    }
+
+    await User.updateOne(
+      { _id: existingUser._id },
+      { $set: { isVerified: true } }
+    );
+    res.redirect("/api/v1/user/login");
+    await Token.deleteOne({ _id: existingToken._id });
   } catch (err) {
-    res.render("error", { error: err, title: "ERROR" });
+    console.log(err);
   }
 };
 
@@ -143,7 +193,7 @@ exports.login = async (req, res) => {
 
     res.cookie(process.env.JWT_NAME, createToken(user._id), {
       httpOnly: true,
-      maximumAge: maximumAge * 1000,
+      maximumAge: process.env.MAX_AGE,
     });
     res.redirect("/");
   } catch (error) {

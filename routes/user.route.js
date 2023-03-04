@@ -14,6 +14,7 @@ const {
 const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
+const Token = require("../models/token.model");
 const Document = require("../models/document.model");
 const filepath = path.join(__dirname, "../utils/", "course.json");
 const rawdata = fs.readFileSync(filepath);
@@ -37,8 +38,36 @@ router.get("/password/reset/:email", (req, res) => {
 router.get("/resend/otp", (req, res) => {
   res.render("auth/resendOTP", { title: "RESET " });
 });
-router.get("/verify/email", (req, res) => {
-  res.render("auth/verifyEmail", { title: "RESET " });
+router.get("/verify/:email", async (req, res) => {
+  try {
+    // GET VALUES FROM REQUEST PARAMS
+    const { email } = req.params;
+
+    // VERIFY IF THE VALUES EXIST
+    if (!email) {
+      throw Error("EMPTY VALUE");
+    }
+
+    // CHECK IF THE USER EXISTS
+    const existingUser = await User.findOne({ email });
+    const existingToken = await Token.findOne({
+      user: existingUser._id,
+    });
+    console.log(existingUser);
+    console.log(existingToken);
+
+    if (!existingUser) {
+      throw Error("NO RECORD FOUND");
+    }
+
+    if (!existingToken) {
+      throw new Error("OTP NOT FOUND OR HAS EXPIRED");
+    }
+
+    res.render("auth/verifyEmail", { title: "VERIFY ACCOUNT", email });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 router.get("/reset/password/email/sent", (req, res) => {
   res.render("auth/resetEmail", { title: "RESET " });

@@ -33,6 +33,10 @@ const UserSchema = new mongoose.Schema({
     default: "user",
     enum: ["user", "admin"],
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   selectedCourses: [
     {
       courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
@@ -51,7 +55,6 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
-
   submissions: [
     {
       type: mongoose.Schema.Types.ObjectId,
