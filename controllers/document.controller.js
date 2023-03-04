@@ -5,6 +5,7 @@ const Course = require("../models/course.model");
 const User = require("../models/user.model");
 const Submission = require("../models/submissions.model");
 const { handleErrors } = require("../utils/errorHandling.utils");
+const { sendDocumentUploadedEmail } = require("../utils/sendEmail.utils");
 
 // const { Document, Submission, User, Course } = require("../models");
 
@@ -17,7 +18,6 @@ exports.uploadDocument = async (request, response) => {
   try {
     const { title, code, description, heading, type } = request.body;
     const course = await Course.findOne({ code: code });
-    // console.log(request.file);
 
     // If the course is not found, return a 404 error message
     if (!course) {
@@ -47,12 +47,27 @@ exports.uploadDocument = async (request, response) => {
 
     // Save the document to the database
     const savedDocument = await newDoc.save();
-    // Add the saved document to the course
 
+    // Add the saved document to the course
     course.documents.push(savedDocument._id);
     course.updated_at = Date.now();
-
     await course.save();
+
+    // Send email to registered users in the course
+    const registeredUsers = await User.find({
+      _id: { $in: course.registeredUsers },
+    });
+    const recipents = registeredUsers.map((user) => user.email);
+    const subject = `A NEW DOCUMENT HAS BEEN UPLOADED FOR THE COURSE : ${course.title}`;
+    const body = `<h1> THIS IS A LINK TO THE NEWLY UPLOADED DOCUMENT </h1>
+                       <a href="http://localhost:5000/api/v1/course/document/${savedDocument._id}>   CLICK ON THIS LINK TO VIEW THE DOCUMENT DETAILS</a>`;
+    await sendDocumentUploadedEmail(
+      recipents,
+      subject,
+      body,
+      course,
+      savedDocument
+    );
 
     // Redirect the user to the course details page
     response.status(200).json({
