@@ -1,10 +1,51 @@
 <html>
   <%- include('./partials/head.ejs') %>
   <body>
-    <% if (locals.user) { %> <%- include('./partials/navbar.ejs') %>
+    <% if (locals.user) { %> <%- include('./partials/navbar.ejs') %> <%
+    if(locals.user.role === "admin") { %>
     <div class="home__container">
       <div class="heading">
-        <h1>WELCOME TO GUBALT SPIKES</h1>
+        <h1 class="trippy" data-value="WELCOME TO GUBALT SPIKES">
+          WELCOME TO GUBALT SPIKES
+        </h1>
+        <h1>ALL COURSES <i class="fa fa-registered" aria-hidden="true"></i></h1>
+      </div>
+
+      <div class="home__user-content">
+        <% for (const course of locals.selectedCourses) { %>
+
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">
+              <%= course.title %>[ <%= course.code %> ]
+            </h3>
+
+            <p class="card-description"><%= course.description %></p>
+            <div class="card-footer">
+              <a
+                href="/api/v1/course/details/<%= course.code %>"
+                class="card-link"
+              >
+                View Course
+                <img src="/images/icons/folder.png" />
+              </a>
+
+              <span class="card-date">
+                updated <%= moment().from(course.updated_at,true) %> ago
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
+    </div>
+    <% } else { %>
+    <div class="home__container">
+      <div class="heading">
+        <h1 class="trippy" data-value="WELCOME TO GUBALT SPIKES">
+          WELCOME TO GUBALT SPIKES
+        </h1>
         <h1>
           SELECTED COURSES <i class="fa fa-registered" aria-hidden="true"></i>
         </h1>
@@ -29,9 +70,9 @@
                 <img src="/images/icons/folder.png" />
               </a>
 
-              <span class="card-date"
-                >updated <%= moment().from(course.updated_at,true) %> ago</span
-              >
+              <span class="card-date">
+                updated <%= moment().from(course.updated_at,true) %> ago
+              </span>
             </div>
           </div>
         </div>
@@ -39,7 +80,7 @@
         <% } %>
       </div>
     </div>
-    <% } else { %>
+    <% } %> <% } else { %>
     <div class="home__container">
       <div class="heading">
         <h1>WELCOME TO GUBALT SPIKES</h1>
@@ -51,5 +92,7 @@
       </div>
     </div>
     <% } %>
+
+    <script src="/js/script.js"></script>
   </body>
 </html>

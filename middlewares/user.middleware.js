@@ -15,19 +15,26 @@ const checkForLoggedInUser = async (request, res, next) => {
       model: "Course",
     });
 
-    console.log(user.selectedCourses);
     if (!user) return res.redirect("/api/v1/user/register");
 
     request.user = res.locals.user = user;
 
-    const selectedCourses = user.selectedCourses.map(
-      (course) => course.courseId
-    );
-    const courses = await Course.find({
-      _id: { $in: selectedCourses },
-    }).sort({ title: 1 });
+    if (user.role === "admin") {
+      // If user is an admin, fetch all courses
+      const courses = await Course.find().sort({ title: 1 });
+      request.selectedCourses = res.locals.selectedCourses = courses;
+    } else {
+      // If user is a regular user, fetch only the courses they registered for
+      const selectedCourses = user.selectedCourses.map(
+        (course) => course.courseId
+      );
+      const courses = await Course.find({
+        _id: { $in: selectedCourses },
+      }).sort({ title: 1 });
 
-    request.selectedCourses = res.locals.selectedCourses = courses;
+      request.selectedCourses = res.locals.selectedCourses = courses;
+    }
+
     return next();
   } catch (err) {
     console.error(err);
