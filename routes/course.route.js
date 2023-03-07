@@ -41,8 +41,8 @@ router.get("/submission/document/:id/type/assignment", submitDocumentPage);
 router.post("/upload", checkAdmin, upload.single("file"), uploadDocument);
 router.post("/create", checkAdmin, createCourse);
 router.post("/document/download/:id", downloadDocument);
-router.post("/edit", editCourse);
-router.post("/document/edit", editDocument);
+router.post("/edit", checkAdmin, editCourse);
+router.post("/document/edit", checkAdmin, editDocument);
 router.post(
   "/submission/document/:id/type/assignment",
   upload.single("file"),

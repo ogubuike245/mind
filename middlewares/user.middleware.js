@@ -42,12 +42,10 @@ const checkForLoggedInUser = async (request, res, next) => {
       // Token has expired, clear cookie and return error response
       res.clearCookie("gubi");
 
-      res
-        .status(401)
-        .render("auth/expired", {
-          heading: "Session has expired.",
-          message: " Please log in again.",
-        });
+      res.status(401).render("auth/expired", {
+        heading: "Session has expired.",
+        message: " Please log in again.",
+      });
     } else {
       // Other errors, log and return error response
       console.error(err);
@@ -61,7 +59,7 @@ const checkForLoggedInUser = async (request, res, next) => {
 // CHECK FOR IF THE USER IS LOGGED IN BEFORE REDIRECTING USER
 const isLoggedIn = (request, response, next) => {
   if (request.user) {
-    request.redirect("/api/v1/user");
+    response.redirect("/api/v1/user");
   } else {
     next();
   }
@@ -85,19 +83,21 @@ const checkAdmin = async (request, response, next) => {
 // CHECK TO SEE IF THE  JSON WEB TOKEN EXISTS AND ALSO IF THE TOKEN HAS BEEN VERIFIED
 const tokenVerification = async (request, res, next) => {
   try {
-    const token = request.cookies.jwt;
+    const token = request.cookies.gubi;
 
     if (!token) {
       return res.redirect("/api/v1/user/login");
     }
 
-    const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-    console.log("REQUIRE AUTH:", decodedToken);
+    const user = await User.findById(decodedToken.id);
+
+    console.log("TOKEN VERIFICATION:", decodedToken);
 
     // Attach user ID to request object and response locals
-    request.user = decodedToken.id;
-    res.locals.user = request.user;
+
+    request.user = res.locals.user = user;
 
     return next();
   } catch (err) {

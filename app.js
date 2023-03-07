@@ -12,14 +12,16 @@ const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/user.route");
 const courseRoutes = require("./routes/course.route");
 const allowedMethods = require("./middlewares/allowed.methods");
-const { checkForLoggedInUser } = require("./middlewares/user.middleware");
+const {
+  checkForLoggedInUser,
+  tokenVerification,
+} = require("./middlewares/user.middleware");
 const connectToDatabase = require("./config/database.config");
 
 // Connect to MongoDB
 const app = express();
 
 const { API_PORT, MONG0_DB_URI } = process.env;
-
 
 connectToDatabase(app);
 // Use EJS as the view engine
@@ -51,4 +53,4 @@ app.get("/", (_, response) => {
   response.render("index", { title: "HOME", moment });
 });
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/course", courseRoutes);
+app.use("/api/v1/course", tokenVerification, courseRoutes);
