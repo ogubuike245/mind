@@ -10,6 +10,7 @@ const {
   documentDetailsPage,
   editDocumentPage,
   editDocument,
+  deleteDocument,
 } = require("../controllers/document.controller");
 const {
   createCoursePage,
@@ -43,6 +44,7 @@ router.post("/create", checkAdmin, createCourse);
 router.post("/document/download/:id", downloadDocument);
 router.post("/edit", checkAdmin, editCourse);
 router.post("/document/edit", checkAdmin, editDocument);
+router.delete("/document/delete/:id", deleteDocument);
 router.post(
   "/submission/document/:id/type/assignment",
   upload.single("file"),

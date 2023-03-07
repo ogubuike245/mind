@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { default: axios } = require("axios");
 const moment = require("moment");
 const Document = require("../models/document.model");
 const Course = require("../models/course.model");
@@ -14,26 +15,22 @@ exports.uploadDocumentPage = async (request, response) => {
   response.render("course/upload", { title: "UPLOAD DOCUMENT", course });
 };
 
-exports.uploadDocument = async (request, response) => {
+exports.uploadDocument = async (req, res) => {
   try {
-    const { title, code, description, heading, type } = request.body;
-    const course = await Course.findOne({ code: code });
-
-    // If the course is not found, return a 404 error message
+    const { title, code, description, heading, type, password } = req.body;
+    const course = await Course.findOne({ code });
     if (!course) {
-      return response.status(400).json({ error: "Course not found." });
+      return res.status(404).json({ error: "Course not found." });
     }
 
-    if (!request.file) {
-      return response.status(400).json({ error: "Select File to Upload" });
+    if (!req.file) {
+      return res.status(400).json({ error: "No file selected." });
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(request.body.password, 10);
-    // Create a new document object
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newDoc = new Document({
-      path: request.file.path,
-      originalName: request.file.originalname,
+      path: req.file.path,
+      originalName: req.file.originalname,
       heading,
       type,
       description,
@@ -44,23 +41,20 @@ exports.uploadDocument = async (request, response) => {
 
     // Generate a download link for the document
     newDoc.downloadLink = `http://localhost:5000/api/v1/course/download/${newDoc.id}`;
-
-    // Save the document to the database
     const savedDocument = await newDoc.save();
-
-    // Add the saved document to the course
     course.documents.push(savedDocument._id);
     course.updated_at = Date.now();
     await course.save();
 
-    // Send email to registered users in the course
     const registeredUsers = await User.find({
       _id: { $in: course.registeredUsers },
     });
+
     const recipents = registeredUsers.map((user) => user.email);
     const subject = `A NEW DOCUMENT HAS BEEN UPLOADED FOR THE COURSE : ${course.title}`;
     const body = `<h1> THIS IS A LINK TO THE NEWLY UPLOADED DOCUMENT </h1>
                        <a href="http://localhost:5000/api/v1/course/document/${savedDocument._id}>   CLICK ON THIS LINK TO VIEW THE DOCUMENT DETAILS</a>`;
+
     await sendDocumentUploadedEmail(
       recipents,
       subject,
@@ -69,17 +63,14 @@ exports.uploadDocument = async (request, response) => {
       savedDocument
     );
 
-    // Redirect the user to the course details page
-    response.status(200).json({
+    res.status(201).json({
       success: true,
+      message: "Document uploaded successfully.",
       redirect: `/api/v1/course/details/${code}`,
     });
-  } catch (err) {
-    // Log the error to the console
-    console.log(err);
-    // Render an error page
-    // response.status(400).json({ error: err });
-    handleErrors(err, response);
+  } catch (error) {
+    console.error(error);
+    handleErrors(error, res);
   }
 };
 
@@ -252,15 +243,30 @@ exports.editDocument = async (req, res) => {
   }
 };
 
-// Display all documents for a given course
-exports.document_list = function (req, res) {
-  Document.find({ course: req.params.courseId })
-    .populate("submissions")
-    .exec(function (err, documents) {
-      if (err) {
-        return next(err);
-      }
-      // Render the chart view with the document data
-      res.render("user/dashboard", { documents });
+exports.deleteDocument = async (req, res) => {
+  try {
+    const documentId = req.params.id;
+    const document = await Document.findById(documentId).populate("course");
+    if (!document) {
+      return res.status(404).json({ error: "Document not found." });
+    }
+
+    // Remove the document from the course's documents array
+    const course = await Course.findById(document.course._id);
+    const documentIndex = course.documents.indexOf(document._id);
+    course.documents.splice(documentIndex, 1);
+    await course.save();
+
+    // Delete the document from the database
+    await document.remove();
+
+    res.status(200).json({
+      success: true,
+      message: "Document deleted successfully.",
+      redirect: `/api/v1/course/details/${course.code}`,
     });
+  } catch (error) {
+    console.error(error);
+    handleErrors(error, res);
+  }
 };

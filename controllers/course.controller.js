@@ -86,16 +86,29 @@ exports.courseDetailsPage = async (req, res) => {
   res.render("course/index", { title: " COURSE DETAILS", course, moment });
 };
 
-// Display all courses
-exports.course_list = function (req, res) {
-  Course.find({})
-    .populate("documents")
-    .populate("registeredUsers")
-    .exec(function (err, courses) {
-      if (err) {
-        return next(err);
-      }
-      // Render the chart view with the course data
-      res.render("user/dashboard", { courses });
+exports.deleteCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found." });
+    }
+
+    // Remove all documents associated with the course
+    const documents = await Document.find({ course: course._id });
+    for (const document of documents) {
+      await document.remove();
+    }
+
+    // Delete the course from the database
+    await course.remove();
+
+    res.status(200).json({
+      success: true,
+      message: "Course deleted successfully.",
     });
+  } catch (error) {
+    console.error(error);
+    handleErrors(error, res);
+  }
 };
