@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const moment = require("moment");
+
 const jwt = require("jsonwebtoken");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
@@ -214,7 +216,6 @@ exports.userProfile = async (req, res) => {
       .populate({
         path: "selectedCourses.courseId",
         model: "Course",
-        select: "code",
       });
 
     console.log(user);
@@ -232,6 +233,7 @@ exports.userProfile = async (req, res) => {
       email: user.email,
       user,
       selectedCourses,
+      moment,
       title: "USER PROFILE",
     });
   } catch (error) {

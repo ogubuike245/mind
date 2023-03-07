@@ -2,21 +2,109 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/navbar.ejs') %>
-    <h1>Profile</h1>
-    <p>First Name: <%= user.firstName %></p>
-    <p>Last Name: <%= user.lastName %></p>
-    <p>Registration Number: <%= user.registrationNumber %></p>
-    <p>Phone Number: <%= user.phoneNumber %></p>
-    <p>Email: <%= user.email %></p>
+
+    <div class="container">
+      <form
+        method="post"
+        action="/api/v1/course/edit"
+        class="container__editCourse"
+      >
+        <h1>User Profile</h1>
+        <div class="form-group">
+          <label>First Name:</label>
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            required
+            placeholder="First Name:"
+            value="<%= user.firstName %>"
+          />
+        </div>
+        <div class="form-group">
+          <label>Last Name:</label>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            required
+            placeholder="Last Name:"
+            value="<%= user.lastName %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            placeholder="Email:"
+            disabled
+            value="<%= user.email %>"
+          />
+        </div>
+        <div class="form-group">
+          <label>Registration Number:</label>
+          <input
+            type="text"
+            name="registrationNumber"
+            id="registrationNumber"
+            required
+            placeholder="Registration Number:"
+            value="<%= user.registrationNumber %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number:</label>
+          <input
+            type="text"
+            name="phoneNumber"
+            id="phoneNumber"
+            required
+            placeholder="Phone Number:"
+            value="<%= user.phoneNumber %>"
+          />
+        </div>
+
+        <button type="submit">Edit</button>
+      </form>
+    </div>
 
     <h1>Selected Courses:</h1>
-    <ul>
-      <% for (const course of user.selectedCourses) { %>
-      <a href="/api/v1/course/details/<%= course.courseId.code %>"
-        ><%= course.courseId.code %></a
-      >
-      <% } %>
-    </ul>
+    <div class="home__container">
+      <div class="home__user-content">
+        <% for (const course of user.selectedCourses) { %>
+
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">
+              <%= course.courseId.title %>[ <%= course.courseId.code %> ]
+            </h3>
+
+            <p class="card-description"><%= course.courseId.description %></p>
+            <div class="card-footer">
+              <a
+                href="/api/v1/course/details/<%= course.courseId.code %>"
+                class="card-link"
+              >
+                View Course
+                <img src="/images/icons/folder.png" />
+              </a>
+
+              <span class="card-date">
+                updated <%= moment().from(course.courseId.updated_at,true) %>
+                ago
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <% } %>
+      </div>
+    </div>
 
     <h1>Downloads:</h1>
     <% for (const download of user.downloads) { %>
