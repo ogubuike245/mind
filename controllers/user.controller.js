@@ -206,7 +206,18 @@ exports.login = async (req, res) => {
 exports.userProfile = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id).populate("downloads");
+    const user = await User.findById(id)
+      .populate({
+        path: "downloads.document",
+        model: "Document",
+      })
+      .populate({
+        path: "selectedCourses.courseId",
+        model: "Course",
+        select: "code",
+      });
+
+    console.log(user);
 
     if (!user) {
       return res.render("error", { error: "User not found", title: "ERROR" });
@@ -219,6 +230,7 @@ exports.userProfile = async (req, res) => {
     res.render("user/profile", {
       name: user.name,
       email: user.email,
+      user,
       selectedCourses,
       title: "USER PROFILE",
     });

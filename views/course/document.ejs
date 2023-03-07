@@ -4,33 +4,43 @@
     <%- include('../partials/navbar.ejs') %>
 
     <div class="document-page_container">
-      <h1>DOCUMENT DETAIL</h1>
+      <div class="document-info">
+        <h1>DOCUMENT DETAILS</h1>
 
-      <div class="heading">
+        <h1>Title: <%= document.title %></h1>
         <h1>Heading : <%= document.heading %></h1>
-
         <h1>Description: <%= document.description %></h1>
+        <h1>TYPE: <%= document.type %></h1>
       </div>
 
-      <h3>ID:</h3>
-      <h1><%= document._id %></h1>
-      <h3>HEADING:</h3>
+      <div class="document-actions">
+        <% if (locals.user ) { %>
 
-      <h1><%= document.title %></h1>
-      <h3>TYPE:</h3>
-      <h1><%= document.type %></h1>
+        <div class="user-actions">
+          <a href="/api/v1/course/download/<%= document._id %>">
+            <button>
+              DOWNLOAD
+              <img src="/images/icons/download.png" />
+            </button>
+          </a>
 
-      <a href="/api/v1/course/download/<%= document._id %>">
-        <button>
-          DOWNLOAD
-          <img src="/images/icons/download.png" />
-        </button>
-      </a>
+          <% if (document.type === "assignment") { %>
 
-      <div class="actions">
-        <% if (locals.user && (locals.user.role === "admin")) { %>
+          <a
+            href="/api/v1/course/submission/document/<%= document._id %>/type/assignment"
+          >
+            <button>
+              SUBMIT ASSIGNMENT
+              <img src="/images/icons/info.png" />
+            </button>
+          </a>
 
-        <div>
+          <% } %>
+        </div>
+
+        <% } %> <% if (locals.user && (locals.user.role === "admin")) { %>
+
+        <div class="admin-actions">
           <a href="/api/v1/course/document/edit/<%= document._id %>">
             <button>
               EDIT
@@ -48,34 +58,6 @@
 
         <% } %>
       </div>
-
-      <% if (document.type === "assignment") { %> <% if (locals.user &&
-      (locals.user.role === "admin")) { %> <% if (submissions &&
-      submissions.length > 0) { %>
-      <h1>SUBMISSION DETAILS:</h1>
-      <% submissions.forEach(function(submission) { %>
-      <h4>Submitted by: <%= submission.submittedBy[0].name %></h4>
-      <h4>Submitted at: <%= submission.created_at %></h4>
-      <br />
-
-      <button>DOWNLOAD SUBMISSION</button>
-
-      <br />
-
-      <% }); %> <% } else { %>
-      <h1>No submissions made yet</h1>
-      <% } %> <% } %>
-
-      <div>
-        <button>
-          <a
-            href="/api/v1/course/submission/document/<%= document._id %>/type/assignment"
-          >
-            SUBMIT ASSIGNMENT
-          </a>
-        </button>
-      </div>
-      <% } %>
     </div>
   </body>
 </html>

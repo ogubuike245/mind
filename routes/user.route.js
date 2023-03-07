@@ -28,17 +28,17 @@ router.get("/register", isLoggedIn, async (req, res) => {
 
   res.render("auth/register", { title: "User Registration", course: courses });
 });
-router.get("/request/password/reset", (req, res) => {
+router.get("/request/password/reset", isLoggedIn, (req, res) => {
   res.render("auth/requestPasswordReset", { title: "PASSWORD RESET PAGE" });
 });
-router.get("/password/reset/:email", (req, res) => {
+router.get("/password/reset/:email", isLoggedIn, (req, res) => {
   const { email } = req.params;
   res.render("auth/passwordReset", { title: "RESET ", email });
 });
-router.get("/resend/otp", (req, res) => {
+router.get("/resend/otp", isLoggedIn, (req, res) => {
   res.render("auth/resendOTP", { title: "RESET " });
 });
-router.get("/verify/:email", async (req, res) => {
+router.get("/verify/:email", isLoggedIn, async (req, res) => {
   try {
     // GET VALUES FROM REQUEST PARAMS
     const { email } = req.params;
@@ -125,7 +125,7 @@ router.post("/register", isLoggedIn, register);
 router.post("/password/reset", passwordReset);
 router.post("/request/password/reset", requestPasswordReset);
 router.post("/resend/otp", resendOTP);
-router.post("/verify/email", verifyEmail);
+router.post("/verify/email", isLoggedIn, verifyEmail);
 router.post("/login", isLoggedIn, login);
 
 module.exports = router;

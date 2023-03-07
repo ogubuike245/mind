@@ -5,7 +5,8 @@ body {
   // background-color: hsl(184, 26%, 55%);
   margin: 0;
   padding: 0;
-  background: url("/images/background6.jpg") no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(165, 138, 138, 0.9)),
+    url("/images/background6.jpg") no-repeat;
   background-position: center;
   background-size: cover;
 }

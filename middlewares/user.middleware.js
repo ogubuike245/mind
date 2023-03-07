@@ -10,6 +10,7 @@ const checkForLoggedInUser = async (request, res, next) => {
     if (!token) return next();
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
     const user = await User.findById(decodedToken.id).populate({
       path: "selectedCourses.courseId",
       model: "Course",
@@ -37,10 +38,23 @@ const checkForLoggedInUser = async (request, res, next) => {
 
     return next();
   } catch (err) {
-    console.error(err);
-    request.user = res.locals.user = null;
-    request.selectedCourses = res.locals.selectedCourses = null;
-    return next(err);
+    if (err instanceof jwt.TokenExpiredError) {
+      // Token has expired, clear cookie and return error response
+      res.clearCookie("gubi");
+
+      res
+        .status(401)
+        .render("auth/expired", {
+          heading: "Session has expired.",
+          message: " Please log in again.",
+        });
+    } else {
+      // Other errors, log and return error response
+      console.error(err);
+      request.user = res.locals.user = null;
+      request.selectedCourses = res.locals.selectedCourses = null;
+      return next(err);
+    }
   }
 };
 

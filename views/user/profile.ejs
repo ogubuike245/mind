@@ -11,17 +11,20 @@
 
     <h1>Selected Courses:</h1>
     <ul>
-      <% for (const course of selectedCourses) { %>
-
-      <a href="/api/v1/course/details/<%= course.code %>"><%= course.code %></a>
+      <% for (const course of user.selectedCourses) { %>
+      <a href="/api/v1/course/details/<%= course.courseId.code %>"
+        ><%= course.courseId.code %></a
+      >
       <% } %>
     </ul>
-    <h1>DOWNLOADS:</h1>
-    <ul>
-      <% for (const download of user.downloads) { %>
 
-      <p><%= download.title %></p>
-      <% } %>
-    </ul>
+    <h1>Downloads:</h1>
+    <% for (const download of user.downloads) { %>
+    <p>
+      Title: <%= download.document.title %> - Download Attempts:
+      <%=download.downloadAttempts %> Type: <%=download.document.type %>
+      Description: <%=download.document.description %>
+    </p>
+    <% } %>
   </body>
 </html>

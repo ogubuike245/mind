@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <div class="container">
+      <div class="auth-section sent">
+        <h1>Check your mail</h1>
+
+        <p>We have sent the password recovery instructions to your email</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <section class="auth-section reset">
+        <div class="form-box">
+          <div class="form-value">
+            <div class="heading">
+              <h2><%= heading %></h2>
+              <p></p>
+            </div>
+            <button>
+              <a href="/api/v1/user/login"> <%= message %> </a>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

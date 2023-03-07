@@ -26,16 +26,19 @@ const DocumentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
   },
-  downloadedBy: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  }],
-  
-  submissions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Submission",
-  }],
-  
+  downloadedBy: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+
+  submissions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Submission",
+    },
+  ],
 
   originalName: {
     type: String,
