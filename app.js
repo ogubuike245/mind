@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const path = require("path");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -20,8 +19,6 @@ const connectToDatabase = require("./config/database.config");
 
 // Connect to MongoDB
 const app = express();
-
-const { API_PORT, MONG0_DB_URI } = process.env;
 
 connectToDatabase(app);
 // Use EJS as the view engine
