@@ -320,8 +320,12 @@ a:hover {
   font-size: 2.5rem;
   color: whitesmoke;
 }
-.home__container .heading button {
-  width: 60%;
+.home__container .heading a {
+  color: whitesmoke;
+  font-size: 1.5rem;
+}
+.home__container .heading a button {
+  width: 100%;
   background-color: #2ecc71;
   color: whitesmoke;
   border: none;
@@ -331,11 +335,7 @@ a:hover {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.home__container .heading button a {
-  color: whitesmoke;
-  font-size: 1.5rem;
-}
-.home__container .heading button:hover {
+.home__container .heading a button:hover {
   background-color: #27ae60;
 }
 .home__container .home__user-content {

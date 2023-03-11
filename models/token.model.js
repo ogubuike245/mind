@@ -6,6 +6,11 @@ const TokenSchema = new Schema({
     type: String,
     required: true,
   },
+  generatedOTP: {
+    type: String,
+    required: true,
+  },
+
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

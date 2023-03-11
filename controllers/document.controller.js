@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { default: axios } = require("axios");
+
 const moment = require("moment");
 const Document = require("../models/document.model");
 const Course = require("../models/course.model");

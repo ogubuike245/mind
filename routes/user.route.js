@@ -45,30 +45,47 @@ router.get("/verify/:email", isLoggedIn, async (req, res) => {
 
     // VERIFY IF THE VALUES EXIST
     if (!email) {
-      throw Error("EMPTY VALUE");
+      return res.status(400).json({
+        error: true,
+        message: "Email is required.",
+      });
     }
 
     // CHECK IF THE USER EXISTS
     const existingUser = await User.findOne({ email });
+    if (existingUser.isVerified) {
+      return res.status(400).json({
+        error: true,
+        message: "Email has already been verified.",
+      });
+    }
     const existingToken = await Token.findOne({
-      user: existingUser._id,
+      user: existingUser?._id,
     });
-    console.log(existingUser);
-    console.log(existingToken);
 
     if (!existingUser) {
-      throw Error("NO RECORD FOUND");
+      return res.status(404).json({
+        error: true,
+        message: "User not found.",
+      });
     }
 
     if (!existingToken) {
-      throw new Error("OTP NOT FOUND OR HAS EXPIRED");
+      return res.status(404).json({
+        error: true,
+        message: "Token not found.",
+      });
     }
 
     res.render("auth/verifyEmail", { title: "VERIFY ACCOUNT", email });
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(500).json({
+      error: true,
+      message: "Internal server error.",
+    });
   }
 });
+
 router.get("/reset/password/email/sent", (req, res) => {
   res.render("auth/resetEmail", { title: "RESET " });
 });
