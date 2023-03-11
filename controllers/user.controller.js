@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const moment = require("moment");
-
 const jwt = require("jsonwebtoken");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
@@ -45,7 +44,7 @@ exports.register = async (req, res) => {
     }
 
     // Generate and hash the OTP
-    const generatedOTP = generateOTP();
+    const generatedOTP = generateOneTimePassword();
     const saltRounds = 10;
     const hashedOtp = await bcrypt.hash(generatedOTP, saltRounds);
 
@@ -144,12 +143,12 @@ exports.passwordReset = async (req, res) => {
 
 // resendOTP
 // Resends the OTP to the user's email or phone number.
-exports.resendOTP = async (req, res) => {
-  try {
-  } catch (err) {
-    res.render("error", { error: err, title: "ERROR" });
-  }
-};
+// exports.resendOTP = async (req, res) => {
+//   try {
+//   } catch (err) {
+//     res.render("error", { error: err, title: "ERROR" });
+//   }
+// };
 
 // verifyEmail
 // Verifies the user's email address.
@@ -212,8 +211,6 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    console.log(req.body);
-
     if (!user) {
       return res.status(200).json({
         error: true,
@@ -237,7 +234,6 @@ exports.login = async (req, res) => {
 
       if (existingToken) {
         // verification token already exists,
-
         return res.status(401).json({
           error: true,
           message:
@@ -245,13 +241,7 @@ exports.login = async (req, res) => {
         });
       } else {
         // generate new verification token and send it
-        const newToken = await generateOTPAndSave(user._id);
-        await sendVerificationEmail(user, newToken.generatedOTP);
-        return res.status(401).json({
-          success: true,
-          message:
-            "Your verification code has expired. Verification codes are valid for 24 hours,  A New verification code has been sent to your email.",
-        });
+        getNewOTP(user, newToken.generatedOTP);
       }
     }
 
@@ -328,13 +318,13 @@ const createToken = (id) => {
 };
 
 // GENERATE OTP OF FOUR DIGITS
-function generateOTP() {
+function generateOneTimePassword() {
   return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
 // GENERATE OTP AND SAVE TO TOKEN MODEL
-async function generateOTPAndSave(userId) {
-  const generatedOTP = generateOTP();
+async function generateOneTimePasswordAndSave(userId) {
+  const generatedOTP = generateOneTimePassword();
   await Token.deleteOne({ user: userId });
   const hashedOtp = await bcrypt.hash(generatedOTP, 10);
   const token = new Token({ value: hashedOtp, user: userId, generatedOTP });
@@ -343,22 +333,13 @@ async function generateOTPAndSave(userId) {
 }
 
 // GET NEW OTP FUNCTION
-async function getNewOTP(response, email) {
-  const user = await User.findOne({ email });
-  console.log(user);
-  if (!user) {
-    return console.log("User not found");
-  }
-  if (!user.isVerified) {
-    console.log("User not verified");
-    // Check if the user exists in the Token model and the Token has not expired
-    const existingToken = await Token.findOne({ user: user._id });
-    if (existingToken) {
-      await Token.deleteOne({ _id: existingToken._id });
-    }
-
-    await sendVerificationEmail(user, generateOTPAndSave(user._id));
-    console.log(user);
-    response.redirect(`/api/v1/auth/verify/${user.email}`);
-  }
+async function getNewOTP(res, user) {
+  // generate new verification token and send it
+  const newToken = await generateOneTimePasswordAndSave(user._id);
+  await sendVerificationEmail(user, newToken.generatedOTP);
+  return res.status(401).json({
+    success: true,
+    message:
+      "Your verification code has expired. Verification codes are valid for 24 hours,  A New verification code has been sent to your email.",
+  });
 }

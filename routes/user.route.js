@@ -141,7 +141,7 @@ router.get("/logout", userLogout);
 router.post("/register", isLoggedIn, register);
 router.post("/password/reset", passwordReset);
 router.post("/request/password/reset", requestPasswordReset);
-router.post("/resend/otp", resendOTP);
+// router.post("/resend/otp", resendOTP);
 router.post("/verify/email", isLoggedIn, verifyEmail);
 router.post("/login", isLoggedIn, login);
 

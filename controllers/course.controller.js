@@ -19,13 +19,17 @@ exports.createCourse = async (req, res) => {
 
     await course.save();
 
-    res.render("success", {
-      title: "success",
-      success: " COURSE CREATED successfully.",
+    res.status(201).json({
+      success: true,
+      message: "COURSE CREATED SUCCESSFULLY",
     });
   } catch (error) {
-    handleErrors(error, res);
-    // res.render("error", { title: "ERROR", error: error });
+    const errorMessage = handleErrors(error, res);
+
+    res.status(500).json({
+      error: true,
+      message: errorMessage,
+    });
   }
 };
 

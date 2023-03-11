@@ -4,11 +4,7 @@
     <%- include('../partials/navbar.ejs') %>
 
     <div class="container">
-      <form
-        action="/api/v1/course/create"
-        method="post"
-        class="container__create"
-      >
+      <form class="container__create" id="createCourse-form">
         <h1>Create Course</h1>
 
         <div class="form-group">
@@ -43,5 +39,7 @@
         <button type="submit">Create Course</button>
       </form>
     </div>
+
+    <script src="/js/create.js"></script>
   </body>
 </html>

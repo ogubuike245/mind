@@ -1,4 +1,20 @@
 FIX LOGIN ERROR HANDLERS NOTIFICATION DISPLAY
 
+Check if the user exists in the database and the password is correct.
+If the user exists and the password is correct, check if the account is verified.
+If the account is not verified:
+Check if there is an existing token for the user.
+If there is an existing token, resend the verification email using the existing token.
+If there is no existing token, generate a new token and send the verification email.
+If the account is verified, create a JWT token and send it to the client in a cookie.
+
 FIX REGISTER ERROR HANDLERS NOTIFICATION DISPLAY
 
+
+
+
+AUTH PAGES COMPLETE FOR NOW IN TERMS OF TOAST NOTIFCATIONS
+
+
+
+NEXT UP IS CREATING A COURSE PAGE
