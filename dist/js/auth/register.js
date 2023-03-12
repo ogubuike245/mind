@@ -8,7 +8,17 @@ async function handleFormSubmit(event) {
     const formData = new FormData(registerForm);
     const data = {};
     for (const [key, value] of formData.entries()) {
-      data[key] = value;
+      if (key === "selectedCourses") {
+        // If the key is 'selectedCourses', create an array with the value(s)
+        // and append it to the 'data' object
+        if (!data[key]) {
+          data[key] = [];
+        }
+        data[key].push(value);
+      } else {
+        // For other keys, directly append the value to the 'data' object
+        data[key] = value;
+      }
     }
     const response = await fetch("/api/v1/user/register", {
       method: "POST",

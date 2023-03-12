@@ -12,7 +12,7 @@ const { sendVerificationEmail } = require("../utils/sendEmail.utils");
 // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
 exports.registerPage = async (req, res) => {
   const courses = await Course.find().sort({ title: 1 });
-  res.render("auth/register", { title: "User Registration", course: courses });
+  res.render("auth/register", { title: "User Registration", courses });
 };
 
 /**
@@ -108,6 +108,8 @@ exports.register = async (req, res) => {
     });
     const courseIds = courses.map((course) => course._id);
 
+    console.log(courseIds);
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -152,7 +154,10 @@ exports.register = async (req, res) => {
       });
 
       await course.save();
+      console.log(course);
     }
+
+    // console.log(newUser);
 
     const token = new Token({
       value: hashedOtp,
@@ -426,7 +431,7 @@ exports.login = async (req, res) => {
         });
       } else {
         // generate new verification token and send it
-        getNewOTP(user, newToken.generatedOTP);
+        getNewOTP(res, user);
       }
     }
 

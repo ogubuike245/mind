@@ -8,12 +8,7 @@
       <section class="auth-section">
         <div class="form-box">
           <div class="form-value">
-            <form
-              action="/api/v1/user/register"
-              method="post"
-              autocomplete="off"
-              id="register-form"
-            >
+            <form autocomplete="off" id="register-form">
               <h2>Create Account</h2>
               <div class="inputbox">
                 <i class="fa-regular fa-address-card"></i>
@@ -48,12 +43,12 @@
               <div class="form-group">
                 <label for="selectedCourses">SELECT COURSE:</label>
                 <div class="courses-grid">
-                  <% course.forEach(element => { %>
+                  <% courses.forEach(element => { %>
                   <div>
                     <label for="<%= element.code %>"><%= element.code %></label>
                     <input
                       type="checkbox"
-                      id="selectedCourses"
+                      id="selectedCourses-<%= element.code %>"
                       name="selectedCourses"
                       value="<%= element.code %>"
                     />
@@ -72,12 +67,9 @@
             </form>
           </div>
         </div>
-        W
       </section>
     </div>
-    W
 
     <script src="/js/auth/register.js"></script>
   </body>
 </html>
-W
