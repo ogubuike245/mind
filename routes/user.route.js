@@ -1,7 +1,6 @@
-const fs = require("fs"),
-  path = require("path"),
-  express = require("express");
-
+const express = require("express");
+// fs = require("fs"),
+// path = require("path"),
 const {
   register,
   login,
@@ -9,12 +8,12 @@ const {
   passwordReset,
   verifyEmail,
   verifyEmailPage,
-  userProfile,
+  userProfilepage,
   userLogout,
   adminDashboard,
-  resendOTP,
   loginPage,
   registerPage,
+  // resendOTP,
 } = require("../controllers/user.controller");
 const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
 const Course = require("../models/course.model");
@@ -45,9 +44,9 @@ userRouter.get("/password/reset/:email", isLoggedIn, (req, res) => {
 userRouter.get("/reset/password/email/sent", (req, res) => {
   res.render("auth/resetEmail", { title: "RESET " });
 });
-userRouter.get("/resend/otp", isLoggedIn, (req, res) => {
-  res.render("auth/resendOTP", { title: "RESET " });
-});
+// userRouter.get("/resend/otp", isLoggedIn, (req, res) => {
+//   res.render("auth/resendOTP", { title: "RESET " });
+// });
 
 // POST ROUTES
 userRouter.post("/register", isLoggedIn, register);

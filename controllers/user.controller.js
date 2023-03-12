@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
@@ -537,6 +538,7 @@ exports.userProfilepage = async (req, res) => {
         name: user.name,
         email: user.email,
         selectedCourses,
+        moment,
       });
     }
 
