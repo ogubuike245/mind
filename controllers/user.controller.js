@@ -9,6 +9,76 @@ const { sendVerificationEmail } = require("../utils/sendEmail.utils");
 
 // register
 // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
+
+/**
+ * @openapi
+ * /register:
+ *   post:
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               selectedCourses:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               registrationNumber:
+ *                 type: string
+ *               phoneNumber:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Registration successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Registration successful! A verification email has been sent to your email address. Please follow the instructions in the email to complete the verification process and log in to your account.
+ *       '400':
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Please select at least one course.
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: An error occurred while registering the user.
+ */
 exports.register = async (req, res) => {
   try {
     const {
@@ -72,7 +142,6 @@ exports.register = async (req, res) => {
       }
 
       course.registeredUsers.push(newUser._id);
-
       newUser.selectedCourses.push({
         courseId,
       });
@@ -107,48 +176,78 @@ exports.register = async (req, res) => {
   }
 };
 
-// requestPasswordReset
-// Sends an OTP to the user's email or phone number to reset their password. Redirects the user to a page where they can enter the OTP to reset their password.
-exports.requestPasswordReset = async (req, res) => {
-  try {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
-
-    if (user) {
-      res.redirect(`/api/v1/user/reset/password/email/sent`);
-      //SEND OTP TO EMAIL AND LINK TO REDIRECT USER TO PASSWORD RESET PAGE
-      // ALTERNATIVE IS TO SEND OTP TO PHONE NUMBER
-    } else {
-      res.send("USER DOES NOT EXIST");
-    }
-  } catch (err) {
-    handleErrors(err, res);
-  }
-};
-
-// passwordReset
-// Resets the user's password and saves the new password hash in the database.
-exports.passwordReset = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.findOne({ email });
-    user.password = hashedPassword;
-    await user.save();
-    res.redirect(`/api/v1/user/login`);
-  } catch (err) {
-    res.render("error", { error: err, title: "ERROR" });
-  }
-};
-
-// resendOTP
-// Resends the OTP to the user's email or phone number.
-// exports.resendOTP = async (req, res) => {
-//   try {
-//   } catch (err) {
-//     res.render("error", { error: err, title: "ERROR" });
-//   }
-// };
+/**
+ * @openapi
+ * /api/verify-email:
+ *   post:
+ *     summary: Verifies the user's email address.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email address.
+ *                 example: john@example.com
+ *               otp:
+ *                 type: string
+ *                 description: One-time password sent to the user's email.
+ *                 example: 123456
+ *             required:
+ *               - email
+ *               - otp
+ *     responses:
+ *       200:
+ *         description: Email verification successful.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Whether the verification was successful.
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   description: Success message.
+ *                   example: Email verification successful! You can now log in to your account.
+ *                 redirect:
+ *                   type: string
+ *                   description: URL to redirect the user to after verification.
+ *                   example: /
+ *       400:
+ *         description: Bad request.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Whether an error occurred.
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   description: Error message.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   description: Whether an error occurred.
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   description: Error message.
+ */
 
 // verifyEmail
 // Verifies the user's email address.
@@ -203,6 +302,85 @@ exports.verifyEmail = async (req, res) => {
     res.status(500).json({ error: true, message: errorMessage });
   }
 };
+
+/**
+ * @openapi
+ * /api/login:
+ *   post:
+ *     summary: Logs in a user with an email and password.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *             required:
+ *               - email
+ *               - password
+ *     responses:
+ *       '200':
+ *         description: Successfully logged in.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: login Successful
+ *                 redirect:
+ *                   type: string
+ *                   example: "/"
+ *       '400':
+ *         description: Invalid request body.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Please provide both email and password.
+ *       '401':
+ *         description: Unauthorized access.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Incorrect email or password. Please make sure you have entered the correct email and password combination.
+ *       '500':
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: An error occurred while logging in.
+ */
 
 // login
 // Logs in the user and creates a JWT cookie for the session.
@@ -308,6 +486,50 @@ exports.userLogout = async (req, res) => {
   res.clearCookie(process.env.JWT_NAME);
   res.redirect("/");
 };
+
+// requestPasswordReset
+// Sends an OTP to the user's email or phone number to reset their password. Redirects the user to a page where they can enter the OTP to reset their password.
+exports.requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (user) {
+      res.redirect(`/api/v1/user/reset/password/email/sent`);
+      //SEND OTP TO EMAIL AND LINK TO REDIRECT USER TO PASSWORD RESET PAGE
+      // ALTERNATIVE IS TO SEND OTP TO PHONE NUMBER
+    } else {
+      res.send("USER DOES NOT EXIST");
+    }
+  } catch (err) {
+    handleErrors(err, res);
+  }
+};
+
+// NOT COMPLETE LOGIC YET
+// passwordReset
+// Resets the user's password and saves the new password hash in the database.
+exports.passwordReset = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.findOne({ email });
+    user.password = hashedPassword;
+    await user.save();
+    res.redirect(`/api/v1/user/login`);
+  } catch (err) {
+    res.render("error", { error: err, title: "ERROR" });
+  }
+};
+
+// resendOTP
+// Resends the OTP to the user's email or phone number.
+// exports.resendOTP = async (req, res) => {
+//   try {
+//   } catch (err) {
+//     res.render("error", { error: err, title: "ERROR" });
+//   }
+// };
 
 // RESUSABLE FUNCTIONS
 
