@@ -20,25 +20,25 @@ const filepath = path.join(__dirname, "../utils/", "course.json");
 const rawdata = fs.readFileSync(filepath);
 // const courses = JSON.parse(rawdata);
 
-const router = express.Router();
+const userRouter = express.Router();
 
 // GET ROUTES
-router.get("/register", isLoggedIn, async (req, res) => {
+userRouter.get("/register", isLoggedIn, async (req, res) => {
   const courses = await Course.find().sort({ title: 1 });
 
   res.render("auth/register", { title: "User Registration", course: courses });
 });
-router.get("/request/password/reset", isLoggedIn, (req, res) => {
+userRouter.get("/request/password/reset", isLoggedIn, (req, res) => {
   res.render("auth/requestPasswordReset", { title: "PASSWORD RESET PAGE" });
 });
-router.get("/password/reset/:email", isLoggedIn, (req, res) => {
+userRouter.get("/password/reset/:email", isLoggedIn, (req, res) => {
   const { email } = req.params;
   res.render("auth/passwordReset", { title: "RESET ", email });
 });
-router.get("/resend/otp", isLoggedIn, (req, res) => {
+userRouter.get("/resend/otp", isLoggedIn, (req, res) => {
   res.render("auth/resendOTP", { title: "RESET " });
 });
-router.get("/verify/:email", isLoggedIn, async (req, res) => {
+userRouter.get("/verify/:email", isLoggedIn, async (req, res) => {
   try {
     // GET VALUES FROM REQUEST PARAMS
     const { email } = req.params;
@@ -86,15 +86,15 @@ router.get("/verify/:email", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/reset/password/email/sent", (req, res) => {
+userRouter.get("/reset/password/email/sent", (req, res) => {
   res.render("auth/resetEmail", { title: "RESET " });
 });
-router.get("/login", isLoggedIn, (req, res) => {
+userRouter.get("/login", isLoggedIn, (req, res) => {
   res.render("auth/login", { title: "User Login" });
 });
-router.get("/profile/:id", userProfile);
+userRouter.get("/profile/:id", userProfile);
 
-router.get("/dashboard", checkAdmin, async (req, res) => {
+userRouter.get("/dashboard", checkAdmin, async (req, res) => {
   const courses = await Course.find()
     .sort({ title: 1 })
     .populate("documents")
@@ -135,17 +135,17 @@ router.get("/dashboard", checkAdmin, async (req, res) => {
   });
 });
 
-router.get("/logout", userLogout);
+userRouter.get("/logout", userLogout);
 
 // POST ROUTES
-router.post("/register", isLoggedIn, register);
-router.post("/password/reset", passwordReset);
-router.post("/request/password/reset", requestPasswordReset);
+userRouter.post("/register", isLoggedIn, register);
+userRouter.post("/password/reset", passwordReset);
+userRouter.post("/request/password/reset", requestPasswordReset);
 // router.post("/resend/otp", resendOTP);
-router.post("/verify/email", isLoggedIn, verifyEmail);
-router.post("/login", isLoggedIn, login);
+userRouter.post("/verify/email", isLoggedIn, verifyEmail);
+userRouter.post("/login", isLoggedIn, login);
 
-module.exports = router;
+module.exports = userRouter;
 
 /* 
 

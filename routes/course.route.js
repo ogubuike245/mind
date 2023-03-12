@@ -26,29 +26,34 @@ const {
 
 const { checkAdmin } = require("../middlewares/user.middleware");
 
-const router = express.Router();
+const courseRouter = express.Router();
 
 // GET ROUTES
-router.get("/upload", checkAdmin, uploadDocumentPage);
-router.get("/create", checkAdmin, createCoursePage);
-router.get("/download/:id", downloadDocumentPage);
-router.get("/details/:code", courseDetailsPage);
-router.get("/document/:id", documentDetailsPage);
-router.get("/edit/:id", editCoursePage);
-router.get("/document/edit/:id", editDocumentPage);
-router.get("/submission/document/:id/type/assignment", submitDocumentPage);
+courseRouter.get("/upload", checkAdmin, uploadDocumentPage);
+courseRouter.get("/create", checkAdmin, createCoursePage);
+courseRouter.get("/download/:id", downloadDocumentPage);
+courseRouter.get("/details/:code", courseDetailsPage);
+courseRouter.get("/document/:id", documentDetailsPage);
+courseRouter.get("/edit/:id", editCoursePage);
+courseRouter.get("/document/edit/:id", editDocumentPage);
+courseRouter.get(
+  "/submission/document/:id/type/assignment",
+  submitDocumentPage
+);
 
 // POST ROUTES
-router.post("/upload", checkAdmin, upload.single("file"), uploadDocument);
-router.post("/create", checkAdmin, createCourse);
-router.post("/document/download/:id", downloadDocument);
-router.post("/edit", checkAdmin, editCourse);
-router.post("/document/edit", checkAdmin, editDocument);
-router.delete("/document/delete/:id", deleteDocument);
-router.post(
+courseRouter.post("/upload", checkAdmin, upload.single("file"), uploadDocument);
+courseRouter.post("/create", checkAdmin, createCourse);
+courseRouter.post("/document/download/:id", downloadDocument);
+courseRouter.post("/edit", checkAdmin, editCourse);
+courseRouter.post("/document/edit", checkAdmin, editDocument);
+courseRouter.post(
   "/submission/document/:id/type/assignment",
   upload.single("file"),
   submitDocument
 );
 
-module.exports = router;
+//  DELETE ROUTES
+courseRouter.delete("/document/delete/:id", deleteDocument);
+
+module.exports = courseRouter;
