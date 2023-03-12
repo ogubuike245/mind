@@ -9,6 +9,11 @@ const { sendVerificationEmail } = require("../utils/sendEmail.utils");
 
 // register
 // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
+exports.registerPage = async (req, res) => {
+  const courses = await Course.find().sort({ title: 1 });
+  res.render("auth/register", { title: "User Registration", course: courses });
+};
+
 /**
  * @openapi
  * /api/v1/user/register:
@@ -303,6 +308,10 @@ exports.verifyEmail = async (req, res) => {
 
 // login
 // Logs in the user and creates a JWT cookie for the session.
+
+exports.loginPage = async (req, res) => {
+  res.render("auth/login", { title: "User Login" });
+};
 /**
  * @openapi
  * /api/v1/user/login:
@@ -441,74 +450,61 @@ exports.login = async (req, res) => {
 
 // userProfile
 // Renders the user's profile page with their name, email and the courses they have registered for.
+
 /**
- * @openapi
+ * Get user profile data by ID
  *
+ * @openapi
  * /api/v1/user/profile/{id}:
  *   get:
- *     summary: Get user profile information
- *     description: Retrieve profile information for a specific user.
+ *     summary: Get user profile data by ID
+ *     description: Retrieve user profile data including selected courses and document downloads
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: string
  *         required: true
- *         description: The user ID.
+ *         description: User ID to retrieve profile data for
  *     responses:
  *       '200':
- *         description: User profile information returned successfully.
+ *         description: User profile data returned successfully
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates whether the request was successful
  *                 name:
  *                   type: string
+ *                   description: User's name
  *                 email:
  *                   type: string
+ *                   description: User's email address
  *                 user:
- *                   type: object
- *                   description: The user object returned by the API.
+ *                   $ref: '#/components/schemas/User'
  *                 selectedCourses:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       code:
- *                         type: string
- *                       _id:
- *                         type: string
- *                 title:
- *                   type: string
+ *                     $ref: '#/components/schemas/Course'
  *       '404':
- *         description: User not found.
+ *         description: User with specified ID not found
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 error:
+ *                   type: boolean
+ *                   description: Indicates that an error occurred
+ *                 message:
  *                   type: string
- *                 title:
- *                   type: string
- *       '500':
- *         description: Internal server error.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                 title:
- *                   type: string
+ *                   description: Error message
  */
-exports.userProfile = async (req, res) => {
+
+exports.userProfilepage = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id)
@@ -532,15 +528,28 @@ exports.userProfile = async (req, res) => {
       _id: { $in: user.selectedCourses },
     }).sort({ title: 1 });
 
-    res.status(200).json({
-      success: true,
-      data: {
+    // If the request accepts HTML, render the EJS view
+    if (req.accepts("html")) {
+      return res.render("user/profile", {
+        title: "User Profile",
+        success: true,
+        user,
+        name: user.name,
+        email: user.email,
+        selectedCourses,
+      });
+    }
+
+    // If the request accepts JSON, send the data as JSON
+    if (req.accepts("json")) {
+      return res.status(200).json({
+        success: true,
         name: user.name,
         email: user.email,
         user,
         selectedCourses,
-      },
-    });
+      });
+    }
   } catch (error) {
     res.status(500).json({
       error: true,

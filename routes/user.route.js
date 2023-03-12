@@ -13,30 +13,23 @@ const {
   userLogout,
   adminDashboard,
   resendOTP,
+  loginPage,
+  registerPage,
 } = require("../controllers/user.controller");
 const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
 const Course = require("../models/course.model");
-const filepath = path.join(__dirname, "../utils/", "course.json");
-const rawdata = fs.readFileSync(filepath);
+// const filepath = path.join(__dirname, "../utils/", "course.json");
+// const rawdata = fs.readFileSync(filepath);
 // const courses = JSON.parse(rawdata);
 
 const userRouter = express.Router();
 
 // GET ROUTES
-userRouter.get("/register", isLoggedIn, async (req, res) => {
-  const courses = await Course.find().sort({ title: 1 });
-  res.render("auth/register", { title: "User Registration", course: courses });
-});
-
+userRouter.get("/register", isLoggedIn, registerPage);
 userRouter.get("/verify/:email", isLoggedIn, verifyEmailPage);
-
-userRouter.get("/login", isLoggedIn, (req, res) => {
-  res.render("auth/login", { title: "User Login" });
-});
-userRouter.get("/profile/:id", userProfile);
-
+userRouter.get("/login", isLoggedIn, loginPage);
+userRouter.get("/profile/:id", userProfilepage);
 userRouter.get("/dashboard", checkAdmin, adminDashboard);
-
 userRouter.get("/logout", userLogout);
 
 // NOT YET TESTED ROUTES
@@ -65,25 +58,3 @@ userRouter.post("/login", isLoggedIn, login);
 // router.post("/resend/otp", resendOTP);
 
 module.exports = userRouter;
-
-/* 
-
-GET  api/v1/user/register
-GET  api/v1/user/verify/email
-GET  api/v1/user/request/password/reset
-GET  api/v1/user/password/reset/:email
-GET  api/v1/user/resend/otp
-GET  api/v1/user/login
-GET  api/v1/user/dashboard
-GET  api/v1/user/profile/:id
-*/
-/* 
-
-POST  api/v1/user/register
-POST  api/v1/user/verify/email
-POST  api/v1/user/request/password/reset
-POST  api/v1/user/password/reset/
-POST  api/v1/user/resend/otp
-POST  api/v1/user/login
-
-*/
