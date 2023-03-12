@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
@@ -9,10 +8,9 @@ const { sendVerificationEmail } = require("../utils/sendEmail.utils");
 
 // register
 // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
-
 /**
  * @openapi
- * /register:
+ * /api/v1/user/register:
  *   post:
  *     summary: Register a new user
  *     requestBody:
@@ -176,9 +174,11 @@ exports.register = async (req, res) => {
   }
 };
 
+// verifyEmail
+// Verifies the user's email address.
 /**
  * @openapi
- * /api/verify-email:
+ * /api/v1/user/verify/email:
  *   post:
  *     summary: Verifies the user's email address.
  *     requestBody:
@@ -248,9 +248,6 @@ exports.register = async (req, res) => {
  *                   type: string
  *                   description: Error message.
  */
-
-// verifyEmail
-// Verifies the user's email address.
 exports.verifyEmail = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -303,9 +300,11 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
+// login
+// Logs in the user and creates a JWT cookie for the session.
 /**
  * @openapi
- * /api/login:
+ * /api/v1/user/login:
  *   post:
  *     summary: Logs in a user with an email and password.
  *     requestBody:
@@ -381,9 +380,6 @@ exports.verifyEmail = async (req, res) => {
  *                   type: string
  *                   example: An error occurred while logging in.
  */
-
-// login
-// Logs in the user and creates a JWT cookie for the session.
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -444,6 +440,73 @@ exports.login = async (req, res) => {
 
 // userProfile
 // Renders the user's profile page with their name, email and the courses they have registered for.
+/**
+ * @openapi
+ *
+ * /api/v1/user/profile/{id}:
+ *   get:
+ *     summary: Get user profile information
+ *     description: Retrieve profile information for a specific user.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID.
+ *     responses:
+ *       '200':
+ *         description: User profile information returned successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 user:
+ *                   type: object
+ *                   description: The user object returned by the API.
+ *                 selectedCourses:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       title:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       code:
+ *                         type: string
+ *                       _id:
+ *                         type: string
+ *                 title:
+ *                   type: string
+ *       '404':
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                 title:
+ *                   type: string
+ *       '500':
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                 title:
+ *                   type: string
+ */
 exports.userProfile = async (req, res) => {
   try {
     const { id } = req.params;
@@ -457,31 +520,48 @@ exports.userProfile = async (req, res) => {
         model: "Course",
       });
 
-    console.log(user);
-
     if (!user) {
-      return res.render("error", { error: "User not found", title: "ERROR" });
+      return res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
     }
 
     const selectedCourses = await Course.find({
       _id: { $in: user.selectedCourses },
     }).sort({ title: 1 });
 
-    res.render("user/profile", {
-      name: user.name,
-      email: user.email,
-      user,
-      selectedCourses,
-      moment,
-      title: "USER PROFILE",
+    res.status(200).json({
+      success: true,
+      data: {
+        name: user.name,
+        email: user.email,
+        user,
+        selectedCourses,
+      },
     });
   } catch (error) {
-    return res.render("error", { error, title: "ERROR" });
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
   }
 };
 
 // userLogout
 // Logs out the user and clears the JWT cookie.
+/**
+ * @openapi
+ * /logout:
+ *   get:
+ *     summary: Log out the currently authenticated user.
+ *     description: Clears the JWT cookie and redirects the user to the home page.
+ *     tags:
+ *       - Auth
+ *     responses:
+ *       302:
+ *         description: Successfully logged out and redirected to the home page.
+ */
 exports.userLogout = async (req, res) => {
   res.clearCookie(process.env.JWT_NAME);
   res.redirect("/");
@@ -506,7 +586,7 @@ exports.requestPasswordReset = async (req, res) => {
   }
 };
 
-// NOT COMPLETE LOGIC YET
+// LOGIC NOT YET COMPLETE
 // passwordReset
 // Resets the user's password and saves the new password hash in the database.
 exports.passwordReset = async (req, res) => {
