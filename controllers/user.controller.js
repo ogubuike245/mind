@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
 const Token = require("../models/token.model");
+const Document = require("../models/document.model");
 const { handleErrors } = require("../utils/errorHandling.utils");
 const { sendVerificationEmail } = require("../utils/sendEmail.utils");
 
@@ -565,6 +566,165 @@ exports.userProfile = async (req, res) => {
 exports.userLogout = async (req, res) => {
   res.clearCookie(process.env.JWT_NAME);
   res.redirect("/");
+};
+
+exports.verifyEmailPage = async (req, res) => {
+  try {
+    // GET VALUES FROM REQUEST PARAMS
+    const { email } = req.params;
+
+    // VERIFY IF THE VALUES EXIST
+    if (!email) {
+      return res.status(400).json({
+        error: true,
+        message: "Email is required.",
+      });
+    }
+
+    // CHECK IF THE USER EXISTS
+    const existingUser = await User.findOne({ email });
+    if (existingUser.isVerified) {
+      return res.status(400).json({
+        error: true,
+        message: "Email has already been verified.",
+      });
+    }
+    const existingToken = await Token.findOne({
+      user: existingUser?._id,
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        error: true,
+        message: "User not found.",
+      });
+    }
+
+    if (!existingToken) {
+      return res.status(404).json({
+        error: true,
+        message: "Token not found.",
+      });
+    }
+
+    res.render("auth/verifyEmail", { title: "VERIFY ACCOUNT", email });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: "Internal server error.",
+    });
+  }
+};
+
+/**
+ * @openapi
+ * /api/v1/user/dashboard:
+ *   get:
+ *     summary: Get dashboard data for admin user.
+ *     description: Retrieve dashboard data for an admin user, including registered courses, users, and documents.
+ *     responses:
+ *       '200':
+ *         description: A successful response containing dashboard data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                   description: Title of the dashboard page.
+ *                 courses:
+ *                   type: array
+ *                   description: List of registered courses.
+ *                   items:
+ *                     $ref: '#/components/schemas/Course'
+ *                 users:
+ *                   type: array
+ *                   description: List of registered users.
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *                 documents:
+ *                   type: array
+ *                   description: List of all documents.
+ *                   items:
+ *                     $ref: '#/components/schemas/Document'
+ *                 usersByDate:
+ *                   type: array
+ *                   description: List of users grouped by creation date.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: object
+ *                         properties:
+ *                           year:
+ *                             type: integer
+ *                             description: Year of creation.
+ *                           month:
+ *                             type: integer
+ *                             description: Month of creation.
+ *                           day:
+ *                             type: integer
+ *                             description: Day of creation.
+ *                       count:
+ *                         type: integer
+ *                         description: Number of users created on the specified date.
+ */
+
+exports.adminDashboard = async (req, res) => {
+  try {
+    const courses = await Course.find()
+      .sort({ title: 1 })
+      .populate("documents")
+      .populate("registeredUsers");
+
+    const users = await User.find().populate("submissions");
+    const documents = await Document.find()
+      .populate("course")
+      .populate("downloadedBy")
+      .populate("submissions");
+
+    documents.forEach((doc) => {
+      console.log("DOCUMENT:", doc.course, doc.downloadedBy);
+    });
+
+    const usersByDate = await User.aggregate([
+      {
+        $group: {
+          _id: {
+            year: { $year: "$created_at" },
+            month: { $month: "$created_at" },
+            day: { $dayOfMonth: "$created_at" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    // If the request accepts HTML, render the EJS view
+    if (req.accepts("html")) {
+      return res.render("user/dashboard", {
+        title: "Dashboard",
+        courses,
+        users,
+        documents,
+        usersByDate,
+      });
+    }
+
+    // If the request accepts JSON, send the data as JSON
+    if (req.accepts("json")) {
+      return res.json({
+        courses,
+        users,
+        documents,
+        usersByDate,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 // requestPasswordReset

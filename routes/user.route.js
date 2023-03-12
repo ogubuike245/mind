@@ -1,21 +1,21 @@
-const fs = require("fs");
-const path = require("path");
-const express = require("express");
+const fs = require("fs"),
+  path = require("path"),
+  express = require("express");
+
 const {
   register,
   login,
   requestPasswordReset,
   passwordReset,
   verifyEmail,
+  verifyEmailPage,
   resendOTP,
   userProfile,
   userLogout,
+  adminDashboard,
 } = require("../controllers/user.controller");
 const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
 const Course = require("../models/course.model");
-const User = require("../models/user.model");
-const Token = require("../models/token.model");
-const Document = require("../models/document.model");
 const filepath = path.join(__dirname, "../utils/", "course.json");
 const rawdata = fs.readFileSync(filepath);
 // const courses = JSON.parse(rawdata);
@@ -25,7 +25,6 @@ const userRouter = express.Router();
 // GET ROUTES
 userRouter.get("/register", isLoggedIn, async (req, res) => {
   const courses = await Course.find().sort({ title: 1 });
-
   res.render("auth/register", { title: "User Registration", course: courses });
 });
 userRouter.get("/request/password/reset", isLoggedIn, (req, res) => {
@@ -38,53 +37,7 @@ userRouter.get("/password/reset/:email", isLoggedIn, (req, res) => {
 userRouter.get("/resend/otp", isLoggedIn, (req, res) => {
   res.render("auth/resendOTP", { title: "RESET " });
 });
-userRouter.get("/verify/:email", isLoggedIn, async (req, res) => {
-  try {
-    // GET VALUES FROM REQUEST PARAMS
-    const { email } = req.params;
-
-    // VERIFY IF THE VALUES EXIST
-    if (!email) {
-      return res.status(400).json({
-        error: true,
-        message: "Email is required.",
-      });
-    }
-
-    // CHECK IF THE USER EXISTS
-    const existingUser = await User.findOne({ email });
-    if (existingUser.isVerified) {
-      return res.status(400).json({
-        error: true,
-        message: "Email has already been verified.",
-      });
-    }
-    const existingToken = await Token.findOne({
-      user: existingUser?._id,
-    });
-
-    if (!existingUser) {
-      return res.status(404).json({
-        error: true,
-        message: "User not found.",
-      });
-    }
-
-    if (!existingToken) {
-      return res.status(404).json({
-        error: true,
-        message: "Token not found.",
-      });
-    }
-
-    res.render("auth/verifyEmail", { title: "VERIFY ACCOUNT", email });
-  } catch (error) {
-    res.status(500).json({
-      error: true,
-      message: "Internal server error.",
-    });
-  }
-});
+userRouter.get("/verify/:email", isLoggedIn, verifyEmailPage);
 
 userRouter.get("/reset/password/email/sent", (req, res) => {
   res.render("auth/resetEmail", { title: "RESET " });
@@ -94,46 +47,7 @@ userRouter.get("/login", isLoggedIn, (req, res) => {
 });
 userRouter.get("/profile/:id", userProfile);
 
-userRouter.get("/dashboard", checkAdmin, async (req, res) => {
-  const courses = await Course.find()
-    .sort({ title: 1 })
-    .populate("documents")
-    .populate("registeredUsers");
-
-  const users = await User.find().populate("submissions");
-  const documents = await Document.find()
-    .populate("course")
-    .populate("downloadedBy")
-    .populate("submissions");
-
-  documents.forEach((doc) => {
-    console.log("DOCUMENT:", doc.course, doc.downloadedBy);
-  });
-
-  const usersByDate = await User.aggregate([
-    {
-      $group: {
-        _id: {
-          year: { $year: "$created_at" },
-          month: { $month: "$created_at" },
-          day: { $dayOfMonth: "$created_at" },
-        },
-        count: { $sum: 1 },
-      },
-    },
-  ]);
-
-  // Sort by date
-
-  // Process the data as needed and pass it to the view
-  res.render("user/dashboard", {
-    title: "Dashboard",
-    courses,
-    users,
-    documents,
-    usersByDate,
-  });
-});
+userRouter.get("/dashboard", checkAdmin, adminDashboard);
 
 userRouter.get("/logout", userLogout);
 
