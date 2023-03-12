@@ -1,32 +1,32 @@
-const form = document.getElementById("upload-form");
+const uploadForm = document.getElementById("upload-form");
 
-form.addEventListener("submit", async (event) => {
+uploadForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   try {
-    const formData = new FormData(form);
+    const formData = new FormData(uploadForm);
     const response = await fetch("/api/v1/course/upload", {
       method: "POST",
       body: formData,
     });
-    const data = await response.json();
-    if (data.success) {
-      showToastifyNotification(
+    const responseData = await response.json();
+    if (responseData.success) {
+      showNotification(
         "success",
-        "Document uploaded successfully.",
-        data.redirect
+        responseData.message,
+        responseData.redirectUrl
       );
-      form.reset();
+      uploadForm.reset();
     } else {
-      console.log(data.error);
-      showToastifyNotification("error", data.error);
+      console.log(responseData.error);
+      showNotification("error", responseData.error);
     }
   } catch (error) {
     console.log(error);
-    showToastifyNotification("error", error);
+    showNotification("error", error);
   }
 });
 
-function showToastifyNotification(type, message, redirectUrl = null) {
+function showNotification(type, message, redirectUrl = null) {
   Toastify({
     text: message,
     duration: 3000,

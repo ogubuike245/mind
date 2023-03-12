@@ -1,6 +1,5 @@
 const express = require("express");
-// fs = require("fs"),
-// path = require("path"),
+
 const {
   register,
   login,
@@ -16,10 +15,6 @@ const {
   // resendOTP,
 } = require("../controllers/user.controller");
 const { isLoggedIn, checkAdmin } = require("../middlewares/user.middleware");
-const Course = require("../models/course.model");
-// const filepath = path.join(__dirname, "../utils/", "course.json");
-// const rawdata = fs.readFileSync(filepath);
-// const courses = JSON.parse(rawdata);
 
 const userRouter = express.Router();
 

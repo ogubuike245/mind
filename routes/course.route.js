@@ -18,6 +18,7 @@ const {
   courseDetailsPage,
   editCoursePage,
   editCourse,
+  deleteCourse,
 } = require("../controllers/course.controller");
 const {
   submitDocumentPage,
@@ -54,6 +55,7 @@ courseRouter.post(
 );
 
 //  DELETE ROUTES
+courseRouter.delete("/delete/:id", deleteCourse);
 courseRouter.delete("/document/delete/:id", deleteDocument);
 
 module.exports = courseRouter;

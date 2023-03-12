@@ -1,7 +1,9 @@
 const moment = require("moment");
 
 const Course = require("../models/course.model");
+const User = require("../models/user.model");
 const Document = require("../models/document.model");
+const { handleErrors } = require("../utils/errorHandling.utils");
 
 exports.createCoursePage = async (req, res) => {
   const course = await Course.find();
@@ -64,22 +66,6 @@ exports.editCourse = async (req, res) => {
   }
 };
 
-exports.deleteCourse = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    await Course.findByIdAndDelete(id);
-
-    res.render("success", {
-      title: "Success",
-      success: "Course deleted successfully.",
-    });
-  } catch (error) {
-    console.log(error);
-    res.render("error", { title: "Error", error });
-  }
-};
-
 exports.courseDetailsPage = async (req, res) => {
   const { code } = req.params;
 
@@ -93,23 +79,30 @@ exports.courseDetailsPage = async (req, res) => {
 exports.deleteCourse = async (req, res) => {
   try {
     const courseId = req.params.id;
-    const course = await Course.findById(courseId);
-    if (!course) {
-      return res.status(404).json({ error: "Course not found." });
-    }
 
-    // Remove all documents associated with the course
-    const documents = await Document.find({ course: course._id });
+    // Remove the course's documents
+    const documents = await Document.find({ course: courseId });
     for (const document of documents) {
       await document.remove();
     }
 
+    // Remove the course's registered users
+    const users = await User.find({ "selectedCourses.courseId": courseId });
+    for (const user of users) {
+      const courseIndex = user.selectedCourses.findIndex(
+        (c) => c.courseId.toString() === courseId
+      );
+      user.selectedCourses.splice(courseIndex, 1);
+      await user.save();
+    }
+
     // Delete the course from the database
-    await course.remove();
+    await Course.findByIdAndRemove(courseId);
 
     res.status(200).json({
       success: true,
       message: "Course deleted successfully.",
+      redirect: "/",
     });
   } catch (error) {
     console.error(error);

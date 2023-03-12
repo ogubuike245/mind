@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
+// const fs = require("fs"),
+//   path = require("path");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
 const Token = require("../models/token.model");
@@ -12,6 +14,9 @@ const { sendVerificationEmail } = require("../utils/sendEmail.utils");
 // Registers a new user and saves their details in the database. The selected courses are also saved in the user's document.
 exports.registerPage = async (req, res) => {
   const courses = await Course.find().sort({ title: 1 });
+  // const filepath = path.join(__dirname, "../utils/", "course.json");
+  // const rawdata = fs.readFileSync(filepath);
+  // const courses = JSON.parse(rawdata);
   res.render("auth/register", { title: "User Registration", courses });
 };
 

@@ -2,6 +2,7 @@
   {
     "_id": "613d93b19f112b1dbf6df5a5",
     "title": "physics",
+    "code": "phy101",
     "description": "A course about the laws that govern the natural world.",
     "documents": [],
     "registeredUsers": [],
@@ -11,6 +12,7 @@
   {
     "_id": "613d93b19f112b1dbf6df5a6",
     "title": "chemistry",
+    "code": "chem101",
     "description": "A course about the properties and behavior of matter.",
     "documents": [],
     "registeredUsers": [],
@@ -20,6 +22,7 @@
   {
     "_id": "613d93b19f112b1dbf6df5a7",
     "title": "biology",
+    "code": "bio101",
     "description": "A course about the study of living organisms and their interactions with the environment.",
     "documents": [],
     "registeredUsers": [],
@@ -29,6 +32,7 @@
   {
     "_id": "613d93b19f112b1dbf6df5a8",
     "title": "ergonomics",
+    "code": "erg101",
     "description": "A course about designing products and systems that are comfortable and efficient for people to use.",
     "documents": [],
     "registeredUsers": [],

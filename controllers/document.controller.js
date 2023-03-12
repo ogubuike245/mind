@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-const moment = require("moment");
+// const moment = require("moment");
 const Document = require("../models/document.model");
 const Course = require("../models/course.model");
 const User = require("../models/user.model");
@@ -77,6 +77,83 @@ exports.uploadDocument = async (req, res) => {
 exports.downloadDocumentPage = async (req, res) => {
   const document = await Document.findById(req.params.id);
   res.render("course/download", { title: "DOWNLOAD DOCUMENT", file: document });
+};
+
+exports.uploadDocument = async (req, res) => {
+  try {
+    const { title, code, description, heading, type, password } = req.body;
+
+    // Check if course with provided code exists
+    const course = await Course.findOne({ code });
+    if (!course) {
+      return res.status(404).json({
+        error: true,
+        message: "Course not found.",
+      });
+    }
+
+    // Check if file was uploaded
+    if (!req.file) {
+      return res.status(400).json({
+        error: true,
+        message: "No file selected.",
+      });
+    }
+
+    // Hash document password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new document object
+    const newDoc = new Document({
+      path: req.file.path,
+      originalName: req.file.originalname,
+      heading,
+      type,
+      description,
+      title,
+      course: course._id,
+      password: hashedPassword,
+    });
+
+    // Generate a download link for the document
+    newDoc.downloadLink = `http://localhost:5000/api/v1/course/download/${newDoc.id}`;
+
+    // Save new document to database
+    const savedDocument = await newDoc.save();
+
+    // Update course with new document ID
+    course.documents.push(savedDocument._id);
+    course.updated_at = Date.now();
+    await course.save();
+
+    // Get registered users for course
+    const registeredUsers = await User.find({
+      _id: { $in: course.registeredUsers },
+    });
+
+    // Send email to registered users with link to new document
+    const recipents = registeredUsers.map((user) => user.email);
+    const subject = `A NEW DOCUMENT HAS BEEN UPLOADED FOR THE COURSE : ${course.title}`;
+    const body = `<h1> THIS IS A LINK TO THE NEWLY UPLOADED DOCUMENT </h1>
+                       <a href="http://localhost:5000/api/v1/course/document/${savedDocument._id}>   CLICK ON THIS LINK TO VIEW THE DOCUMENT DETAILS</a>`;
+    await sendDocumentUploadedEmail(
+      recipents,
+      subject,
+      body,
+      course,
+      savedDocument
+    );
+
+    // Return success response with details of new document
+    res.status(201).json({
+      success: true,
+      message: "Document uploaded successfully.",
+      redirect: `/api/v1/course/details/${code}`,
+    });
+  } catch (error) {
+    console.error(error);
+    handleErrors(error, res);
+  }
 };
 
 // This function downloads a document from the database.

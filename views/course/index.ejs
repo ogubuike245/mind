@@ -17,8 +17,8 @@
               <img src="/images/icons/edit.png" />
             </button>
           </a>
-          <a href="#">
-            <button data-doc="<%= course._id %>" class="delete">
+          <a>
+            <button data-doc="<%= course._id %>" class="delete" id="delete">
               DELETE COURSE
               <img src="/images/icons/delete.png" />
             </button>
@@ -102,5 +102,26 @@
 
       <% } %>
     </div>
+
+    <script>
+      const deleteDoc = document.getElementById("delete");
+
+      deleteDoc.addEventListener("click", async (event) => {
+        const response = await fetch(
+          `/api/v1/course/delete/${deleteDoc.dataset.doc}`,
+          {
+            method: "DELETE",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) =>
+            setTimeout(function () {
+              alert(data.message);
+              window.location.href = data.redirect;
+            }, 2000)
+          )
+          .catch((error) => console.log(error));
+      });
+    </script>
   </body>
 </html>
